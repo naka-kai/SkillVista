@@ -1,3 +1,5 @@
+# 初期インストール（最初のみ）
+# コンテナの構築・起動、composerのインストール、.envファイルのコピー、アプリケーションキーの生成、シンボリックリンクの作成、storageディレクトリの権限変更、migrationのfreshとseed
 install:
 	@make build
 	@make up
@@ -7,82 +9,62 @@ install:
 	docker compose exec app php artisan storage:link
 	docker compose exec app chmod -R 777 storage bootstrap/cache
 	@make fresh
-create-project:
-	mkdir -p src
-	docker compose build
-	docker compose up -d
-	docker compose exec app composer create-project --prefer-dist laravel/laravel .
-	docker compose exec app php artisan key:generate
-	docker compose exec app php artisan storage:link
-	docker compose exec app chmod -R 777 storage bootstrap/cache
-	@make fresh
+# コンテナ構築
 build:
 	docker compose build
+# コンテナ起動
 up:
 	docker compose up -d
+# コンテナ停止
 stop:
 	docker compose stop
+# Composeファイルで定義していないサービス用のコンテナも削除
 down:
 	docker compose down --remove-orphans
+# 上記に加えComposeファイルの `volumes` セクションの名前付きボリュームを削除。また、コンテナがアタッチした匿名ボリュームも削除
 down-v:
 	docker compose down --remove-orphans --volumes
+# 上記に加えあらゆるサービスで使う全イメージを削除
+destroy:
+	docker compose down --rmi all --volumes --remove-orphans
+# コンテナの再起動
 restart:
 	@make down
 	@make up
-destroy:
-	docker compose down --rmi all --volumes --remove-orphans
+# 全てのイメージを削除して初期インストール
 remake:
 	@make destroy
 	@make install
+# コンテナ一覧を表示
 ps:
 	docker compose ps
+# webコンテナシェルログイン（nginx）
 web:
 	docker compose exec web bash
+# appコンテナシェルログイン（php）
 app:
 	docker compose exec app bash
-tinker:
-	docker compose exec app php artisan tinker
-dump:
-	docker compose exec app php artisan dump-server
-test:
-	docker compose exec app php artisan test
-migrate:
-	docker compose exec app php artisan migrate
-fresh:
-	docker compose exec app php artisan migrate:fresh --seed
-seed:
-	docker compose exec app php artisan db:seed
-dacapo:
-	docker compose exec app php artisan dacapo
-rollback-test:
-	docker compose exec app php artisan migrate:fresh
-	docker compose exec app php artisan migrate:refresh
-optimize:
-	docker compose exec app php artisan optimize
-optimize-clear:
-	docker compose exec app php artisan optimize:clear
-cache:
-	docker compose exec app composer dump-autoload -o
-	@make optimize
-	docker compose exec app php artisan event:cache
-	docker compose exec app php artisan view:cache
-cache-clear:
-	docker compose exec app composer clear-cache
-	@make optimize-clear
-	docker compose exec app php artisan event:clear
-	docker compose exec app php artisan view:clear
+# dbコンテナシェルログイン（mysql）
 db:
 	docker compose exec db bash
+# mysqlにログイン
 sql:
 	docker compose exec db bash -c 'mysql -u $$MYSQL_USER -p$$MYSQL_PASSWORD $$MYSQL_DATABASE'
-redis:
-	docker compose exec redis redis-cli
-ide-helper:
-	docker compose exec app php artisan clear-compiled
-	docker compose exec app php artisan ide-helper:generate
-	docker compose exec app php artisan ide-helper:meta
-	docker compose exec app php artisan ide-helper:models --nowrite
-pint:
-	docker compose exec app ./vendor/bin/pint -v
-pint-test:
-	docker compose exec app ./vendor/bin/pint -v --test
+# マイグレーションの実行
+migrate:
+	docker compose exec app php artisan migrate
+# すべてのテーブルを削除後にマイグレーション・シーダの実行
+fresh:
+	docker compose exec app php artisan migrate:fresh --seed
+# シーダの実行
+seed:
+	docker compose exec app php artisan db:seed
+# Laravelキャッシュクリア
+cache-clear:
+	docker compose exec app composer clear-cache
+	docker compose exec app php artisan optimize:clear
+	docker compose exec app php artisan event:clear
+	docker compose exec app php artisan cache:clear
+	docker compose exec app php artisan config:clear
+	docker compose exec app php artisan route:clear
+	docker compose exec app php artisan view:clear
