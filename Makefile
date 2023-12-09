@@ -9,20 +9,26 @@ install:
 	docker compose exec app php artisan storage:link
 	docker compose exec app chmod -R 777 storage bootstrap/cache
 	@make fresh
-# コンテナ構築
+# コンテナ立ち上げ
 build:
 	docker compose build
+# キャッシュを含めずコンテナ立ち上げ
+build-no:
+	docker compose build --no-cache
 # コンテナ起動
 up:
 	docker compose up -d
-# コンテナ停止
+# コンテナ停止（削除しない）
 stop:
 	docker compose stop
-# Composeファイルで定義していないサービス用のコンテナも削除
+# コンテナを停止し、 up で作成したコンテナ、ネットワーク、ボリューム、イメージを削除
 down:
+	docker compose down
+# Composeファイルで定義していないサービス用のコンテナも削除
+down-r:
 	docker compose down --remove-orphans
 # 上記に加えComposeファイルの `volumes` セクションの名前付きボリュームを削除。また、コンテナがアタッチした匿名ボリュームも削除
-down-v:
+down-rv:
 	docker compose down --remove-orphans --volumes
 # 上記に加えあらゆるサービスで使う全イメージを削除
 destroy:
@@ -60,7 +66,7 @@ fresh:
 seed:
 	docker compose exec app php artisan db:seed
 # Laravelキャッシュクリア
-cache-clear:
+clear:
 	docker compose exec app composer clear-cache
 	docker compose exec app php artisan optimize:clear
 	docker compose exec app php artisan event:clear

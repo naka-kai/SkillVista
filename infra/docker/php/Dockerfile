@@ -1,5 +1,11 @@
 FROM php:8.3-fpm-bullseye AS base
 
+EXPOSE 5173
+
+# laravelユーザーを作成
+RUN useradd -ms /bin/bash laravel
+
+
 WORKDIR /workspace
 
 # timezone environment
