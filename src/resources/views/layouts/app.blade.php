@@ -11,6 +11,16 @@
     <link href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" />
     @vite('resources/css/app.css') @vite('resources/js/app.js')
 
+    <style>
+        .header-scroll-hidden::-webkit-scrollbar {
+            height: 0px;
+            background: transparent;
+            /* make scrollbar transparent */
+        }
+    </style>
+
+    @yield('style')
+
 </head>
 
 <body class="antialiased">        
@@ -22,6 +32,8 @@
     </main>
 
     @include('layouts.footer')
+
+    @yield('script')
 </body>
 
 </html>
