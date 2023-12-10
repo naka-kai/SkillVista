@@ -25,9 +25,12 @@
 
 <body class="antialiased">        
     @include('layouts.header')
+    @include('Components.breadcrumbs')
 
     <main>
-        @yield('content')
+        <div class="container mx-auto">
+            @yield('content')
+        </div>
     </main>
 
     @include('layouts.footer')
