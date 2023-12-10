@@ -1,6 +1,7 @@
 @extends('Layouts.app')
 
 @section('content')
+
 <div class="flex flex-col">
     コース詳細<br>
     <br>
