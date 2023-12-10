@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="flex flex-col">
-    QA詳細<br>
+    コメント詳細<br>
     <br>
     
     user, teacher

@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\MovieController;
-use App\Http\Controllers\QaController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\Teacher\CourseController as TeacherCourseController;
 use App\Http\Controllers\Teacher\ProfileController as TeacherProfileController;
 use App\Http\Controllers\TopController;
@@ -31,8 +31,8 @@ Route::get('/', [TopController::class, 'top'])->name('top');
     Route::get('/course/{courseName}', [CourseController::class, 'show'])->name('course');
     // 動画詳細
     Route::get('/movie/{courseName}/{movieId}', [MovieController::class, 'show'])->name('movie');
-    // QA詳細
-    Route::get('/qa/{courseName}/{qaId}/{answerId}', [QaController::class, 'show'])->name('qa.show');
+    // コメント詳細
+    Route::get('/comment/{courseName}/{commentId}/{answerId}', [CommentController::class, 'show'])->name('comment.show');
 // });
 
 // ユーザー
