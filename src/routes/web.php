@@ -5,6 +5,7 @@ use App\Http\Controllers\MovieController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\Teacher\CourseController as TeacherCourseController;
 use App\Http\Controllers\Teacher\ProfileController as TeacherProfileController;
+use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\TopController;
 use App\Http\Controllers\User\ProfileController as UserProfileController;
 use App\Http\Controllers\User\TestController;
@@ -22,15 +23,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// 誰でも閲覧可能だが部分によってはauth必要
+// 誰でも閲覧できる
+// コース詳細
+Route::get('/course/{courseName}', [CourseController::class, 'show'])->name('course');
+// 動画詳細
+Route::get('/movie/{courseName}/{movieId}', [MovieController::class, 'show'])->name('movie');
+// 教師詳細
+Route::get('/teacher/{teacherName}', [TeacherController::class, 'show'])->name('teacher');
+
+// 誰でも閲覧可能だが部分によってはauth必要(ログインしたら見えるマイコースなど)
+// TOPページ
 Route::get('/', [TopController::class, 'top'])->name('top');
 
 // ユーザー、教師共通
 // Route::middleware('auth:user, auth:teacher')->group(function() {
-    // コース詳細
-    Route::get('/course/{courseName}', [CourseController::class, 'show'])->name('course');
-    // 動画詳細
-    Route::get('/movie/{courseName}/{movieId}', [MovieController::class, 'show'])->name('movie');
     // コメント詳細
     Route::get('/comment/{courseName}/{commentId}/{answerId}', [CommentController::class, 'show'])->name('comment.show');
 // });

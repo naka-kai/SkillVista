@@ -18,21 +18,20 @@
 
                             <div class="mt-8">
                                 <h1 class="mt-4 text-xl font-semibold text-gray-800 dark:text-white">
-                                    現役シリコンバレーエンジニアが教えるPython 3 入門 + 応用 +アメリカのシリコンバレー流コードスタイル
+                                    現役シリコンバレーエンジニアが教えるアルゴリズム・データ構造・コーディングテスト入門
                                 </h1>
 
-                                <p class="mt-2">山田 太郎</p>
+                                <p class="mt-2">前半はアルゴリズムとデータ構造の基礎をPythonを用いて習得し、後半にはコーディング面接対策も行います。</p>
+
+                                <p class="mt-4 text-sm">山田 太郎</p>
 
                                 <div class="flex items-center justify-between mt-4">
                                     <div class="flex items-center">
+                                        <p class="font-bold mr-1">5.0</p>
                                         <p class="text-lg font-medium text-gray-700 dark:text-gray-300 hover:underline hover:text-gray-500">★★★★★</p>
 
-                                        <p class="text-sm text-gray-500 dark:text-gray-400">（23,415）</p>
+                                        <p class="text-sm text-gray-500 dark:text-gray-400 ml-1">（23,415）</p>
                                     </div>
-                                </div>
-
-                                <div class="mt-5">
-                                    <span class="font-bold text-[30px]">¥1,800</span>
                                 </div>
 
                                 {{-- <div class="bg-yellow-200 py-2 px-4 w-36 mt-2">
