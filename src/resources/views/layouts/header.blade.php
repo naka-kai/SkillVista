@@ -72,8 +72,8 @@
                         
                         {{-- <div class="items-end lg:items-center flex-col lg:flex-row flex"> --}}
                         <div class="items-center flex-row flex justify-center">
-                            {{-- <a class="my-2 text-sm leading-5 text-gray-700 transition-colors duration-300 transform dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:underline lg:mx-4 lg:my-0" href="#">マイコース</a> --}}
-                            <a class="text-sm leading-5 text-gray-700 transition-colors duration-300 transform dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:underline mx-4 my-0 text-center w-full" href="{{ route('user.myCourse', ['userName' => 'userName']) }}">マイコース</a>
+                            {{-- <a class="my-2 text-sm leading-5 text-gray-700 transition-colors duration-300 transform dark:text-gray-200 lg:mx-4 lg:my-0" href="#">マイコース</a> --}}
+                            <a class="text-sm leading-5 text-gray-700 transition-colors duration-300 transform dark:text-gray-200 mx-4 my-0 text-center w-full" href="{{ route('user.myCourse', ['userName' => 'userName']) }}">マイコース</a>
                             {{-- <a class="my-2 text-sm leading-5 text-gray-700 transition-colors duration-300 transform dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:underline lg:mx-4 lg:my-0" href="#"> --}}
                             <a class="text-sm leading-5 text-gray-700 transition-colors duration-300 transform dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:underline mx-4 my-0" href="{{ route('user.wishList', ['userName' => 'userName']) }}">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
