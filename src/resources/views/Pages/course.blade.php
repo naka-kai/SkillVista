@@ -34,7 +34,9 @@
 
         <div>
             <form action="{{ route('movie', ['courseName' => 'courseName', 'movieId', 'movieId']) }}">
-                <button type="submit" class="bg-blue-300 py-3 px-5 text-center w-full my-5 font-bold text-lg">受講する</button>
+                <div class="flex justify-center">
+                    <button type="submit" class="bg-blue-300 py-3 px-5 text-center w-full lg:w-1/5 my-5 font-bold text-lg">受講する</button>
+                </div>
             </form>
         </div>
 

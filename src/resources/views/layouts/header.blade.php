@@ -9,7 +9,7 @@
                     </div>
 
                     <div class="flex justify-center items-center">
-                        <!-- SP-cart -->
+                        {{-- <!-- SP-cart -->
                         <div class="mr-5 flex lg:hidden justify-center hidden">
                             <a class="relative text-gray-700 transition-colors duration-300 transform dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-300" href="#">
                                 <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -17,7 +17,7 @@
                                 </svg>
                                 <span class="absolute top-0 left-0 p-1 text-xs text-white bg-blue-500 rounded-full"></span>
                             </a>
-                        </div>
+                        </div> --}}
     
                         <!-- SP-notice -->
                         <div>
@@ -86,7 +86,7 @@
                         {{-- <div class="flex items-center mt-4 lg:mt-0"> --}}
                         <div class="flex items-center mt-0">
                             <!-- PC-cart -->
-                            {{-- <div class="hidden lg:block mx-4"> --}}
+                            {{-- <div class="hidden lg:block mx-4">
                             <div class="block mx-4">
                                 <a class="relative text-gray-700 transition-colors duration-300 transform dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-300" href="#">
                                     <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -94,7 +94,7 @@
                                     </svg>
                                     <span class="absolute top-0 left-0 p-1 text-xs text-white bg-blue-500 rounded-full"></span>
                                 </a>
-                            </div>
+                            </div> --}}
 
                             <!-- PC-notice -->
                             {{-- <button class="hidden lg:block mx-4 text-gray-600 transition-colors duration-300 transform dark:text-gray-200 hover:text-gray-700 dark:hover:text-gray-400 focus:text-gray-700 dark:focus:text-gray-400 focus:outline-none" aria-label="show notifications"> --}}

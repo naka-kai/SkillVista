@@ -55,9 +55,9 @@ Route::prefix('user')->name('user.')->group(function() {
     // プロフィール
     Route::prefix('profile')->name('profile.')->group(function() {
         Route::get('/{userName}', [UserProfileController::class, 'show'])->name('show');
-        Route::get('/edit/{userName}', [UserProfileController::class, 'edit'])->name('edit');
-        Route::post('/edit-confirm/{userName}', [UserProfileController::class, 'editConfirm'])->name('editConfirm');
-        Route::put('/{userName}', [UserProfileController::class, 'update'])->name('update');
+        // Route::get('/edit/{userName}', [UserProfileController::class, 'edit'])->name('edit');
+        // Route::post('/edit-confirm/{userName}', [UserProfileController::class, 'editConfirm'])->name('editConfirm');
+        // Route::put('/{userName}', [UserProfileController::class, 'update'])->name('update');
     });
 });
 
@@ -66,9 +66,9 @@ Route::prefix('teacher')->name('teacher.')->group(function() {
     // プロフィール
     Route::prefix('profile')->name('profile.')->group(function() {
         Route::get('/{teacherName}', [TeacherProfileController::class, 'show'])->name('show');
-        Route::get('/edit/{teacherName}', [TeacherProfileController::class, 'edit'])->name('edit');
-        Route::post('/edit-confirm/{teacherName}', [TeacherProfileController::class, 'editConfirm'])->name('editConfirm');
-        Route::put('/{teacherName}', [TeacherProfileController::class, 'update'])->name('update');
+        // Route::get('/edit/{teacherName}', [TeacherProfileController::class, 'edit'])->name('edit');
+        // Route::post('/edit-confirm/{teacherName}', [TeacherProfileController::class, 'editConfirm'])->name('editConfirm');
+        // Route::put('/{teacherName}', [TeacherProfileController::class, 'update'])->name('update');
     });
     // コース
     Route::prefix('course')->name('course.')->group(function() {

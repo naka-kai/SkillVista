@@ -33,7 +33,7 @@
     @include('Components.breadcrumbs')
 
     <main>
-        <div class="container mx-auto">
+        <div class="container mx-auto px-6">
             @yield('content')
         </div>
     </main>
