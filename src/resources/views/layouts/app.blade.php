@@ -11,6 +11,11 @@
     <link href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" />
     @vite('resources/css/app.css') @vite('resources/js/app.js')
 
+    <!-- Quill.js -->
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <link href="https://cdn.quilljs.com/1.3.6/quill.bubble.css" rel="stylesheet">
+
     <style>
         .header-scroll-hidden::-webkit-scrollbar {
             height: 0px;
