@@ -1,5 +1,10 @@
 # SkillVista
 
+## 環境
+
+- Laravel ver 9.19
+- tailwindcss ver 3.3.6
+
 ## 使い方
 
 ### 初期インストール（プロジェクトルートで）
@@ -8,8 +13,63 @@
 $ make install
 ```
 
-プロジェクト：http://localhost
-phpMyAdmin：http://localhost:18080
+- プロジェクト：http://localhost
+- phpMyAdmin：http://localhost:18080
+
+### コンテナ起動（プロジェクトルートで）
+
+```bash
+$ make up
+```
+
+### vite立ち上げ（srcディレクトリで）
+
+```bash
+$ cd src
+$ npm run dev
+```
+
+### コンテナ停止（プロジェクトルートで）
+
+```bash
+$ make down
+```
+
+### コンテナ再起動（プロジェクトルートで）
+
+```bash
+$ make restart
+```
+
+### appコンテナシェルログイン（php）（プロジェクトルートで）
+
+```bash
+$ make app
+```
+
+### マイグレーションの実行（プロジェクトルートで）
+
+```bash
+$ make migrate
+```
+
+### すべてのテーブルを削除後にマイグレーション・シーダの実行（プロジェクトルートで）
+
+```bash
+$ make fresh
+```
+
+### シーダの実行（プロジェクトルートで）
+
+```bash
+$ make seed
+```
+
+### Laravelキャッシュクリア（プロジェクトルートで）
+
+```bash
+$ make clear
+```
 
 ## コンテナ情報
 

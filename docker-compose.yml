@@ -33,6 +33,7 @@ services:
       - net1
     ports:
       - 8080:80
+      - 5173:5173
 
   web:
     container_name: web-SkillVista
