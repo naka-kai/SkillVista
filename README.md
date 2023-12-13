@@ -71,6 +71,11 @@ $ make seed
 $ make clear
 ```
 
+### npm install
+```bash
+$ make npm-install
+```
+
 ## コンテナ情報
 
 ### app container

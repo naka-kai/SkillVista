@@ -19,7 +19,7 @@
                 </div>
                 <p class="ml-3 mt-2">Kai</p>
                 <div id="usernameModal" class="usernameModal hidden fixed z-50 left-0 top-0 h-full w-full bg-[rgba(0,0,0,0.5)]">
-                    <div class="usernameModal-content bg-white mx-auto my-[50%] w-1/2 duration-300 transform ease-in-out p-6 rounded-sm">
+                    <div class="usernameModal-content bg-white mx-auto my-[50%] w-1/2 lg:w-1/3 duration-300 transform ease-in-out p-6 rounded-sm">
                         <div class="usernameModal-header flex items-center justify-between mb-5">
                             <h1 class="font-bold text-lg">ユーザー名を変更</h1>
                             <span id="usernameModalClose" class="cursor-pointer">×</span>
@@ -46,7 +46,7 @@
                 </div>
                 <p class="ml-3 mt-2">example@example.com</p>
                 <div id="emailModal" class="emailModal hidden fixed z-50 left-0 top-0 h-full w-full bg-[rgba(0,0,0,0.5)]">
-                    <div class="emailModal-content bg-white mx-auto my-[50%] w-1/2 duration-300 transform ease-in-out p-6 rounded-sm">
+                    <div class="emailModal-content bg-white mx-auto my-[50%] w-1/2 lg:w-1/3 duration-300 transform ease-in-out p-6 rounded-sm">
                         <div class="emailModal-header flex items-center justify-between mb-5">
                             <h1 class="font-bold text-lg">ユーザー名を変更</h1>
                             <span id="emailModalClose" class="cursor-pointer">×</span>
@@ -68,7 +68,7 @@
         <div class="flex justify-start mt-2">
             <button id="passwordModalOpen" class="px-8 py-2.5 leading-5 text-gray-700 transition-colors duration-300 transform bg-gray-100 border border-gray-500 rounded-md hover:opacity-70">パスワードを変更</button>
             <div id="passwordModal" class="passwordModal hidden fixed z-50 left-0 top-0 h-full w-full bg-[rgba(0,0,0,0.5)]">
-                <div class="passwordModal-content bg-white mx-auto my-[50%] w-1/2 duration-300 transform ease-in-out p-6 rounded-sm">
+                <div class="passwordModal-content bg-white mx-auto my-[50%] w-1/2 lg:w-1/3 duration-300 transform ease-in-out p-6 rounded-sm">
                     <div class="passwordModal-header flex items-center justify-between mb-5">
                         <h1 class="font-bold text-lg">パスワードを変更</h1>
                         <span id="passwordModalClose" class="cursor-pointer">×</span>
@@ -110,12 +110,16 @@
     usernameButtonOpen.addEventListener('click', usernameModalOpen);
     function usernameModalOpen() {
         usernameModal.classList.remove('hidden');
-        usernameModal.classList.add('block');
+        usernameModal.classList.add('flex');
+        usernameModal.classList.add('justify-center');
+        usernameModal.classList.add('items-center');
     }
 
     usernameButtonClose.addEventListener('click', usernameModalClose);
     function usernameModalClose() {
-        usernameModal.classList.remove('block');
+        usernameModal.classList.remove('flex');
+        usernameModal.classList.remove('justify-center');
+        usernameModal.classList.remove('items-center');
         usernameModal.classList.add('hidden');
     }
 
@@ -127,12 +131,16 @@
     emailButtonOpen.addEventListener('click', emailModalOpen);
     function emailModalOpen() {
         emailModal.classList.remove('hidden');
-        emailModal.classList.add('block');
+        emailModal.classList.add('flex');
+        emailModal.classList.add('justify-center');
+        emailModal.classList.add('items-center');
     }
 
     emailButtonClose.addEventListener('click', emailModalClose);
     function emailModalClose() {
-        emailModal.classList.remove('block');
+        emailModal.classList.remove('flex');
+        emailModal.classList.remove('justify-center');
+        emailModal.classList.remove('items-center');
         emailModal.classList.add('hidden');
     }
 
@@ -144,12 +152,16 @@
     passwordButtonOpen.addEventListener('click', passwordModalOpen);
     function passwordModalOpen() {
         passwordModal.classList.remove('hidden');
-        passwordModal.classList.add('block');
+        passwordModal.classList.add('flex');
+        passwordModal.classList.add('justify-center');
+        passwordModal.classList.add('items-center');
     }
 
     passwordButtonClose.addEventListener('click', passwordModalClose);
     function passwordModalClose() {
-        passwordModal.classList.remove('block');
+        passwordModal.classList.remove('flex');
+        passwordModal.classList.remove('justify-center');
+        passwordModal.classList.remove('items-center');
         passwordModal.classList.add('hidden');
     }
 
