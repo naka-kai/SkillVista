@@ -7,12 +7,12 @@
         <img class="object-cover w-36 h-36 rounded-full ring ring-gray-300 dark:ring-gray-600" src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=4&w=880&h=880&q=100" alt="">
     </figure>
 
-    <div class="max-w-4xl p-6 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800">
+    <div class="max-w-4xl p-6 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800 flex flex-col items-center">
         <h2 class="text-lg font-semibold text-gray-700 capitalize dark:text-white">アカウント情報</h2>
 
-        <div class="grid grid-cols-1 gap-6 mt-4">
+        <div class="flex flex-col">
             <div>
-                <div class="flex items-center">
+                <div class="flex items-center mt-7">
                     <p class="text-gray-700 dark:text-gray-200">ユーザー名</p>
                     <button class="inline-flex items-center py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border rounded-sm hover:opacity-70 ml-5"
                     type="button" id="usernameModalOpen">編集</button>
@@ -39,7 +39,7 @@
             </div>
 
             <div>
-                <div class="flex items-center">
+                <div class="flex items-center mt-6">
                     <p class="text-gray-700 dark:text-gray-200">メールアドレス</p>
                     <button class="inline-flex items-center py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border rounded-sm hover:opacity-70 ml-5"
                     type="button" id="emailModalOpen">編集</button>
@@ -65,7 +65,7 @@
                 </div>
             </div>
 
-        <div class="flex justify-start mt-2">
+        <div class="flex justify-start mt-9">
             <button id="passwordModalOpen" class="px-8 py-2.5 leading-5 text-gray-700 transition-colors duration-300 transform bg-gray-100 border border-gray-500 rounded-md hover:opacity-70">パスワードを変更</button>
             <div id="passwordModal" class="passwordModal hidden fixed z-50 left-0 top-0 h-full w-full bg-[rgba(0,0,0,0.5)]">
                 <div class="passwordModal-content bg-white mx-auto my-[50%] w-1/2 lg:w-1/3 duration-300 transform ease-in-out p-6 rounded-sm">
@@ -95,6 +95,17 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="mt-10 py-2 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border rounded-sm hover:opacity-70 w-48">
+            <a href="{{ route('user.logout') }}"
+                onclick="event.preventDefault();
+                            document.getElementById('logout-form').submit();">
+                {{ __('ログアウト') }}
+            </a>
+
+            <form id="logout-form" action="{{ route('user.logout') }}" method="POST" class="d-none">
+                @csrf
+            </form>
         </div>
     </div>
 </div>
