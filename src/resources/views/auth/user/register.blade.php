@@ -23,13 +23,13 @@
                         @enderror
                     </div>
 
-                    <div>
+                    {{-- <div>
                         <p class="block mb-2 text-sm text-gray-600 dark:text-gray-200">アイコン画像</p>
                         <label for="dropzone-file" class="flex items-center px-3 py-3 text-center bg-white border-2 border-dashed rounded-lg cursor-pointer dark:border-gray-600 dark:bg-gray-900">
                             <h2 class="mx-3 text-gray-400">画像を選択してください</h2>
-                            <input id="dropzone-file" type="file" class="hidden" />
+                            <input id="dropzone-file" type="file" name="image" class="hidden" />
                         </label>
-                    </div>
+                    </div> --}}
 
                     <div>
                         <label class="block mb-2 text-sm text-gray-600 dark:text-gray-200">メールアドレス</label>
