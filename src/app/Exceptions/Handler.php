@@ -47,4 +47,20 @@ class Handler extends ExceptionHandler
             //
         });
     }
+    
+    public function unauthenticated($request, Throwable $exception)
+    {
+        // dd($request->session()->all());
+        if ($request->expectsJson()) {
+            return response()->json(['message' => $exception->getMessage()], 401);
+        }
+        if ($request->is('teacher') || $request->is('teacher/*')) {
+            return redirect()->guest(route('teacher.showLoginForm'));
+        }
+        if ($request->is('user') || $request->is('user/*')) {
+            return redirect()->guest(route('user.showLoginForm'));
+        }
+        // dd($request->session()->previousUrl());
+        return redirect()->guest($exception->redirectTo ?? route('selectLogin'));
+    }
 }

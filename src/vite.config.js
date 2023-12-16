@@ -8,7 +8,7 @@ export default defineConfig({
             refresh: true,
         }),
     ],
-    server: {
+server: {
         host: true,
         hmr: {
             host: "localhost",
