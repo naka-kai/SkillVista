@@ -11,20 +11,4 @@ class ProfileController extends Controller
     {
         return view('Pages.User.Profile.show');
     }
-
-    public function edit()
-    {
-        return view('Pages.User.Profile.edit');
-    }
-
-    public function editConfirm()
-    {
-        return view('Pages.User.Profile.edit_confirm');
-    }
-
-    public function update()
-    {
-        $userName = 'userName';
-        return redirect()->route('user.profile.show', compact('userName'));
-    }
 }

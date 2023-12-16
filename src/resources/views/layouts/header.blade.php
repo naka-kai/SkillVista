@@ -68,7 +68,16 @@
                                         </div>
                                     </li>
                                 @elseif (Auth::guard('teacher')->check())
-                                    <p>teacher</p>
+                                    <li>
+                                        <div class="items-center flex-row flex justify-center">
+                                            <a class="text-sm leading-5 text-gray-700 transition-colors duration-300 transform dark:text-gray-200 mx-4 my-0 text-center w-full" href="{{ route('teacher.myCourse', ['teacherName' => 'teacherName']) }}">マイコース</a>
+                                            <a href="{{ route('teacher.profile.show', ['teacherName' => 'teacherName']) }}" class="flex items-center focus:outline-none ml-4">
+                                                <div class="w-8 h-8 overflow-hidden border-2 border-gray-400 rounded-full">
+                                                    <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80" class="object-cover w-full h-full" alt="avatar">
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </li>
                                 @else
                                     <div class="flex items-center">
                                         <li class="ml-3 py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border rounded-sm hover:opacity-70">

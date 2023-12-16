@@ -215,7 +215,7 @@
 </div>
 <div class="flex flex-col">
     teacher
-    <a href="{{ route('teacher.course.edit', ['courseName' => 'courseName', 'teacherName' => 'teacherName']) }}">コース編集</a>
+    <a href="{{ route('course.edit', ['courseName' => 'courseName', 'teacherName' => 'teacherName']) }}">コース編集</a>
 </div>
 @endsection
 

@@ -97,7 +97,7 @@
             </div>
         </div>
         <div class="mt-10 py-2 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border rounded-sm hover:opacity-70 w-48">
-            <a href="{{ route('user.logout') }}"
+            <a href="{{ route('user.logout') }}" class="block"
                 onclick="event.preventDefault();
                             document.getElementById('logout-form').submit();">
                 {{ __('ログアウト') }}

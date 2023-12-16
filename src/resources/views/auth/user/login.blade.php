@@ -26,9 +26,7 @@
                         <div class="mt-6">
                             <div class="flex justify-between mb-2">
                                 <label for="password" class="text-sm text-gray-600 dark:text-gray-200">パスワード</label>
-                                @if (Route::has('user.password.request'))
-                                    <a href="{{ route('user.password.request') }}" class="text-sm text-gray-400 focus:text-blue-500 hover:text-blue-500 hover:underline">パスワードをお忘れの方はこちら</a>
-                                @endif
+                                <a href="{{ route('user.password.request') }}" class="text-sm text-gray-400 focus:text-blue-500 hover:text-blue-500 hover:underline">パスワードをお忘れの方はこちら</a>
                             </div>
 
                             <input type="password" name="password" id="password" class="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40 @error('password') is-invalid @enderror" autocomplete="current-password" />

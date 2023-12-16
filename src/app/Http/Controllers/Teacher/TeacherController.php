@@ -5,10 +5,10 @@ namespace App\Http\Controllers\Teacher;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class ProfileController extends Controller
+class TeacherController extends Controller
 {
-    public function show()
+    public function myCourse()
     {
-        return view('Pages.Teacher.Profile.show');
+        return view('Pages.Teacher.my_course');
     }
 }
