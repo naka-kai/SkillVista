@@ -18,7 +18,7 @@
         <div class="flex items-center justify-between mt-4">
             <div class="flex items-center">
                 <p class="font-bold mr-1">5.0</p>
-                <a class="text-lg font-medium text-gray-700 dark:text-gray-300 underline hover:text-gray-500 cursor-pointer">★★★★★</a>
+                <a href="#rate" class="text-lg font-medium text-gray-700 dark:text-gray-300 underline hover:text-gray-500 cursor-pointer">★★★★★</a>
 
                 <p class="text-sm text-gray-500 ml-1">（23,415件の評価）</p>
                 <p class="text-sm ml-1">112,253人の受講生</p>
@@ -209,11 +209,41 @@
             </ul>
         </div>
 
+        <div id="rate" class="mt-7 pt-3">
+            <h3 class="text-xl font-semibold text-gray-800">このコースの評価</h3>
+
+            <hr class="mt-3 mb-5 border-gray-200 dark:border-gray-700">
+
+            <ul class="mt-2">
+                @for ($i = 0; $i < 10; $i++)
+                    <li>
+                        <div class="flex items-center focus:outline-none">
+                            <img class="object-cover w-12 h-12 rounded-full ring ring-gray-300 dark:ring-gray-600" src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=4&w=880&h=880&q=100" alt="">
+                            <div class="ml-4">
+                                <p class="font-bold text-lg">田中</p>
+                                <div class="flex items-center text-gray-600">
+                                    <span class="mr-3">★★★★★</span>
+                                    <span>2年前</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="mt-3 ml-16 text-md text-gray-700">
+                            以前に米国大学でコンピュータサイエンスのコースを受講しました。本コースはとてもよい復習になりました。<br>
+                            <br>
+                        
+                            コンピュータサイエンスコースではC言語とLispでデータ構造の説明を受けましたが、Pythonでも同様な構造ができることを知りました。また、Pythonのデータ型などについても勉強になりました。
+                        </p>
+                        <hr class="my-8 border-gray-200 dark:border-gray-700">
+                    </li>
+                @endfor
+            </ul>
+        </div>
+
     </div>
 </div>
 <div class="flex flex-col">
     teacher
-    <a href="{{ route('teacher.course.edit', ['courseName' => 'courseName', 'teacherName' => 'teacherName']) }}">コース編集</a>
-    <a href="{{ route('teacher.course.myCourse', ['teacherName' => 'teacherName']) }}">マイコースに戻る</a>
+    <a href="{{ route('course.edit', ['courseName' => 'courseName', 'teacherName' => 'teacherName']) }}">コース編集</a>
+    <a href="{{ route('teacher.myCourse', ['teacherName' => 'teacherName']) }}">マイコースに戻る</a>
 </div>
 @endsection

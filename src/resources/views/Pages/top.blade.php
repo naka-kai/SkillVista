@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="flex flex-col">
-    <section class="bg-white dark:bg-gray-900">
+    <div class="bg-white dark:bg-gray-900">
         <div class="py-10">
             <div class="flex items-center justify-between">
                 <h1 class="text-2xl font-semibold text-gray-800 capitalize lg:text-3xl dark:text-white">最近の注目動画</h1>
@@ -45,15 +45,6 @@
 
             </div>
         </div>
-    </section>
-    {{-- user --}}
-    {{-- <a href="{{ route('user.myCourse', ['userName' => 'userName']) }}">マイコース</a> --}}
-    {{-- <a href="{{ route('user.wishList', ['userName' => 'userName']) }}">欲しいものリスト</a> --}}
-    {{-- <a href="{{ route('user.profile.show', ['userName' => 'userName']) }}">プロフィール</a> --}}
-    <br>
-    
-    teacher
-    <a href="{{ route('teacher.course.myCourse', ['teacherName' => 'teacherName']) }}">マイコース</a>
-    <a href="{{ route('teacher.profile.show', ['teacherName' => 'teacherName']) }}">プロフィール</a>
+    </div>
 </div>
 @endsection

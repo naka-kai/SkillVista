@@ -1,7 +1,7 @@
 @extends('Layouts.app')
 
 @section('content')
-<section class="bg-white dark:bg-gray-900 py-8 lg:py-16 antialiased">
+<div class="bg-white dark:bg-gray-900 py-8 lg:py-16 antialiased">
     <div class="mb-6">
         <div class="flex items-center focus:outline-none">
             <img class="object-cover w-8 h-8 rounded-full ring ring-gray-300 dark:ring-gray-600" src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=4&w=880&h=880&q=100" alt="">
@@ -16,7 +16,7 @@
     
     <!-- comments -->
     @for ($i = 0; $i < 3; $i++)
-        <article class="p-6 mb-3 text-base bg-white border-t border-gray-200 dark:border-gray-700 dark:bg-gray-900">
+        <div class="p-6 mb-3 text-base bg-white border-t border-gray-200 dark:border-gray-700 dark:bg-gray-900">
             <div class="flex justify-between items-center mb-2">
                 <div class="">
                     <p class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white font-semibold">
@@ -35,7 +35,7 @@
                     type="button">編集</button>
             </div>
             <p class="text-gray-500 mt-4">すいません。ご指摘いただき本当にありがとうございます！</p>
-        </article>
+        </div>
     @endfor
 
     <!-- editor -->
@@ -50,8 +50,7 @@
             </div>
         </form>
     </div>
-    
-</section>
+</div>
 @endsection
 
 @section('script')

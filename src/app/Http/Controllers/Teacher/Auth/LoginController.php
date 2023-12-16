@@ -102,7 +102,7 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
-        $this->guard('user')->logout();
+        $this->guard('teacher')->logout();
 
         $request->session()->invalidate();
 

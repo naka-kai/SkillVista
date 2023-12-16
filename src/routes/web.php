@@ -8,6 +8,7 @@ use App\Http\Controllers\MovieController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\TopController;
+use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,12 +22,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// 誰でも閲覧できる
+// 誰でも閲覧可能
+// ログイン選択
 Route::get('/select-login', [TopController::class, 'selectLogin'])->name('selectLogin');
 // コース詳細
 Route::get('/course/{courseName}', [CourseController::class, 'show'])->name('course');
-// 動画詳細
-Route::get('/movie/{courseName}/{movieId}', [MovieController::class, 'show'])->name('movie');
 // 教師詳細
 Route::get('/teacher/{teacherName}', [TeacherController::class, 'show'])->name('teacher');
 
@@ -35,31 +35,27 @@ Route::get('/teacher/{teacherName}', [TeacherController::class, 'show'])->name('
 Route::get('/top', [TopController::class, 'top'])->name('top');
 
 // ユーザー、教師共通
-// Route::middleware('auth:user, auth:teacher')->group(function() {
+Route::middleware('auth:user,teacher')->group(function() {
+    // 動画詳細
+    Route::get('/movie/{courseName}/{movieId}', [MovieController::class, 'show'])->name('movie');
     // コメント詳細
     Route::get('/comment/{courseName}/{commentId}/{answerId}', [CommentController::class, 'show'])->name('comment.show');
-// });
+    // テスト回答
+    Route::get('/{courseName}/test/{testId}/answer', [TestController::class, 'testAnswer'])->name('testAnswer');
+    // テスト問題
+    Route::get('/{courseName}/test/{testId}/{userId}', [TestController::class, 'testQuestion'])->name('testQuestion');
+});
 
-// Auth::routes();
-
-// Route::view('/teacher/login', 'authTeacher/login');
-// Route::post('/teacher/login', [TeacherLoginController::class, 'login']);
-// Route::post('/teacher/logout', [TeacherLoginController::class, 'logout']);
-// Route::view('/teacher/register', 'authTeacher/register');
-// Route::post('/teacher/register', [TeacherLoginController::class, 'register']);
-// Route::view('/teacher/top', 'teacher/top')->middleware('auth:teacher');
-// Route::view('/teacher/password/reset', 'teacher/password/email');
-// Route::post('/teacher/password/email', [TeacherForgotPasswordController::class, 'sendResetLinkEmail']);
-// Route::view('/teacher/password/reset/{token}'. [TeacherResetPasswordController::class, 'showResetForm']);
-// Route::post('/teacher/password/reset', [TeacherResetPasswordController::class, 'reset']);
-
-// Route::view('/user/login', 'auth/login');
-// Route::post('/user/login', [LoginController::class, 'login']);
-// Route::post('/user/logout', [LoginController::class, 'logout']);
-// Route::view('/user/register', 'auth/register');
-// Route::post('/user/register', [LoginController::class, 'register']);
-// Route::view('/user/top', 'user/top')->middleware('auth:user');
-// Route::view('/user/password/reset', 'user/password/email');
-// Route::post('/user/password/email', [ForgotPasswordController::class, 'sendResetLinkEmail']);
-// Route::view('/user/password/reset/{token}'. [ResetPasswordController::class, 'showResetForm']);
-// Route::post('/user/password/reset', [ResetPasswordController::class, 'reset']);
+// 教師
+Route::middleware('auth:teacher')->group(function() {
+    // コース編集・削除
+    Route::prefix('course')->name('course.')->group(function() {
+        Route::get('/create/{teacherName}', [CourseController::class, 'create'])->name('create');
+        Route::post('/create-confirm/{teacherName}', [CourseController::class, 'createConfirm'])->name('createConfirm');
+        Route::post('/{teacherName}', [CourseController::class, 'store'])->name('store');
+        Route::get('edit/{teacherName}/{courseName}', [CourseController::class, 'edit'])->name('edit');
+        Route::post('edit-confirm/{teacherName}/{courseName}', [CourseController::class, 'editConfirm'])->name('editConfirm');
+        Route::put('/{teacherName}/{courseName}', [CourseController::class, 'update'])->name('update');
+        Route::delete('/{teacherName}/{courseName}', [CourseController::class, 'destroy'])->name('destroy');
+    });
+});
