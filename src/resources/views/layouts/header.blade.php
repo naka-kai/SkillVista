@@ -51,7 +51,7 @@
                             <!-- PC-profile -->
                             <ul>
                                 <!-- Authentication Links -->
-                                @if (Auth::guard('user'))
+                                @if (Auth::guard('user')->check())
                                     <li>
                                         <div class="items-center flex-row flex justify-center">
                                             <a class="text-sm leading-5 text-gray-700 transition-colors duration-300 transform dark:text-gray-200 mx-4 my-0 text-center w-full" href="{{ route('user.myCourse', ['userName' => 'userName']) }}">マイコース</a>
@@ -67,7 +67,7 @@
                                             </a>
                                         </div>
                                     </li>
-                                @elseif (Auth::guard('teacher'))
+                                @elseif (Auth::guard('teacher')->check())
                                     <p>teacher</p>
                                 @else
                                     <div class="flex items-center">
@@ -76,7 +76,6 @@
                                         </li>
                                     </div>
                                 @endif
-                                
                             </ul>
                         </div>
         

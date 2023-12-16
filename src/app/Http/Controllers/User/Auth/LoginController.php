@@ -123,7 +123,7 @@ class LoginController extends Controller
 
         $this->clearLoginAttempts($request);
 
-        if ($response = $this->authenticated($request, $this->guard()->user())) {
+        if ($response = $this->authenticated($request, $this->guard('user')->user())) {
             return $response;
         }
 
