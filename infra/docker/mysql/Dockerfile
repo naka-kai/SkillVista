@@ -1,6 +1,6 @@
 FROM mysql/mysql-server:8.0
 
-ENV TZ=UTC
+ENV TZ=Asia/Tokyo
 
 RUN mkdir /var/log/mysql \
   && chown mysql:mysql $_ \
