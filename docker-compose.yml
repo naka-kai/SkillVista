@@ -94,11 +94,12 @@ services:
 
   mailpit:
     image: axllent/mailpit
+    container_name: mailpit
     ports:
-      - target: 8025
-        published: ${MAILPIT_PUBLISHED_PORT:-8025}
-        protocol: tcp
-        mode: host
+      - 8025:8025
+      - 1025:1025
+    networks:
+      - net1
 
 networks:
   net1:
