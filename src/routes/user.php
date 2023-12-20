@@ -3,6 +3,7 @@
 use App\Http\Controllers\TopController;
 use App\Http\Controllers\User\Auth\ForgotPasswordController;
 use App\Http\Controllers\User\Auth\LoginController;
+use App\Http\Controllers\User\Auth\PasswordController;
 use App\Http\Controllers\User\Auth\ResetPasswordController;
 use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\UserController;
