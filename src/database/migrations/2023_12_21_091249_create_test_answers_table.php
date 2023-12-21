@@ -1,0 +1,36 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('test_answers', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('question_id')->constrained();
+            $table->text('answer')->comment('回答');
+            $table->integer('is_correct')->comment('0: 不正解, 1: 正解')->default(0);
+            $table->string('created_by', 255)->comment('作成者');
+            $table->string('updated_by', 255)->comment('更新者');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('test_answers');
+    }
+};
