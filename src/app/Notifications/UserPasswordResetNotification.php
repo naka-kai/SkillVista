@@ -42,12 +42,27 @@ class UserPasswordResetNotification extends Notification
      * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toMail($notifiable)
+    // public function toMail($request)
+    // {
+    //     $url = urldecode(url('/user/password/reset', $this->token . '?email=' . $request->email));
+
+    //     return (new BareMail)
+    //         ->to($request->email)
+    //         ->subject('パスワード再設定メール')
+    //         ->route('user.password.reset')
+    //         ->with(['token' => $this->token]);
+    // }
+    public function toMail($request)
     {
+        $url = urldecode(url('/user/password/reset/' . $this->token . '?email=' . $request->email));
+
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+            ->subject('SkillVistaパスワード再設定URLの送付')
+            ->greeting('いつもSkillVistaをご利用いただき、誠にありがとうございます。')
+            ->line('以下ボタンを押してパスワードの再設定を行なってください。')
+            ->line('有効期限は本メールを受信してから1時間となります。')
+            ->action('パスワードをリセット', $url)
+            ->line('※※※※※本メールは送信専用のメールアドレスから送信しております。ご返信できませんのでご了承ください。※※※※※');
     }
 
     /**
@@ -65,8 +80,8 @@ class UserPasswordResetNotification extends Notification
 
 }
 
-class BareMail extends Mailable {
-    use Queueable, SerializesModels;
+// class BareMail extends Mailable {
+//     use Queueable, SerializesModels;
 
-    public function build() {}
-}
+//     public function build() {}
+// }

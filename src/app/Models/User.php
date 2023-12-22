@@ -44,6 +44,6 @@ class User extends Authenticatable
 
     public function sendPasswordResetNotification($token):void
     {
-        $this->notify(new \App\Notifications\ResetPasswordNotification($token));
+        $this->notify(new \App\Notifications\UserPasswordResetNotification($token));
     }
 }
