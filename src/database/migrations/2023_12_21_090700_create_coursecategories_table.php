@@ -13,10 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('course_courses_categories', function (Blueprint $table) {
+        Schema::create('coursecategories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('course_id')->constrained();
-            $table->foreignId('courses_category_id')->constrained()->cascadeOnDelete();
+            $table->string('coursecategory', 100)->comment('コースカテゴリ');
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('course_courses_categories');
+        Schema::dropIfExists('coursecategories');
     }
 };

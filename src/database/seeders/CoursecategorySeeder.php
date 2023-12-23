@@ -7,7 +7,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
-class CourseRateSeeder extends Seeder
+class CoursecategorySeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,64 +16,39 @@ class CourseRateSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('course_rates')->insert([
+        DB::table('coursecategories')->insert([
             [
-                'course_id' => 1,
-                'rate_id' => 1,
+                'coursecategory' => 'HTML',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
-                'course_id' => 2,
-                'rate_id' => 2,
+                'coursecategory' => 'CSS',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
-                'course_id' => 3,
-                'rate_id' => 3,
+                'coursecategory' => 'JavaScript',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
-                'course_id' => 1,
-                'rate_id' => 4,
+                'coursecategory' => 'Vue.js',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
-                'course_id' => 2,
-                'rate_id' => 5,
+                'coursecategory' => 'PHP',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
-                'course_id' => 3,
-                'rate_id' => 6,
+                'coursecategory' => 'Laravel',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
-                'course_id' => 1,
-                'rate_id' => 7,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'course_id' => 2,
-                'rate_id' => 8,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'course_id' => 3,
-                'rate_id' => 9,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'course_id' => 1,
-                'rate_id' => 10,
+                'coursecategory' => 'TailwindCSS',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],

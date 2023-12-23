@@ -16,7 +16,6 @@ return new class extends Migration
         Schema::create('test_questions', function (Blueprint $table) {
             $table->id();
             $table->text('question')->comment('問題');
-            $table->integer('score')->comment('点数');
             $table->foreignId('test_id')->constrained();
             $table->string('created_by', 255)->comment('作成者');
             $table->string('updated_by', 255)->comment('更新者');

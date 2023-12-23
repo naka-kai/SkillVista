@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Notifications\ResetPasswordNotification;
+use App\Models\Course;
 
 class Teacher extends Authenticatable
 {
@@ -19,9 +20,17 @@ class Teacher extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'last_name',
+        'first_name',
+        'last_name_en',
+        'first_name_en',
         'email',
         'password',
+        'image',
+        'profile',
+        'hp',
+        'x',
+        'youtube',
     ];
 
     /**
@@ -47,5 +56,9 @@ class Teacher extends Authenticatable
     {
         $url = url("teacher/password/reset/$token");
         $this->notify(new ResetPasswordNotification($url));
+    }
+
+    public function courses() {
+        return $this->hasMany(Course::class);
     }
 }

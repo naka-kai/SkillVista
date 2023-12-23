@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Comment;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use App\Models\Course;
 
 class User extends Authenticatable
 {
@@ -18,9 +21,10 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'user_name',
         'email',
         'password',
+        'image',
     ];
 
     /**
@@ -41,4 +45,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function comments() {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function courses(): BelongsToMany {
+        return $this->belongsToMany(Course::class);
+    }
 }
