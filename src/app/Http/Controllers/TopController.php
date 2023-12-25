@@ -9,7 +9,12 @@ use Illuminate\Support\Facades\DB;
 
 class TopController extends Controller
 {
-    // TOPページ
+    /**
+     * TOPページ コース一覧
+     * 購入済み（受講済み）が多いコースほど上に表示
+     *
+     * @return Collection
+     */
     public function top ()
     {
 
@@ -23,7 +28,9 @@ class TopController extends Controller
         return view('Pages.top', compact('courses'));
     }
 
-    // ログイン選択ページ（ユーザーor教師）
+    /**
+     * ログイン選択ページ（ユーザーor教師）
+     */
     public function selectLogin ()
     {
         return view('Pages.select_login');
