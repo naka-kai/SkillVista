@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('course_coursecategories', function (Blueprint $table) {
+        Schema::create('course_coursecategory', function (Blueprint $table) {
             $table->id();
             $table->foreignId('course_id')->constrained();
             $table->foreignId('coursecategory_id')->constrained()->cascadeOnDelete();
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('course_coursecategories');
+        Schema::dropIfExists('course_coursecategory');
     }
 };

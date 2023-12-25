@@ -16,7 +16,7 @@ class CourseUserSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('course_users')->insert([
+        DB::table('course_user')->insert([
             [
                 'course_id' => 1,
                 'user_id' => 1,
@@ -53,8 +53,8 @@ class CourseUserSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
             [
-                'course_id' => 6,
-                'user_id' => 3,
+                'course_id' => 3,
+                'user_id' => 2,
                 'status' => 3,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),

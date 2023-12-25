@@ -44,6 +44,12 @@ class Course extends Model
         return $this->belongsToMany(User::class);
     }
 
+    public function purchased(): BelongsToMany {
+        return $this->belongsToMany(User::class, 'course_user')
+            ->withPivot('status')
+            ->wherePivot('status', 3);
+    }
+
     public function teacher() {
         return $this->belongsTo(Teacher::class);
     }

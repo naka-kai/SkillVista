@@ -16,7 +16,7 @@ class CourseRateSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('course_rates')->insert([
+        DB::table('course_rate')->insert([
             [
                 'course_id' => 1,
                 'rate_id' => 1,

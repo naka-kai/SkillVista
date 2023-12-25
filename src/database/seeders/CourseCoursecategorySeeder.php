@@ -16,7 +16,7 @@ class CourseCoursecategorySeeder extends Seeder
      */
     public function run()
     {
-        DB::table('course_coursecategories')->insert([
+        DB::table('course_coursecategory')->insert([
             [
                 'course_id' => 1, // HTML1
                 'coursecategory_id' => 1, // HTML
