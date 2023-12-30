@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Chapter;
-use App\Models\Rate;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use App\Models\Coursecategory;
 use App\Models\User;
@@ -32,16 +31,16 @@ class Course extends Model
         return $this->hasMany(Chapter::class);
     }
 
-    public function rates(): BelongsToMany {
-        return $this->belongsToMany(Rate::class);
-    }
-
     public function course_categories(): BelongsToMany {
         return $this->belongsToMany(Coursecategory::class);
     }
 
     public function users(): BelongsToMany {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class, 'course_user');
+    }
+
+    public function rates(): BelongsToMany {
+        return $this->belongsToMany(Rate::class, 'course_user');
     }
 
     public function purchased(): BelongsToMany {

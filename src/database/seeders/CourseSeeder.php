@@ -50,7 +50,7 @@ class CourseSeeder extends Seeder
             [
                 'title' => 'PHP1',
                 'description' => 'PHP1説明',
-                'outline' => 'PHP1概要PHP1概要PHP1概要PHP1概要PHP1概要PHP1概要PHP1概要PHP1概要PHP1概要PHP1概要PHP1概要PHP1概要',
+                'outline' => "PHP1概要PHP1概要PHP1概要PHP1概要\nPHP1概要PHP1概要PHP1概要PHP1概要PHP1概要PHP1概要PHP1概要PHP1概要",
                 'teacher_id' => 3,
                 'progress' => 10,
                 'target' => '上級者',

@@ -24,10 +24,7 @@
                             class="mr-4 w-8 h-8 rounded-full"
                             src="https://flowbite.com/docs/images/people/profile-picture-3.jpg"
                             alt="Bonnie Green">山田 太郎</p>
-                    <div class="flex items-center text-sm ml-12">
-                        <span>田中</span>
-                        <span class="ml-2">2年前</span>
-                    </div>
+                    <p class="text-sm ml-12">2年前</p>
                 </div>
 
                 <!-- 編集ボタン -->

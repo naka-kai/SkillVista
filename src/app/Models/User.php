@@ -10,6 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 use App\Models\Comment;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use App\Models\Course;
+use App\Models\Rate;
 
 class User extends Authenticatable
 {
@@ -57,5 +58,9 @@ class User extends Authenticatable
 
     public function courses(): BelongsToMany {
         return $this->belongsToMany(Course::class);
+    }
+
+    public function rates(): BelongsToMany {
+        return $this->belongsToMany(Rate::class, 'course_user');
     }
 }
