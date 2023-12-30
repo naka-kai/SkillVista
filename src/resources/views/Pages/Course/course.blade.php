@@ -164,7 +164,6 @@
 
             <ul class="mt-2">
                 @foreach ($course->rates as $rate)
-                {{ dd($rate) }}
                 <li>
                     <div class="flex items-center focus:outline-none">
                         <img class="object-cover w-12 h-12 rounded-full ring ring-gray-300 dark:ring-gray-600" src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=4&w=880&h=880&q=100" alt="">
@@ -172,7 +171,7 @@
                             <p class="font-bold text-lg">{{ $rate->users[0]->user_name }}</p>
                             <div class="flex items-center text-gray-600">
                                 <span class="star5_rating mr-3" data-rate="{{ sprintf('%.1f', $rate->rate) }}"></span>
-                                <span>2年前</span>
+                                <span>{{ \Util::getDateDiff($rate->created_at) }}</span>
                             </div>
                         </div>
                     </div>
