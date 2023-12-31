@@ -13,34 +13,24 @@
             </div>
 
             <hr class="my-8 border-gray-200 dark:border-gray-700">
-
+            
             <div class="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3">
                 @foreach ($courses as $course)
                 @php
                     // 評価を計算
                     $rates = $course->rates;
-                    $rate_sum = 0;
+                    $total_rating = 0;
 
                     foreach ($rates as $rate) {
-                        $rate_sum += $rate->rate;
+                        $total_rating += $rate->rate;
                     }
+                    $rated_people_num = count($rates);
 
-                    $rate_num = count($rates);
-
-                    if ($rate_num) {
-                        $rate_avg = $rate_sum / $rate_num;
+                    if ($rated_people_num) {
+                        $rate_avg = $total_rating / $rated_people_num;
                         $rate = sprintf('%.1f', $rate_avg);
                     } else {
                         $rate = 0;
-                    }
-
-                    // 直近1ヶ月間で受講数が多い順でソート
-                    $count = 0;
-                    foreach ($course->users as $user) {
-                        $status = $user->pivot->status;
-                        if ($status === 3) {
-                            var_dump($course->title);
-                        }
                     }
                 @endphp
                     <a href="{{ route('course', ['courseName' => $course->course_url]) }}" class="hover:opacity-70">
@@ -61,9 +51,9 @@
                                         <p class="font-bold mr-1">
                                             {{ $rate }}
                                         </p>
-                                        <p class="result-rating-rate text-lg font-medium text-gray-700 dark:text-gray-300 hover:underline hover:text-gray-500"><span class="star5_rating" data-rate="{{ $rate }}"></span></p>
+                                        <p class="text-lg font-medium text-gray-700 dark:text-gray-300 hover:underline hover:text-gray-500"><span class="star5_rating" data-rate="{{ $rate }}"></span></p>
 
-                                        <p class="text-sm text-gray-500 dark:text-gray-400 ml-1">（{{ $rate_num }}）</p>
+                                        <p class="text-sm text-gray-500 dark:text-gray-400 ml-1">（{{ $rated_people_num }}）</p>
                                     </div>
                                 </div>
 

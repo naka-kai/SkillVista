@@ -18,6 +18,7 @@ class TopController extends Controller
     public function top ()
     {
 
+        // 直近1ヶ月間で受講数が多い順でソート
         $courses = Course::with(['purchased', 'teacher', 'rates'])
             ->leftJoin('course_user', 'courses.id', '=', 'course_user.course_id')
             ->select('courses.*', DB::raw('SUM(case when course_user.status = 3 then 1 else 0 end) as purchased_count'))

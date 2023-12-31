@@ -27,7 +27,8 @@ class TestAnswerSeeder extends Seeder
                 for ($k = 1; $k <= 3; $k++) {
                     $test = $i . '_test';
                     $params[$i - 1][$j - 1][$k - 1]['test_question_id'] = $i;
-                    $params[$i - 1][$j - 1][$k - 1]['answer'] = $test . '_question' . $j . '_answer' . $k;
+                    $params[$i - 1][$j - 1][$k - 1]['answer'] = 3;
+                    $params[$i - 1][$j - 1][$k - 1]['description'] = $test . '_question' . $j . '_answer' . $k;
                     $params[$i - 1][$j - 1][$k - 1]['created_by'] = 'ああ';
                     $params[$i - 1][$j - 1][$k - 1]['updated_by'] = 'ああ';
                     $params[$i - 1][$j - 1][$k - 1]['created_at'] = Carbon::now();

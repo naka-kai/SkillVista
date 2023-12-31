@@ -94,7 +94,7 @@
 @section('script')
 <script>
     
-    // メールアドレスモーダル
+    /* メールアドレスモーダル */
     const emailButtonOpen = document.getElementById('emailModalOpen');
     const emailModal = document.getElementById('emailModal');
     const emailButtonClose = document.getElementById('emailModalClose');
@@ -115,7 +115,7 @@
         emailModal.classList.add('hidden');
     }
 
-    // パスワードモーダル
+    /* パスワードモーダル */
     const passwordButtonOpen = document.getElementById('passwordModalOpen');
     const passwordModal = document.getElementById('passwordModal');
     const passwordButtonClose = document.getElementById('passwordModalClose');

@@ -34,14 +34,15 @@ class MovieSeeder extends Seeder
             'zzz',
         ];
 
+        $chapter_id = 1;
         for ($i = 1; $i <= 5; $i++) {
             foreach ($chapter_sub_titles as $chapter_key => $chapter_sub_title) {
                 foreach ($movie_sub_titles as $movie_key => $movie_sub_title) {
                     $movie_title = $i.'_'.$chapter_sub_title . '_' . $movie_sub_title;
-
                     $params[$i - 1][$chapter_key][$movie_key]['title'] = $movie_title;
                     $params[$i - 1][$chapter_key][$movie_key]['movie'] = 'https://www.' . $movie_title;
-                    $params[$i - 1][$chapter_key][$movie_key]['chapter_id'] = $i;
+                    $params[$i - 1][$chapter_key][$movie_key]['chapter_id'] = $chapter_id;
+                    $params[$i - 1][$chapter_key][$movie_key]['second'] = 7200;
                     $params[$i - 1][$chapter_key][$movie_key]['created_by'] = 'ああ';
                     $params[$i - 1][$chapter_key][$movie_key]['updated_by'] = 'ああ';
                     $params[$i - 1][$chapter_key][$movie_key]['created_at'] = Carbon::now();
@@ -69,6 +70,7 @@ class MovieSeeder extends Seeder
                     //         break;
                     // }
                 }
+                $chapter_id++;
             }
         }
 

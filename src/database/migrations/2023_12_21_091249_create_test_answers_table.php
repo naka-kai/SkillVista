@@ -16,7 +16,8 @@ return new class extends Migration
         Schema::create('test_answers', function (Blueprint $table) {
             $table->id();
             $table->foreignId('test_question_id')->constrained();
-            $table->text('answer')->comment('回答');
+            $table->integer('answer')->comment('回答番号');
+            $table->text('description')->comment('回答説明');
             $table->integer('is_correct')->default(0)->comment('0: 不正解, 1: 正解');
             $table->string('created_by', 255)->comment('作成者');
             $table->string('updated_by', 255)->comment('更新者');
