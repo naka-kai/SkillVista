@@ -21,6 +21,10 @@
     .is_open.open + .is_close {
         display: none;
     }
+    .modal_container {
+        display: none;
+        background-color: rgba(204, 204, 204, 0.7);
+    }
 </style>
 @endsection
 
@@ -43,7 +47,7 @@
         <div class="flex items-center justify-between mt-4">
             <div class="flex items-center">
                 <p class="font-bold mr-1">{{ $rate }}</p>
-                <a href="#rate" class="text-lg font-medium text-gray-700 dark:text-gray-300 underline hover:text-gray-500 cursor-pointer">★★★★★</a>
+                <a href="#rate" class="star5_rating text-lg font-medium text-gray-700 underline hover:opacity-70 cursor-pointer" data-rate="{{ $rate }}"></a>
 
                 <p class="text-sm text-gray-500 ml-1">（{{ number_format($rated_people_num) }}件の評価）</p>
                 <p class="text-sm ml-1">{{ $purchased_count }}人の受講生</p>
@@ -60,7 +64,7 @@
         <div>
             <form action="{{ route('movie', ['courseName' => 'courseName', 'movieId', 'movieId']) }}">
                 <div class="flex justify-center">
-                    <button type="submit" class="bg-blue-300 py-3 px-5 text-center w-full lg:w-1/5 my-5 font-bold text-lg">受講する</button>
+                    <button type="submit" class="bg-blue-300 hover:opacity-70 py-3 px-5 text-center w-full lg:w-1/5 my-5 font-bold text-lg">受講する</button>
                 </div>
             </form>
         </div>
@@ -164,6 +168,9 @@
 
             <ul class="mt-2">
                 @foreach ($course->rates as $rate)
+                @if ($loop->index == 4)
+                    @break
+                @endif
                 <li>
                     <div class="flex items-center focus:outline-none">
                         <img class="object-cover w-12 h-12 rounded-full ring ring-gray-300 dark:ring-gray-600" src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=4&w=880&h=880&q=100" alt="">
@@ -184,6 +191,65 @@
                 </li>
                 @endforeach
             </ul>
+
+            <div x-data="{ isOpen: true }" class="relative flex justify-center">
+                <button class="modal_open px-6 py-2 mx-auto tracking-wide capitalize transition-colors duration-300 transform bg-blue-300 rounded-md hover:opacity-70 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80 mb-14">
+                    もっと見る
+                </button>
+
+                {{-- モーダル --}}
+                <div x-show="isOpen" 
+                    x-transition:enter="transition duration-300 ease-out"
+                    x-transition:enter-start="translate-y-4 opacity-0 sm:translate-y-0 sm:scale-95"
+                    x-transition:enter-end="translate-y-0 opacity-100 sm:scale-100"
+                    x-transition:leave="transition duration-150 ease-in"
+                    x-transition:leave-start="translate-y-0 opacity-100 sm:scale-100"
+                    x-transition:leave-end="translate-y-4 opacity-0 sm:translate-y-0 sm:scale-95"
+                    class="modal_container fixed inset-0 z-10 overflow-y-auto" 
+                    aria-labelledby="modal-title" role="dialog" aria-modal="true"
+                >
+                    <div class="flex items-end justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+                        <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+                        <div class="modal_body relative inline-block px-4 pt-5 pb-4 overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl rtl:text-right dark:bg-gray-900 sm:my-8 sm:align-middle w-11/12 sm:p-6">
+                            <ul class="mt-2" id="rate_modal">
+                                @foreach ($course->rates as $rate)
+                                <li>
+                                    <div class="flex items-center focus:outline-none">
+                                        <img class="object-cover w-12 h-12 rounded-full ring ring-gray-300 dark:ring-gray-600" src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=4&w=880&h=880&q=100" alt="">
+                                        <div class="ml-4">
+                                            <p class="font-bold text-lg">{{ $rate->users[0]->user_name }}</p>
+                                            <div class="flex items-center text-gray-600">
+                                                <span class="star5_rating mr-3" data-rate="{{ sprintf('%.1f', $rate->rate) }}"></span>
+                                                <span>{{ \Util::getDateDiff($rate->created_at) }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="mt-3 ml-16 text-md text-gray-700">
+                                        <p class="mt-2">
+                                            {!! nl2br(e($rate->comment)) !!}
+                                        </p>
+                                    </p>
+                                    <hr class="my-8 border-gray-200 dark:border-gray-700">
+                                </li>
+                                @endforeach
+                            </ul>
+
+                            <div class="mt-5 sm:flex sm:items-center sm:justify-between">
+                                <div class="sm:flex sm:items-center">
+                                    <button class="modal_close w-full px-4 py-2 mt-2 text-sm font-medium tracking-wide text-gray-700 capitalize transition-colors duration-300 transform border border-gray-200 rounded-md sm:mt-0 sm:w-auto sm:mx-2 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800 hover:bg-gray-100 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-40">
+                                        閉じる
+                                    </button>
+
+                                    <button class="modal_more w-full px-4 py-2 mt-2 text-sm font-medium tracking-wide capitalize transition-colors duration-300 transform bg-blue-300 rounded-md sm:w-auto sm:mt-0 hover:opacity-70 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
+                                        もっと見る
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -192,12 +258,56 @@
 @section('script')
 <script>
     $(function() {
+        /* 動画アコーディオン */
+        // 最初の章は開いたままにしておく
         $('.accordion:first-of-type .accordion_inner').css('display', 'block');
         $('.accordion:first-of-type .accordion_header > .is_open').addClass('open');
         $('.accordion_header').click(function() {
             $(this).next('.accordion_inner').slideToggle();
             $(this).children('.is_open').toggleClass('open');
         })
-    })
+
+        /* 評価モーダル */
+        const rate_modal = $('#rate_modal')
+        const modal_open = $('.modal_open');
+        const modal_close = $('.modal_close');
+        const modal_container = $('.modal_container');
+        const modal_more = $('.modal_more');
+
+        let rate_count = rate_modal.find('li').length;
+        let display_num = 10; // 現在表示中の評価の数
+
+        // もっと見るボタンでモーダルを表示
+        modal_open.on('click', function() {
+            modal_container.fadeIn();
+            return false;
+        });
+        // 閉じるボタンでモーダルを非表示
+        modal_close.on('click', function() {
+            modal_container.fadeOut();
+        })
+        // モーダル外をクリックでモーダルを非表示
+        $(document).on('click', function(e) {
+            if (!$(e.target).closest('.modal_body').length) {
+                modal_container.fadeOut();
+            }
+        });
+
+        // 評価が10件以上ならもっと見るボタンを表示
+        if (rate_count > display_num) {
+            modal_more.show();
+        }
+
+        rate_modal.find('li:gt(9)').hide(); // 9より大きいインデックスのliを隠す = 10件表示
+        modal_more.on('click', function() {
+            // 更に10件表示
+            display_num += 10;
+            rate_modal.find('li:lt(' + display_num + ')').slideDown();
+            // 次に表示する評価の数が10件以内ならもっと見るボタンを消す
+            if (rate_count <= display_num) {
+                modal_more.hide();
+            }
+        });
+    });
 </script>
 @endsection
