@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('title', 255)->comment('タイトル');
             $table->text('comment')->comment('コメント');
-            $table->binary('image')->nullable()->comment('画像');
+            $table->text('image')->nullable()->comment('画像');
             $table->foreignId('movie_id')->constrained()->cascadeOnDelete();
             $table->bigInteger('who_id')->comment('教師orユーザーのID');
             $table->integer('who_flg')->comment('0: ユーザー, 1: 教師');
