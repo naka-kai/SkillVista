@@ -36,7 +36,9 @@ class CourseController extends Controller
         // 動画の合計時間
         $movie_total_time = $this->calcMovie($course);
 
-        return view('Pages.Course.course', compact('course', 'rate', 'rated_people_num', 'movie_total_time', 'purchased_count'));
+        $teacherId = 1;
+
+        return view('Pages.Course.course', compact('course', 'rate', 'rated_people_num', 'movie_total_time', 'purchased_count', 'teacherId'));
     }
 
     public function create()
@@ -57,9 +59,37 @@ class CourseController extends Controller
         return redirect()->route('teacher.myCourse', compact('courseName', 'teacherName'));
     }
 
-    public function edit()
+    public function edit($teacherName, $courseName)
     {
-        return view('Pages.Course.edit');
+        // 渡ってきた１つのコースの情報
+        $course = Course::with
+            (
+                'teacher', 
+                'rates.users',
+                'chapters', 
+                'chapters.tests', 
+                'chapters.movies'
+            )
+            ->where('course_url', '=', $courseName)
+            ->first();
+
+        // 受講済みユーザー
+        $purchased_course = Course::with('purchased')
+            ->where('course_url', '=', $courseName)
+            ->first();
+
+        // 受講済み人数
+        $purchased_count = count($purchased_course->purchased);
+
+        // そのコースの平均評価値、評価した人の数
+        list($rate, $rated_people_num) = $this->calcRate($course);
+
+        // 動画の合計時間
+        $movie_total_time = $this->calcMovie($course);
+
+        $teacherId = 1;
+
+        return view('Pages.Course.edit', compact('course', 'rate', 'rated_people_num', 'movie_total_time', 'purchased_count', 'teacherId'));
     }
 
     public function editConfirm()

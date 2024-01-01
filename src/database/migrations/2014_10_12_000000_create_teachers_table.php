@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('email', 255)->unique()->comment('メールアドレス');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password', 255)->comment('パスワード');
-            $table->binary('image')->nullable()->comment('アイコン画像(後でnull外す)');
+            $table->text('image')->nullable()->comment('アイコン画像(後でnull外す)');
             $table->text('profile')->comment('プロフィール');
             $table->text('hp')->comment('HPのURL');
             $table->text('x')->comment('XのアカウントURL');

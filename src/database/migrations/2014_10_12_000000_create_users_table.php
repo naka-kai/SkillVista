@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('email', 255)->unique()->comment('メールアドレス');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password', 255)->comment('パスワード');
-            $table->binary('image')->nullable()->comment('アイコン画像');
+            $table->text('image')->nullable()->comment('アイコン画像');
             $table->rememberToken();
             $table->timestamps();
         });

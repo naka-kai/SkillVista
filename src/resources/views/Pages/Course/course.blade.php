@@ -61,13 +61,23 @@
             <span class="text-sm ml-2">{{ number_format($movie_total_time) }}時間の動画</span>
         </div>
 
-        <div>
-            <form action="{{ route('movie', ['courseName' => 'courseName', 'movieId', 'movieId']) }}">
-                <div class="flex justify-center">
-                    <button type="submit" class="bg-blue-300 hover:opacity-70 py-3 px-5 text-center w-full lg:w-1/5 my-5 font-bold text-lg">受講する</button>
-                </div>
-            </form>
-        </div>
+        @if (Auth::guard('teacher')->id() === $teacherId)
+            <div>
+                <a href="{{ route('course.edit', ['teacherName' => $course->teacher->last_name_en . $course->teacher->first_name_en, 'courseName' => $course->course_url]) }}">
+                    <div class="flex justify-center">
+                        <button type="submit" class="bg-blue-300 hover:opacity-70 py-3 px-5 text-center w-full lg:w-1/5 my-5 font-bold text-lg">編集する</button>
+                    </div>
+                </a>
+            </div>
+        @else
+            <div>
+                <a href="{{ route('movie', ['teacherId' => 'teacherId', 'courseName' => 'courseName', 'movieId' => 'movieId']) }}">
+                    <div class="flex justify-center">
+                        <button type="submit" class="bg-blue-300 hover:opacity-70 py-3 px-5 text-center w-full lg:w-1/5 my-5 font-bold text-lg">受講する</button>
+                    </div>
+                </a>
+            </div>
+        @endif
 
         <div class="mt-10">            
             <h3 class="text-xl font-semibold text-gray-800">コースの内容</h3>
@@ -193,9 +203,11 @@
             </ul>
 
             <div x-data="{ isOpen: true }" class="relative flex justify-center">
-                <button class="modal_open px-6 py-2 mx-auto tracking-wide capitalize transition-colors duration-300 transform bg-blue-300 rounded-md hover:opacity-70 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80 mb-14">
-                    もっと見る
-                </button>
+                @if (count($course->rates) > 5)
+                    <button class="modal_open px-6 py-2 mx-auto tracking-wide capitalize transition-colors duration-300 transform bg-blue-300 rounded-md hover:opacity-70 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80">
+                        もっと見る
+                    </button>
+                @endif
 
                 {{-- モーダル --}}
                 <div x-show="isOpen" 

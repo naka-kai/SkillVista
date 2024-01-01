@@ -31,7 +31,7 @@ return [
         'array'   => ':attributeは、:min個から:max個の間で指定してください。',
     ],
     'boolean'              => ':attributeは、trueかfalseを指定してください。',
-    'confirmed'            => ':attributeと、確認フィールドとが、一致していません。',
+    'confirmed'            => ':attributeと、再入力パスワードとが、一致していません。',
     'current_password'     => 'パスワードが正しくありません。',
     'date'                 => ':attributeには有効な日付を指定してください。',
     'date_equals'          => ':attributeには、:dateと同じ日付けを指定してください。',
@@ -124,6 +124,13 @@ return [
     'uploaded'             => ':attributeのアップロードに失敗しました。',
     'url'                  => ':attributeに正しい形式を指定してください。',
     'uuid'                 => ':attributeに有効なUUIDを指定してください。',
+    'password' => [
+        'letters' => ':attributeは、少なくとも1つの文字が含まれていなければなりません。',
+        'mixed' => ':attributeは、少なくとも大文字と小文字を1つずつ含める必要があります。',
+        'numbers' => ':attributeは、少なくとも1つの数字が含まれていなければなりません。',
+        'symbols' => ':attributeは、少なくとも1つの記号が含まれていなければなりません。',
+        'uncompromised' => 'この:attributeは過去に漏洩したことのある脆弱な:attributeです。別の:attributeを入力してください。',
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -154,6 +161,7 @@ return [
     */
 
     'attributes' => [
+        'username' => 'ユーザー名',
         'email' => 'メールアドレス',
         'password' => 'パスワード'
     ],
