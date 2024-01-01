@@ -65,14 +65,13 @@ class RegisterController extends Controller
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array $data
+     * @param  Request $request
      * @return \App\Models\User
      */
-    // protected function create(array $data)
     protected function create(Request $request)
     {
         // 画像保存
-        $dir = 'img';
+        $dir = 'img/user';
         $file_name = $request->file('image')->getClientOriginalName();
         $request->file('image')->storeAs('public/' . $dir, $file_name);
 
@@ -81,7 +80,6 @@ class RegisterController extends Controller
             'image' => 'storage/app/public/' . $dir . '/' . $file_name,
             'email' => $request->input('email'),
             'password' => Hash::make($request->input('password')),
-            'remember_token' => $request->input('_token'),
         ]);
     }
 
