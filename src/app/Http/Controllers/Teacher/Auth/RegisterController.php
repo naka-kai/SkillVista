@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules\Password;
 
 class RegisterController extends Controller
 {
@@ -55,24 +56,42 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name_en' => ['required', 'string', 'max:255'],
+            'first_name_en' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password' => ['required', 'string', 'confirmed', Password::min(8)->mixedCase()->numbers()],
+            'image' => ['required'],
+            'profile' => ['required'],
         ]);
     }
 
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param  Request $request
      * @return \App\Models\Teacher
      */
-    protected function create(array $data)
+    protected function create(Request $request)
     {
+        // 画像保存
+        $dir = 'img/teacher';
+        $file_name = $request->file('image')->getClientOriginalName();
+        $request->file('image')->storeAs('public/' . $dir, $file_name);
+
         return Teacher::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+            'last_name' => $request->input('last_name'),
+            'first_name' => $request->input('first_name'),
+            'last_name_en' => $request->input('last_name_en'),
+            'first_name_en' => $request->input('first_name_en'),
+            'profile' => $request->input('profile'),
+            'hp' => $request->input('hp'),
+            'x' => $request->input('x'),
+            'youtube' => $request->input('youtube'),
+            'image' => 'storage/app/public/' . $dir . '/' . $file_name,
+            'email' => $request->input('email'),
+            'password' => Hash::make($request->input('password')),
         ]);
     }
 
@@ -90,7 +109,7 @@ class RegisterController extends Controller
     {
         $this->validator($request->all())->validate();
 
-        event(new Registered($teacher = $this->create($request->all())));
+        event(new Registered($teacher = $this->create($request)));
 
         $this->guard('teacher')->login($teacher);
 

@@ -99,7 +99,7 @@ return [
     'password'             => '正しいパスワードを指定してください。',
     'present'              => ':attributeが存在していません。',
     'regex'                => ':attributeに正しい形式を指定してください。',
-    'required'             => ':attributeは必ず指定してください。',
+    'required'             => ':attributeは必ず入力してください。',
     'required_if'          => ':otherが:valueの場合、:attributeも指定してください。',
     'required_unless'      => ':otherが:valuesでない場合、:attributeを指定してください。',
     'required_with'        => ':valuesを指定する場合は、:attributeも指定してください。',
@@ -122,7 +122,7 @@ return [
     'timezone'             => ':attributeには、有効なゾーンを指定してください。',
     'unique'               => ':attributeの値は既に存在しています。',
     'uploaded'             => ':attributeのアップロードに失敗しました。',
-    'url'                  => ':attributeに正しい形式を指定してください。',
+    'url'                  => ':attributeは正しい形式で入力してください。',
     'uuid'                 => ':attributeに有効なUUIDを指定してください。',
     'password' => [
         'letters' => ':attributeは、少なくとも1つの文字が含まれていなければなりません。',
@@ -163,7 +163,16 @@ return [
     'attributes' => [
         'username' => 'ユーザー名',
         'email' => 'メールアドレス',
-        'password' => 'パスワード'
+        'password' => 'パスワード',
+        'last_name' => '姓',
+        'first_name' => '名',
+        'last_name_kana' => '姓カナ',
+        'first_name_kana' => '名カナ',
+        'hp' => 'ご自身のWebサイトURL',
+        'x' => 'ご自身のXアカウントURL',
+        'youtube' => 'ご自身のYouTubeアカウントURL',
+        'image' => '画像',
+        'profile' => 'プロフィール',
     ],
 
 ];

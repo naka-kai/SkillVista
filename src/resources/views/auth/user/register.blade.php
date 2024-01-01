@@ -13,15 +13,6 @@
 
                 <form method="POST" action="{{ route('user.register') }}" class="grid grid-cols-1 gap-6 mt-8" enctype="multipart/form-data">
                     @csrf
-                    {{-- <div>
-                        <label class="block mb-2 text-sm text-gray-600 dark:text-gray-200">ユーザー名</label>
-                        <input type="text" class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40  @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" autocomplete="name" autofocus />
-                        @error('name')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div> --}}
 
                     <div>
                         <label class="block mb-2 text-sm text-gray-600 dark:text-gray-200">ユーザー名(公開されます)</label>
