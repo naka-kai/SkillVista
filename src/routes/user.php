@@ -42,4 +42,9 @@ Route::middleware('auth:user')->prefix('user')->name('user.')->group(function() 
         Route::get('/{userName}', [ProfileController::class, 'show'])->name('show');
         Route::put('/{userName}', [ProfileController::class, 'update'])->name('update');
     });
+    // メールアドレス変更
+    Route::prefix('email')->name('email.')->group(function() {
+        Route::post('/change', [ProfileController::class, 'sendChangeEmailLink'])->name('sendChangeEmailLink');
+        Route::get('/reset/{token}', [ProfileController::class, 'reset'])->name('reset');
+    });
 });
