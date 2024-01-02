@@ -77,7 +77,7 @@ class RegisterController extends Controller
 
         return User::create([
             'user_name' => $request->input('username'),
-            'image' => 'storage/app/public/' . $dir . '/' . $file_name,
+            'image' => 'storage/' . $dir . '/' . $file_name,
             'email' => $request->input('email'),
             'password' => Hash::make($request->input('password')),
         ]);

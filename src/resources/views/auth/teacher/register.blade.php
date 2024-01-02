@@ -31,7 +31,7 @@
                     </div>
 
                     <div>
-                        <label class="block mb-2 text-sm text-gray-600 dark:text-gray-200">姓カナ</label>
+                        <label class="block mb-2 text-sm text-gray-600 dark:text-gray-200">姓（英語表記）</label>
                         <input type="text" class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40  @error('last_name_en') is-invalid @enderror" name="last_name_en" value="{{ old('last_name_en') }}" autocomplete="last_name_en" autofocus />
                         @foreach ($errors->get('last_name_en') as $message)
                             <p class="text-sm text-red-400 mt-1">{{ $message }}</p>
@@ -39,7 +39,7 @@
                     </div>
 
                     <div>
-                        <label class="block mb-2 text-sm text-gray-600 dark:text-gray-200">名カナ</label>
+                        <label class="block mb-2 text-sm text-gray-600 dark:text-gray-200">名（英語表記）</label>
                         <input type="text" class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40  @error('first_name_en') is-invalid @enderror" name="first_name_en" value="{{ old('first_name_en') }}" autocomplete="first_name_en" autofocus />
                         @foreach ($errors->get('first_name_en') as $message)
                             <p class="text-sm text-red-400 mt-1">{{ $message }}</p>
