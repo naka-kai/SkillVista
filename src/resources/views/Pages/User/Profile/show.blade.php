@@ -17,7 +17,7 @@
                     <button class="inline-flex items-center py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border rounded-sm hover:opacity-70 ml-5"
                     type="button" id="usernameModalOpen">編集</button>
                 </div>
-                <p class="ml-3 mt-2">Kai</p>
+                <p class="ml-3 mt-2">{{ $user->user_name }}</p>
                 <div id="usernameModal" class="usernameModal hidden fixed z-50 left-0 top-0 h-full w-full bg-[rgba(0,0,0,0.5)]">
                     <div class="usernameModal-content bg-white mx-auto my-[50%] w-1/2 lg:w-1/3 duration-300 transform ease-in-out p-6 rounded-sm">
                         <div class="usernameModal-header flex items-center justify-between mb-5">
@@ -25,8 +25,10 @@
                             <span id="usernameModalClose" class="cursor-pointer">×</span>
                         </div>
                         <div class="usernameModal-body">
-                            <form action="{{ route('user.profile.show', ['userName' => 'userName']) }}">
+                            <form action="{{ route('user.profile.update', ['userName' => $user->user_name]) }}" method="POST">
                                 @csrf
+                                @method('PUT')
+                                <input type="hidden" name="id" id="id" value="{{ $user->id }}">
                                 <div class="flex flex-col">
                                     <label for="username" class="mb-2">新しいユーザー名</label>
                                     <input type="text" name="username" id="username" class="mb-4 border border-gray-700 rounded-sm p-1">
@@ -44,7 +46,7 @@
                     <button class="inline-flex items-center py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border rounded-sm hover:opacity-70 ml-5"
                     type="button" id="emailModalOpen">編集</button>
                 </div>
-                <p class="ml-3 mt-2">example@example.com</p>
+                <p class="ml-3 mt-2">{{ $user->email }}</p>
                 <div id="emailModal" class="emailModal hidden fixed z-50 left-0 top-0 h-full w-full bg-[rgba(0,0,0,0.5)]">
                     <div class="emailModal-content bg-white mx-auto my-[50%] w-1/2 lg:w-1/3 duration-300 transform ease-in-out p-6 rounded-sm">
                         <div class="emailModal-header flex items-center justify-between mb-5">

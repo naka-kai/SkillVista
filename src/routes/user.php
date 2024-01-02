@@ -40,5 +40,6 @@ Route::middleware('auth:user')->prefix('user')->name('user.')->group(function() 
     // プロフィール
     Route::prefix('profile')->name('profile.')->group(function() {
         Route::get('/{userName}', [ProfileController::class, 'show'])->name('show');
+        Route::put('/{userName}', [ProfileController::class, 'update'])->name('update');
     });
 });
