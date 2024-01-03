@@ -173,6 +173,7 @@ return [
         'youtube' => 'ご自身のYouTubeアカウントURL',
         'image' => '画像',
         'profile' => 'プロフィール',
+        'newPassword' => '新しいパスワード',
     ],
 
 ];

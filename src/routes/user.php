@@ -39,6 +39,7 @@ Route::middleware('auth:user')->prefix('user')->name('user.')->group(function() 
     Route::get('/{userName}/wish-list', [UserController::class, 'wishList'])->name('wishList');
     // プロフィール
     Route::prefix('profile')->name('profile.')->group(function() {
+        Route::get('/password-complete', [ProfileController::class, 'passwordComp'])->name('passwordComp');
         Route::get('/{userName}', [ProfileController::class, 'show'])->name('show');
         Route::put('/{userName}', [ProfileController::class, 'update'])->name('update');
     });

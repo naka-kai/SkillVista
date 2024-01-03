@@ -23,11 +23,17 @@ Route::prefix('teacher')->group(function() {
 Route::middleware('auth:teacher')->prefix('teacher')->name('teacher.')->group(function() {
     // プロフィール
     Route::prefix('profile')->name('profile.')->group(function() {
+        Route::get('/password-complete', [ProfileController::class, 'passwordComp'])->name('passwordComp');
         Route::get('/{teacherName}', [ProfileController::class, 'show'])->name('show');
+        Route::put('/{teacherName}', [ProfileController::class, 'update'])->name('update');
     });
     // ログアウト
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
     // マイコース
     Route::get('/{teacherName}/my-course', [TeacherController::class, 'myCourse'])->name('myCourse');
-
+    // メールアドレス変更
+    Route::prefix('email')->name('email.')->group(function() {
+        Route::post('/change', [ProfileController::class, 'sendChangeEmailLink'])->name('sendChangeEmailLink');
+        Route::get('/reset/{token}', [ProfileController::class, 'reset'])->name('reset');
+    });
 });

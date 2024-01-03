@@ -3,10 +3,20 @@
 @section('content')
 
 <div class="my-10">
-    <div>
+    {{-- フラッシュメッセージ・エラー表示 --}}
+    <div class="text-left mx-auto flex flex-col text-red-400">
         @if (session('flash_message'))
-            <div>
+            <div class="my-3">
                 {{ session('flash_message') }}
+            </div>
+        @endif
+        @if ($errors->any())
+            <div class="my-3">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li class="my-1">{{ $error }}</li>
+                    @endforeach
+                </ul>
             </div>
         @endif
     </div>
@@ -28,7 +38,7 @@
                         <input type="hidden" name="id" value="{{ $user->id }}">
                         <div>
                             <div class="flex items-end mb-4 mt-3">
-                                <img id="displayImg" src="{{ $user->image === null ? asset('img/kkrn_icon_user_13.png') : asset($user->image) }}" alt="" class="w-24 h-24 rounded-full">
+                                <img id="displayImg" src="{{ $user->image == null || "" ? asset('img/kkrn_icon_user_13.png') : asset($user->image) }}" alt="" class="w-24 h-24 rounded-full">
                                 <button class="py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border rounded-sm hover:opacity-70 ml-5" type="button" id="displayImgDelete">削除</button>
                             </div>
                             <label for="image" class="flex items-center px-3 py-3 text-center bg-white border-2 border-dashed rounded-lg cursor-pointer dark:border-gray-600 dark:bg-gray-900">
@@ -86,7 +96,7 @@
                 <div id="emailModal" class="emailModal hidden fixed z-50 left-0 top-0 h-full w-full bg-[rgba(0,0,0,0.5)]">
                     <div class="emailModal-content bg-white mx-auto my-[50%] w-1/2 lg:w-1/3 duration-300 transform ease-in-out p-6 rounded-sm">
                         <div class="emailModal-header flex items-center justify-between mb-5">
-                            <h1 class="font-bold text-lg">ユーザー名を変更</h1>
+                            <h1 class="font-bold text-lg">メールアドレスを変更</h1>
                             <span id="emailModalClose" class="cursor-pointer">×</span>
                         </div>
                         <div class="emailModal-body">
@@ -113,22 +123,24 @@
                         <span id="passwordModalClose" class="cursor-pointer">×</span>
                     </div>
                     <div class="passwordModal-body">
-                        <form action="{{ route('user.profile.show', ['userName' => 'userName']) }}">
+                        <form action="{{ route('user.profile.update', ['userName' => $user->user_name]) }}" method="POST">
                             @csrf
+                            @method('PUT')
+                            <input type="hidden" name="id" value="{{ $user->id }}">
                             <div class="flex flex-col">
                                 <div class="w-full">
                                     <label for="oldPassword" class="mb-2">現在のパスワード</label>
-                                    <input type="text" name="oldPassword" id="oldPassword" class="mb-4 border border-gray-700 rounded-sm p-1 w-full">
+                                    <input type="password" name="oldPassword" id="oldPassword" class="mb-4 border border-gray-700 rounded-sm p-1 w-full">
                                 </div>
                                 <div class="w-full">
                                     <label for="newPassword" class="mb-2">新しいパスワード</label>
                                     <input type="password" name="newPassword" id="newPassword" class="mb-4 border border-gray-700 rounded-sm p-1 w-full">
                                 </div>
                                 <div class="w-full">
-                                    <label for="newPasswordConfirm" class="mb-2">新しいパスワード再入力</label>
-                                    <input type="password" name="newPasswordConfirm" id="newPasswordConfirm" class="mb-6 border border-gray-700 rounded-sm p-1 w-full">
+                                    <label for="newPassword_confirmation" class="mb-2">新しいパスワード再入力</label>
+                                    <input type="password" name="newPassword_confirmation" id="newPassword_confirmation" class="mb-6 border border-gray-700 rounded-sm p-1 w-full">
                                 </div>
-                                <button type="submit" class="bg-gray-700 text-white hover:opacity-70 py-2 px-5 rounded-md">確認メールを送信</button>
+                                <button type="submit" class="bg-gray-700 text-white hover:opacity-70 py-2 px-5 rounded-md">パスワードを変更</button>
                             </div>
                         </form>
                     </div>
