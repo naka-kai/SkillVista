@@ -81,11 +81,11 @@ class ProfileController extends Controller
 
                 $email_reset->sendEmailResetNotification($token);
 
-                return redirect()->route('user.profile.show', ['userName' => $user->user_name])->with(['user' => $user, 'flash_message', '確認メールを送信しました。']);
+                return redirect()->route('user.profile.show', ['userName' => $user->user_name])->with(['user' => $user, 'flash_message' => '確認メールを送信しました。']);
             } catch (\Exception $e) {
                 DB::rollBack();
                 Log::error($e);
-                return redirect()->route('user.profile.show', ['userName' => $user->user_name])->with(['user' => $user, 'flash_message', 'メール更新に失敗しました。']);
+                return redirect()->route('user.profile.show', ['userName' => $user->user_name])->with(['user' => $user, 'flash_message' => 'メール更新に失敗しました。']);
             }
         }
     }
@@ -105,7 +105,7 @@ class ProfileController extends Controller
         $user = User::findOrFail($email_resets->user_id);
 
         if (DB::table('users')->where('email', $email_resets->new_email)->exists()) {
-            return redirect()->route('user.profile.show', ['userName' => $user->user_name])->with(['user' => $user, 'flash_message', '同じメールアドレスの登録があります。違うメールアドレスを登録してください。']);
+            return redirect()->route('user.profile.show', ['userName' => $user->user_name])->with(['user' => $user, 'flash_message' => '同じメールアドレスの登録があります。違うメールアドレスを登録してください。']);
         }
 
         // トークンが存在している、かつ、有効期限が切れていないかチェック
@@ -120,7 +120,7 @@ class ProfileController extends Controller
                 ->where('token', $token)
                 ->delete();
 
-            return redirect()->route('user.profile.show', ['userName' => $user->user_name])->with(['user' => $user, 'flash_message', 'メールアドレスを更新しました。']);
+            return redirect()->route('user.profile.show', ['userName' => $user->user_name])->with(['user' => $user, 'flash_message' => 'メールアドレスを更新しました。']);
         } else {
             // レコードが存在していた場合削除
             if ($email_resets) {
@@ -128,7 +128,7 @@ class ProfileController extends Controller
                     ->where('token', $token)
                     ->delete();
             }
-            return redirect()->route('user.profile.show', ['userName' => $user->user_name])->with(['user' => $user, 'flash_message', 'メールアドレスの更新に失敗しました。']);
+            return redirect()->route('user.profile.show', ['userName' => $user->user_name])->with(['user' => $user, 'flash_message' => 'メールアドレスの更新に失敗しました。']);
         }
     }
 
