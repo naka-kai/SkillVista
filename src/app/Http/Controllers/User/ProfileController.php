@@ -6,11 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Models\EmailReset;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rules\Password;
 
 class ProfileController extends Controller
 {
@@ -25,6 +27,7 @@ class ProfileController extends Controller
     public function update(Request $request)
     {
         $user = User::find($request->id);
+        // dd($request);
 
         // アイコン画像変更
         if ($request->file('image')) {
@@ -41,6 +44,33 @@ class ProfileController extends Controller
         if ($request->input('username')) {
             $user->user_name = $request->input('username');
         }
+
+        // パスワード変更
+        if ($request->input('oldPassword') && $request->input('newPassword')) {
+
+            // 現在のパスワードが正しいかチェック
+            if(!(Hash::check($request->input('oldPassword'), Auth::user()->password))) {
+                return redirect()->route('user.profile.show', ['userName' => $user->user_name])->with(['flash_message' => '現在のパスワードが間違っています']);
+            }
+
+            // 現在のパスワードと新しいパスワードが正しいかをチェック
+            if(strcmp($request->input('oldPassword'), $request->input('newPassword')) == 0) {
+                return redirect()->route('user.profile.show', ['userName' => $user->user_name])->with(['flash_message' => '新しいパスワードが現在のパスワードと同じです']);
+            }
+
+            // パスワードのバリデーション
+            $validated_date = $request->validate([
+                'oldPassword' => ['required'],
+                'newPassword' => ['required', 'string', 'confirmed', Password::min(8)->mixedCase()->numbers()],
+            ]);
+
+            // パスワードを変更
+            $change_user = Auth::user();
+            $change_user->password = Hash::make($request->input('newPassword'));
+            $change_user->save();
+
+            return redirect()->route('user.profile.passwordComp');
+        }
         
         $user->save();
 
@@ -55,7 +85,7 @@ class ProfileController extends Controller
      */
     public function sendChangeEmailLink(Request $request)
     {
-        $user = User::find($request->id);
+        $user = User::findOrFail($request->id);
 
         // メールアドレス変更
         if ($request->input('email')) {
@@ -143,5 +173,13 @@ class ProfileController extends Controller
         // トークンの有効期限は60分に設定
         $expires = 60 * 60;
         return Carbon::parse($createdAt)->addSeconds($expires)->isPast();
+    }
+
+    /**
+     * パスワード完了画面
+     */
+    public function passwordComp()
+    {
+        return view('Pages.User.Profile.password_complete');
     }
 }
