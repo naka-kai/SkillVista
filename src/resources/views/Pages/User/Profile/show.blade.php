@@ -28,7 +28,7 @@
                         <input type="hidden" name="id" value="{{ $user->id }}">
                         <div>
                             <div class="flex items-end mb-4 mt-3">
-                                <img id="displayImg" src="{{ $user->image === null ? asset('img/kkrn_icon_user_13.png') : asset($user->image) }}" alt="" class="w-24 h-24 rounded-full">
+                                <img id="displayImg" src="{{ $user->image == null || "" ? asset('img/kkrn_icon_user_13.png') : asset($user->image) }}" alt="" class="w-24 h-24 rounded-full">
                                 <button class="py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border rounded-sm hover:opacity-70 ml-5" type="button" id="displayImgDelete">削除</button>
                             </div>
                             <label for="image" class="flex items-center px-3 py-3 text-center bg-white border-2 border-dashed rounded-lg cursor-pointer dark:border-gray-600 dark:bg-gray-900">

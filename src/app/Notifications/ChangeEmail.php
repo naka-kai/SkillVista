@@ -42,20 +42,10 @@ class ChangeEmail extends Notification
     public function toMail($notifiable)
     {
         $mailMessage = (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url(route('user.email.reset', ['token' => $this->token])))
-                    ->line('Thank you for using our application!');
-                    // ->subject('メールアドレス変更') // 件名
-                    // ->view('Pages.User.Profile.change_email') // メールテンプレートの指定
-                    // ->action(
-                    //     'メールアドレス変更', 
-                    //     route('user.email.reset', ['token' => $this->token]) // アクセスするURL
-                    // );
-                    // ->action(
-                    //     'メールアドレス変更', 
-                    //     url('user/email/change', $this->token) // アクセスするURL
-                    // );
-
+                    ->subject('メールアドレス変更')
+                    ->line('下記のURLをクリックして新しいメールアドレスを確定してください。')
+                    ->action('メールアドレス変更', url(route('user.email.reset', ['token' => $this->token])))
+                    ->line('※URLの有効期限は1時間以内です。有効期限が切れた場合は、お手数ですが最初からお手続きを行なってください。');
         return $mailMessage;
     }
 
