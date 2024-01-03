@@ -3,6 +3,7 @@
 @section('content')
 
 <div class="my-10">
+    {{-- フラッシュメッセージ・エラー表示 --}}
     <div class="text-left mx-auto flex flex-col text-red-400">
         @if (session('flash_message'))
             <div class="my-3">
