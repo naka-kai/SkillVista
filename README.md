@@ -13,7 +13,7 @@
 $ make install
 ```
 
-- プロジェクト：http://localhost
+- プロジェクト：http://localhost/top
 - phpMyAdmin：http://localhost:18080
 
 ### コンテナ起動（プロジェクトルートで）
@@ -22,11 +22,27 @@ $ make install
 $ make up
 ```
 
+### npm install
+```bash
+$ make npm-install
+```
+
 ### vite立ち上げ（srcディレクトリで）
 
 ```bash
 $ cd src
 $ npm run dev
+```
+
+### composer install
+```bash
+$ make composer-install
+```
+
+### マイグレーションの実行（プロジェクトルートで）
+
+```bash
+$ make migrate
 ```
 
 ### コンテナ停止（プロジェクトルートで）
@@ -47,12 +63,6 @@ $ make restart
 $ make app
 ```
 
-### マイグレーションの実行（プロジェクトルートで）
-
-```bash
-$ make migrate
-```
-
 ### すべてのテーブルを削除後にマイグレーション・シーダの実行（プロジェクトルートで）
 
 ```bash
@@ -69,11 +79,6 @@ $ make seed
 
 ```bash
 $ make clear
-```
-
-### npm install
-```bash
-$ make npm-install
 ```
 
 ## コンテナ情報
