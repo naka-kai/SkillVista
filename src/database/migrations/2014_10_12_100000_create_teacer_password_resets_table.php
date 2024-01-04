@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('teacher_password_resets', function (Blueprint $table) {
             $table->string('email')->index();
-            $table->string('token');
+            $table->string('token')->comment('トークン');
             $table->timestamp('created_at')->nullable();
         });
     }

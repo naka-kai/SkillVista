@@ -44,19 +44,19 @@
                     <ul class="max-w-3xl px-4 text-gray-700">
                         <li class="leading-8 cursor-pointer hover:underline flex items-center">
                             <input type="checkbox" name="" id="">
-                            <a href=" {{ route('movie', ['courseName' => 'courseName', 'movieId' => 'movieId']) }}">
+                            <a href="{{ route('movie', ['teacherId' => 'teacherId', 'courseName' => 'courseName', 'movieId' => 'movieId']) }}">
                                 <p class="ml-2">アルゴリズムとデータ構造とは</p>
                             </a>
                         </li>
                         <li class="leading-8 cursor-pointer hover:underline flex items-center">
                             <input type="checkbox" name="" id="">
-                            <a href=" {{ route('movie', ['courseName' => 'courseName', 'movieId' => 'movieId']) }}">
+                            <a href="{{ route('movie', ['teacherId' => 'teacherId', 'courseName' => 'courseName', 'movieId' => 'movieId']) }}">
                                 <p class="ml-2">Big O Notaion（Big O 記法）と安定ソートとは</p>
                             </a>
                         </li>
                         <li class="leading-8 cursor-pointer hover:underline flex items-center">
                             <input type="checkbox" name="" id="">
-                            <a href=" {{ route('testQuestion', ['courseName' => 'courseName', 'testId' => 'testId', 'userId' => 'userId']) }}">
+                            <a href="{{ route('testQuestion', ['courseName' => 'courseName', 'testId' => 'testId', 'userId' => 'userId']) }}">
                                 <p class="ml-2">小テスト</p>
                             </a>
                         </li>

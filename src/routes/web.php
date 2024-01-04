@@ -37,7 +37,7 @@ Route::get('/top', [TopController::class, 'top'])->name('top');
 // ユーザー、教師共通
 Route::middleware('auth:user,teacher')->group(function() {
     // 動画詳細
-    Route::get('/movie/{courseName}/{movieId}', [MovieController::class, 'show'])->name('movie');
+    Route::get('/movie/{teacherId}/{courseName}/{movieId}', [MovieController::class, 'show'])->name('movie');
     // コメント詳細
     Route::get('/comment/{courseName}/{commentId}/{answerId}', [CommentController::class, 'show'])->name('comment.show');
     // テスト回答
