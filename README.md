@@ -15,6 +15,7 @@ $ make install
 
 - プロジェクト：http://localhost/top
 - phpMyAdmin：http://localhost:18080
+- mailpit：http://localhost:8025
 
 ### コンテナ起動（プロジェクトルートで）
 
