@@ -21,59 +21,62 @@
             @endif
         </div>
 
-        {{-- アイコン画像 --}}
-        <div class="wrapper flex flex-col items-center justify-center">
-            <figure class="w-full flex justify-center">
-                <img class="object-cover w-36 h-36 rounded-full"
-                    src="{{ $teacher->image == null || '' ? asset('img/kkrn_icon_user_13.png') : asset($teacher->image) }}"
-                    alt="">
-            </figure>
-            <button
-                class="modalOpen inline-flex items-center py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border rounded-sm hover:opacity-70 mt-2 mb-5"
-                type="button">編集</button>
-            <div class="modal hidden fixed z-50 left-0 top-0 h-full w-full bg-[rgba(0,0,0,0.5)]">
-                <div
-                    class="bg-white mx-auto my-[50%] w-1/2 lg:w-1/3 duration-300 transform ease-in-out p-6 rounded-sm">
-                    <div class="flex items-center justify-between mb-5">
-                        <h1 class="font-bold text-lg">アイコン画像を変更</h1>
-                        <span class="modalClose cursor-pointer">×</span>
-                    </div>
-                    <div>
-                        <form
-                            action="{{ route('teacher.profile.update', ['teacherName' => $teacher->last_name . $teacher->first_name]) }}"
-                            method="POST" enctype="multipart/form-data">
-                            @csrf
-                            @method('PUT')
-                            <input type="hidden" name="id" value="{{ $teacher->id }}">
-                            <div>
-                                <div class="flex items-end mb-4 mt-3">
-                                    <img id="displayImg"
-                                        src="{{ $teacher->image == null || '' ? asset('img/kkrn_icon_user_13.png') : asset($teacher->image) }}"
-                                        alt="" class="w-24 h-24 rounded-full">
-                                    <button
-                                        class="py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border rounded-sm hover:opacity-70 ml-5"
-                                        type="button" id="displayImgDelete">削除</button>
-                                </div>
-                                <label for="image"
-                                    class="flex items-center px-3 py-3 text-center bg-white border-2 border-dashed rounded-lg cursor-pointer dark:border-gray-600 dark:bg-gray-900">
-                                    <h2 id="fileName" class="mx-3 text-gray-400">画像を選択してください</h2>
-                                    <input id="image" type="file" name="image"
-                                        class="hidden @error('image') is-invalid @enderror" accept=".jpg, .jpeg, .png, .gif"
-                                        value="{{ old('image') }}" autocomplete="image" />
-                                </label>
-                            </div>
-                            <button type="submit"
-                                class="bg-gray-700 text-white hover:opacity-70 py-2 px-5 rounded-md w-full mt-5">変更</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <div class="max-w-4xl p-6 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800 flex flex-col items-center">
             <h2 class="text-lg font-semibold text-gray-700 capitalize dark:text-white">アカウント情報</h2>
 
             <div class="flex flex-col">
+                {{-- アイコン画像 --}}
+                <div class="wrapper flex flex-col items-center justify-center">
+                    <figure class="w-full flex justify-center">
+                        <img class="object-cover w-36 h-36 rounded-full"
+                            src="{{ $teacher->image == null || '' ? asset('img/kkrn_icon_user_13.png') : asset($teacher->image) }}"
+                            alt="">
+                    </figure>
+                    <div class="flex items-center mt-2 mb-5">
+                        <p>アイコン画像 *</p>
+                        <button
+                            class="modalOpen inline-flex items-center py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border rounded-sm hover:opacity-70 ml-5"
+                            type="button">編集</button>
+                    </div>
+                    <div class="modal hidden fixed z-50 left-0 top-0 h-full w-full bg-[rgba(0,0,0,0.5)]">
+                        <div
+                            class="bg-white mx-auto my-[50%] w-1/2 lg:w-1/3 duration-300 transform ease-in-out p-6 rounded-sm">
+                            <div class="flex items-center justify-between mb-5">
+                                <h1 class="font-bold text-lg">アイコン画像を変更</h1>
+                                <span class="modalClose cursor-pointer">×</span>
+                            </div>
+                            <div>
+                                <form
+                                    action="{{ route('teacher.profile.update', ['teacherName' => $teacher->last_name . $teacher->first_name]) }}"
+                                    method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    @method('PUT')
+                                    <input type="hidden" name="id" value="{{ $teacher->id }}">
+                                    <div>
+                                        <div class="flex items-end mb-4 mt-3">
+                                            <img id="displayImg"
+                                                src="{{ $teacher->image == null || '' ? asset('img/kkrn_icon_user_13.png') : asset($teacher->image) }}"
+                                                alt="" class="w-24 h-24 rounded-full">
+                                            <button
+                                                class="py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border rounded-sm hover:opacity-70 ml-5"
+                                                type="button" id="displayImgDelete">削除</button>
+                                        </div>
+                                        <label for="image"
+                                            class="flex items-center px-3 py-3 text-center bg-white border-2 border-dashed rounded-lg cursor-pointer dark:border-gray-600 dark:bg-gray-900">
+                                            <h2 id="fileName" class="mx-3 text-gray-400">画像を選択してください</h2>
+                                            <input id="image" type="file" name="image"
+                                                class="hidden @error('image') is-invalid @enderror" accept=".jpg, .jpeg, .png, .gif"
+                                                value="{{ old('image') }}" autocomplete="image" />
+                                        </label>
+                                    </div>
+                                    <button type="submit"
+                                        class="bg-gray-700 text-white hover:opacity-70 py-2 px-5 rounded-md w-full mt-5">変更</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        
                 {{-- 氏名 --}}
                 <div>
                     <div class="flex items-center mt-7">
@@ -85,7 +88,7 @@
                 {{-- メールアドレス --}}
                 <div class="wrapper">
                     <div class="flex items-center mt-6">
-                        <p class="text-gray-700 dark:text-gray-200">メールアドレス</p>
+                        <p class="text-gray-700 dark:text-gray-200">メールアドレス *</p>
                         <button
                             class="modalOpen inline-flex items-center py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border rounded-sm hover:opacity-70 ml-5"
                             type="button">編集</button>
@@ -122,7 +125,7 @@
                         @method('PUT')
                         <input type="hidden" name="id" value="{{ $teacher->id }}">
                         <div class="flex items-center mt-7">
-                            <p class="text-gray-700 dark:text-gray-200">プロフィール</p>
+                            <p class="text-gray-700 dark:text-gray-200">プロフィール *</p>
                             <button
                                 class="editBtn inline-flex items-center py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border rounded-sm hover:opacity-70 ml-5"
                                 type="button">編集</button>
