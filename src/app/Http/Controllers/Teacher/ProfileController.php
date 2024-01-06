@@ -26,8 +26,8 @@ class ProfileController extends Controller
 
     public function update(Request $request)
     {
-        $teacher = Teacher::find($request->id);
         // dd($request);
+        $teacher = Teacher::find($request->id);
 
         // アイコン画像変更
         if ($request->file('image')) {
@@ -35,18 +35,48 @@ class ProfileController extends Controller
             $file_name = $request->file('image')->getClientOriginalName();
             $request->file('image')->storeAs('public/' . $dir, $file_name);
             $teacher->image = 'storage/' . $dir . '/' . $file_name;
-
         } else {
             $teacher->image = null;
         }
 
-        // ユーザー名変更
-        // if ($request->input('username')) {
-        //     $teacher->user_name = $request->input('username');
-        // }
+        // プロフィール変更
+        if ($request->has('profile')) {
+            $validated = $request->validate([
+                'profile' => ['required'],
+            ]);
+
+            $teacher->profile = $request->input('profile');
+        }
+
+        // Webサイト
+        if ($request->has('hp')) {
+            if ($request->input('hp')) {
+                $teacher->hp = $request->input('hp');
+            } else {
+                $teacher->hp = null;
+            }
+        }
+
+        // Xアカウント
+        if ($request->has('x')) {
+            if ($request->input('x')) {
+                $teacher->x = $request->input('x');
+            } else {
+                $teacher->x = null;
+            }
+        }
+
+        // Youtubeアカウント
+        if ($request->has('youtube')) {
+            if ($request->input('youtube')) {
+                $teacher->youtube = $request->input('youtube');
+            } else {
+                $teacher->youtube = null;
+            }
+        }
 
         // パスワード変更
-        if ($request->input('oldPassword') && $request->input('newPassword')) {
+        if ($request->has('oldPassword') && $request->has('newPassword')) {
 
             // 現在のパスワードが正しいかチェック
             if(!(Hash::check($request->input('oldPassword'), Auth::guard('teacher')->user()->password))) {
@@ -59,7 +89,7 @@ class ProfileController extends Controller
             }
 
             // パスワードのバリデーション
-            $validated_date = $request->validate([
+            $validated = $request->validate([
                 'oldPassword' => ['required'],
                 'newPassword' => ['required', 'string', 'confirmed', Password::min(8)->mixedCase()->numbers()],
             ]);
@@ -75,7 +105,7 @@ class ProfileController extends Controller
         
         $teacher->save();
 
-        return view('Pages.Teacher.Profile.show', compact('teacher'));
+        return redirect()->route('teacher.profile.show', ['teacherName' => $teacher->last_name . $teacher->first_name])->with(['teacher' => $teacher]);
     }
 
     /**

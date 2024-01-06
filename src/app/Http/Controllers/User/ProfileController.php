@@ -30,7 +30,7 @@ class ProfileController extends Controller
         // dd($request);
 
         // アイコン画像変更
-        if ($request->file('image')) {
+        if ($request->has('image')) {
             $dir = 'img/user' . $user->id;
             $file_name = $request->file('image')->getClientOriginalName();
             $request->file('image')->storeAs('public/' . $dir, $file_name);
@@ -41,12 +41,12 @@ class ProfileController extends Controller
         }
 
         // ユーザー名変更
-        if ($request->input('username')) {
+        if ($request->has('username')) {
             $user->user_name = $request->input('username');
         }
 
         // パスワード変更
-        if ($request->input('oldPassword') && $request->input('newPassword')) {
+        if ($request->has('oldPassword') && $request->has('newPassword')) {
 
             // 現在のパスワードが正しいかチェック
             if(!(Hash::check($request->input('oldPassword'), Auth::user()->password))) {
@@ -59,7 +59,7 @@ class ProfileController extends Controller
             }
 
             // パスワードのバリデーション
-            $validated_date = $request->validate([
+            $validated = $request->validate([
                 'oldPassword' => ['required'],
                 'newPassword' => ['required', 'string', 'confirmed', Password::min(8)->mixedCase()->numbers()],
             ]);
