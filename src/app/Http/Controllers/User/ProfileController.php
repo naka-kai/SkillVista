@@ -30,7 +30,7 @@ class ProfileController extends Controller
         // dd($request);
 
         // アイコン画像変更
-        if ($request->has('image')) {
+        if ($request->file('image')) {
             $dir = 'img/user' . $user->id;
             $file_name = $request->file('image')->getClientOriginalName();
             $request->file('image')->storeAs('public/' . $dir, $file_name);
@@ -41,8 +41,12 @@ class ProfileController extends Controller
         }
 
         // ユーザー名変更
-        if ($request->has('username')) {
-            $user->user_name = $request->input('username');
+        if ($request->has('user_name')) {
+            // dd($request);
+            $validated = $request->validate([
+                'user_name' => ['required'],
+            ]);
+            $user->user_name = $request->input('user_name');
         }
 
         // パスワード変更
@@ -74,7 +78,7 @@ class ProfileController extends Controller
         
         $user->save();
 
-        return view('Pages.User.Profile.show', compact('user'));
+        return redirect()->route('user.profile.show', ['userName' => $user->user_name])->with(['user' => $user]);
     }
 
     /**

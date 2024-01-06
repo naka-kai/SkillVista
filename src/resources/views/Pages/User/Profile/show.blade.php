@@ -22,23 +22,23 @@
         </div>
 
         {{-- アイコン画像 --}}
-        <div class="flex flex-col items-center justify-center">
+        <div class="wrapper flex flex-col items-center justify-center">
             <figure class="w-full flex justify-center">
                 <img class="object-cover w-36 h-36 rounded-full"
                     src="{{ $user->image == null || '' ? asset('img/kkrn_icon_user_13.png') : asset($user->image) }}"
                     alt="">
             </figure>
             <button
-                class="inline-flex items-center py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border rounded-sm hover:opacity-70 mt-2 mb-5"
-                type="button" id="imageModalOpen">編集</button>
-            <div id="imageModal" class="imageModal hidden fixed z-50 left-0 top-0 h-full w-full bg-[rgba(0,0,0,0.5)]">
+                class="modalOpen inline-flex items-center py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border rounded-sm hover:opacity-70 mt-2 mb-5"
+                type="button">編集</button>
+            <div class="modal hidden fixed z-50 left-0 top-0 h-full w-full bg-[rgba(0,0,0,0.5)]">
                 <div
-                    class="imageModal-content bg-white mx-auto my-[50%] w-1/2 lg:w-1/3 duration-300 transform ease-in-out p-6 rounded-sm">
-                    <div class="imageModal-header flex items-center justify-between mb-5">
+                    class="bg-white mx-auto my-[50%] w-1/2 lg:w-1/3 duration-300 transform ease-in-out p-6 rounded-sm">
+                    <div class="flex items-center justify-between mb-5">
                         <h1 class="font-bold text-lg">アイコン画像を変更</h1>
-                        <span id="imageModalClose" class="cursor-pointer">×</span>
+                        <span class="modalClose cursor-pointer">×</span>
                     </div>
-                    <div class="imageModal-body">
+                    <div>
                         <form action="{{ route('user.profile.update', ['userName' => $user->user_name]) }}" method="POST"
                             enctype="multipart/form-data">
                             @csrf
@@ -75,58 +75,40 @@
             <div class="flex flex-col">
                 {{-- ユーザー名 --}}
                 <div>
-                    <div class="flex items-center mt-7">
-                        <p class="text-gray-700 dark:text-gray-200">ユーザー名</p>
-                        <button
-                            class="inline-flex items-center py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border rounded-sm hover:opacity-70 ml-5"
-                            type="button" id="usernameModalOpen">編集</button>
-                    </div>
-                    <p class="ml-3 mt-2">{{ $user->user_name }}</p>
-                    <div id="usernameModal"
-                        class="usernameModal hidden fixed z-50 left-0 top-0 h-full w-full bg-[rgba(0,0,0,0.5)]">
-                        <div
-                            class="usernameModal-content bg-white mx-auto my-[50%] w-1/2 lg:w-1/3 duration-300 transform ease-in-out p-6 rounded-sm">
-                            <div class="usernameModal-header flex items-center justify-between mb-5">
-                                <h1 class="font-bold text-lg">ユーザー名を変更</h1>
-                                <span id="usernameModalClose" class="cursor-pointer">×</span>
-                            </div>
-                            <div class="usernameModal-body">
-                                <form action="{{ route('user.profile.update', ['userName' => $user->user_name]) }}"
-                                    method="POST">
-                                    @csrf
-                                    @method('PUT')
-                                    <input type="hidden" name="id" value="{{ $user->id }}">
-                                    <div class="flex flex-col">
-                                        <label for="username" class="mb-2">新しいユーザー名</label>
-                                        <input type="text" name="username" id="username"
-                                            class="mb-4 border border-gray-700 rounded-sm p-1">
-                                        <button type="submit"
-                                            class="bg-gray-700 text-white hover:opacity-70 py-2 px-5 rounded-md">変更</button>
-                                    </div>
-                                </form>
-                            </div>
+                    <form action="{{ route('user.profile.update', ['userName' => $user->user_name]) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <input type="hidden" name="id" value="{{ $user->id }}">
+                        <div class="flex items-center mt-7">
+                            <p class="text-gray-700 dark:text-gray-200">ユーザー名</p>
+                            <button
+                                class="editBtn inline-flex items-center py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border rounded-sm hover:opacity-70 ml-5"
+                                type="button">編集</button>
+                            <button
+                                class="submitBtn items-center py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border border-gray-500 rounded-sm hover:opacity-70 ml-5 hidden"
+                                type="submit">保存</button>
                         </div>
-                    </div>
+                        <input name="user_name" value="{{ $user->user_name }}" class="editContent ml-3 mt-2 resize-none outline-none" readonly />
+                    </form>
                 </div>
 
                 {{-- メールアドレス --}}
-                <div>
+                <div class="wrapper">
                     <div class="flex items-center mt-6">
                         <p class="text-gray-700 dark:text-gray-200">メールアドレス</p>
                         <button
-                            class="inline-flex items-center py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border rounded-sm hover:opacity-70 ml-5"
-                            type="button" id="emailModalOpen">編集</button>
+                            class="modalOpen inline-flex items-center py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border rounded-sm hover:opacity-70 ml-5"
+                            type="button">編集</button>
                     </div>
                     <p class="ml-3 mt-2">{{ $user->email }}</p>
-                    <div id="emailModal"
-                        class="emailModal hidden fixed z-50 left-0 top-0 h-full w-full bg-[rgba(0,0,0,0.5)]">
+                    <div class="modal hidden fixed z-50 left-0 top-0 h-full w-full bg-[rgba(0,0,0,0.5)]">
                         <div
-                            class="emailModal-content bg-white mx-auto my-[50%] w-1/2 lg:w-1/3 duration-300 transform ease-in-out p-6 rounded-sm">
-                            <div class="emailModal-header flex items-center justify-between mb-5">
+                            class="bg-white mx-auto my-[50%] w-1/2 lg:w-1/3 duration-300 transform ease-in-out p-6 rounded-sm">
+                            <div class="flex items-center justify-between mb-5">
                                 <h1 class="font-bold text-lg">メールアドレスを変更</h1>
-                                <span id="emailModalClose" class="cursor-pointer">×</span>
+                                <span class="modalClose cursor-pointer">×</span>
                             </div>
-                            <div class="emailModal-body">
+                            <div>
                                 <form action="{{ route('user.email.sendChangeEmailLink') }}" method="POST">
                                     @csrf
                                     <input type="hidden" name="id" value="{{ $user->id }}">
@@ -145,18 +127,16 @@
             </div>
 
             {{-- パスワード --}}
-            <div class="flex justify-start mt-9">
-                <button id="passwordModalOpen"
-                    class="px-8 py-2.5 leading-5 text-gray-700 transition-colors duration-300 transform bg-gray-100 border border-gray-500 rounded-md hover:opacity-70">パスワードを変更</button>
-                <div id="passwordModal"
-                    class="passwordModal hidden fixed z-50 left-0 top-0 h-full w-full bg-[rgba(0,0,0,0.5)]">
+            <div class="wrapper flex justify-start mt-9">
+                <button class="modalOpen px-8 py-2.5 leading-5 text-gray-700 transition-colors duration-300 transform bg-gray-100 border border-gray-500 rounded-md hover:opacity-70">パスワードを変更</button>
+                <div class="modal hidden fixed z-50 left-0 top-0 h-full w-full bg-[rgba(0,0,0,0.5)]">
                     <div
-                        class="passwordModal-content bg-white mx-auto my-[50%] w-1/2 lg:w-1/3 duration-300 transform ease-in-out p-6 rounded-sm">
-                        <div class="passwordModal-header flex items-center justify-between mb-5">
+                        class="bg-white mx-auto my-[50%] w-1/2 lg:w-1/3 duration-300 transform ease-in-out p-6 rounded-sm">
+                        <div class="flex items-center justify-between mb-5">
                             <h1 class="font-bold text-lg">パスワードを変更</h1>
-                            <span id="passwordModalClose" class="cursor-pointer">×</span>
+                            <span class="modalClose cursor-pointer">×</span>
                         </div>
-                        <div class="passwordModal-body">
+                        <div>
                             <form action="{{ route('user.profile.update', ['userName' => $user->user_name]) }}"
                                 method="POST">
                                 @csrf
@@ -206,28 +186,14 @@
 
 @section('script')
     <script>
-        // アイコン画像モーダル
-        const imageButtonOpen = document.getElementById('imageModalOpen');
-        const imageModal = document.getElementById('imageModal');
-        const imageButtonClose = document.getElementById('imageModalClose');
-
-        imageButtonOpen.addEventListener('click', imageModalOpen);
-
-        function imageModalOpen() {
-            imageModal.classList.remove('hidden');
-            imageModal.classList.add('flex');
-            imageModal.classList.add('justify-center');
-            imageModal.classList.add('items-center');
-        }
-
-        imageButtonClose.addEventListener('click', imageModalClose);
-
-        function imageModalClose() {
-            imageModal.classList.remove('flex');
-            imageModal.classList.remove('justify-center');
-            imageModal.classList.remove('items-center');
-            imageModal.classList.add('hidden');
-        }
+        /* モーダル開閉 */
+        $('.modalOpen').on('click', function() {
+            $(this).next('.modal').removeClass('hidden').addClass('flex justify-center items-center');
+            $(this).parent().nextAll('.modal').removeClass('hidden').addClass('flex justify-center items-center');
+        })
+        $('.modalClose').on('click', function() {
+            $(this).closest('.wrapper').find('.modal').removeClass('flex justify-center items-center').addClass('hidden');
+        })
 
         /* アイコン画像を選択時にプレビュー表示 */
         // プレビュー表示
@@ -246,73 +212,21 @@
             $('#fileName').text('画像を選択してください');
         })
 
-        // ユーザー名モーダル
-        const usernameButtonOpen = document.getElementById('usernameModalOpen');
-        const usernameModal = document.getElementById('usernameModal');
-        const usernameButtonClose = document.getElementById('usernameModalClose');
-
-        usernameButtonOpen.addEventListener('click', usernameModalOpen);
-
-        function usernameModalOpen() {
-            usernameModal.classList.remove('hidden');
-            usernameModal.classList.add('flex');
-            usernameModal.classList.add('justify-center');
-            usernameModal.classList.add('items-center');
-        }
-
-        usernameButtonClose.addEventListener('click', usernameModalClose);
-
-        function usernameModalClose() {
-            usernameModal.classList.remove('flex');
-            usernameModal.classList.remove('justify-center');
-            usernameModal.classList.remove('items-center');
-            usernameModal.classList.add('hidden');
-        }
-
-        // メールアドレスモーダル
-        const emailButtonOpen = document.getElementById('emailModalOpen');
-        const emailModal = document.getElementById('emailModal');
-        const emailButtonClose = document.getElementById('emailModalClose');
-
-        emailButtonOpen.addEventListener('click', emailModalOpen);
-
-        function emailModalOpen() {
-            emailModal.classList.remove('hidden');
-            emailModal.classList.add('flex');
-            emailModal.classList.add('justify-center');
-            emailModal.classList.add('items-center');
-        }
-
-        emailButtonClose.addEventListener('click', emailModalClose);
-
-        function emailModalClose() {
-            emailModal.classList.remove('flex');
-            emailModal.classList.remove('justify-center');
-            emailModal.classList.remove('items-center');
-            emailModal.classList.add('hidden');
-        }
-
-        // パスワードモーダル
-        const passwordButtonOpen = document.getElementById('passwordModalOpen');
-        const passwordModal = document.getElementById('passwordModal');
-        const passwordButtonClose = document.getElementById('passwordModalClose');
-
-        passwordButtonOpen.addEventListener('click', passwordModalOpen);
-
-        function passwordModalOpen() {
-            passwordModal.classList.remove('hidden');
-            passwordModal.classList.add('flex');
-            passwordModal.classList.add('justify-center');
-            passwordModal.classList.add('items-center');
-        }
-
-        passwordButtonClose.addEventListener('click', passwordModalClose);
-
-        function passwordModalClose() {
-            passwordModal.classList.remove('flex');
-            passwordModal.classList.remove('justify-center');
-            passwordModal.classList.remove('items-center');
-            passwordModal.classList.add('hidden');
-        }
+        /* その場編集 */
+        // 編集・保存ボタンの切り替え
+        $('.editBtn').on('click', function() {
+            $(this).next('.submitBtn').removeClass('hidden').addClass('inline-flex');
+            $(this).addClass('hidden').removeClass('inline-flex');
+            // テキストエリア編集可能
+            $(this).parent().next('.editContent').attr('readonly', false);
+            $(this).parent().next('.editContent').removeClass('resize-none outline-none').addClass('border p-1');
+        })
+        $('.submitBtn').on('click', function() {
+            $(this).prev('.editBtn').removeClass('hidden').addClass('inline-flex');
+            $(this).removeClass('inline-flex').addClass('hidden');
+            // テキストエリア編集不可
+            $(this).parent().next('.editContent').attr('readonly', true);
+            $(this).parent().next('.editContent').removeClass('border p-1').addClass('resize-none outline-none');
+        })
     </script>
 @endsection

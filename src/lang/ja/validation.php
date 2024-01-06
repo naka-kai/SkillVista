@@ -162,6 +162,7 @@ return [
 
     'attributes' => [
         'username' => 'ユーザー名',
+        'user_name' => 'ユーザー名',
         'email' => 'メールアドレス',
         'password' => 'パスワード',
         'last_name' => '姓',
