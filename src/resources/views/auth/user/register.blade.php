@@ -15,7 +15,7 @@
                     @csrf
 
                     <div>
-                        <label class="block mb-2 text-sm text-gray-600 dark:text-gray-200">ユーザー名(公開されます)</label>
+                        <label class="block mb-2 text-sm text-gray-600 dark:text-gray-200">ユーザー名 *（公開されます）</label>
                         <input type="text" class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40  @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" autocomplete="username" autofocus />
                         @foreach ($errors->get('username') as $message)
                             <p class="text-sm text-red-400 mt-1">{{ $message }}</p>
@@ -23,7 +23,7 @@
                     </div>
 
                     <div>
-                        <p class="block mb-2 text-sm text-gray-600 dark:text-gray-200">アイコン画像</p>
+                        <p class="block mb-2 text-sm text-gray-600 dark:text-gray-200">アイコン画像 *</p>
                         <div class="flex items-end mb-4 mt-3">
                             <img id="displayImg" src="{{ asset('img/kkrn_icon_user_13.png') }}" alt="" class="w-24 h-24 rounded-full">
                             <button class="py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border rounded-sm hover:opacity-70 ml-5" type="button" id="displayImgDelete">削除</button>
@@ -35,7 +35,7 @@
                     </div>
 
                     <div>
-                        <label class="block mb-2 text-sm text-gray-600 dark:text-gray-200">メールアドレス</label>
+                        <label class="block mb-2 text-sm text-gray-600 dark:text-gray-200">メールアドレス *</label>
                         <input type="email" placeholder="example@example.com" class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40 @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" autocomplete="email" />
                         @foreach ($errors->get('email') as $message)
                             <p class="text-sm text-red-400 mt-1">{{ $message }}</p>
@@ -43,7 +43,7 @@
                     </div>
 
                     <div>
-                        <label class="block mb-2 text-sm text-gray-600 dark:text-gray-200">パスワード</label>
+                        <label class="block mb-2 text-sm text-gray-600 dark:text-gray-200">パスワード *</label>
                         <input type="password" class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40 @error('password') is-invalid @enderror" name="password" autocomplete="new-password" />
                         <div class="text-sm text-gray-600 mt-2 ml-3">
                             <p class="mb-1">パスワードは以下の基準を満たしてください</p>
@@ -60,7 +60,7 @@
                     </div>
 
                     <div>
-                        <label class="block mb-2 text-sm text-gray-600 dark:text-gray-200">パスワード再入力</label>
+                        <label class="block mb-2 text-sm text-gray-600 dark:text-gray-200">パスワード再入力 *</label>
                         <input type="password" class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"  id="password-confirm" name="password_confirmation" autocomplete="new-password" />
                     </div>
 
