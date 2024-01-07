@@ -35,7 +35,7 @@ class ProfileController extends Controller
             $request->file('image')->storeAs('public/' . $dir, $file_name);
             $teacher->image = 'storage/' . $dir . '/' . $file_name;
         } else {
-            $teacher->image = null;
+            $teacher->image = $teacher->image;
         }
 
         // プロフィール変更
