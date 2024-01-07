@@ -37,7 +37,7 @@ class ProfileController extends Controller
             $user->image = 'storage/' . $dir . '/' . $file_name;
 
         } else {
-            $user->image = null;
+            $user->image = $user->image;
         }
 
         // ユーザー名変更

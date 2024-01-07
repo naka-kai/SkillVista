@@ -22,7 +22,7 @@
         </div>
 
         <div class="max-w-4xl p-6 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800 flex flex-col items-center">
-            <h2 class="text-lg font-semibold text-gray-700 capitalize dark:text-white" id="imageModalOpen">アカウント情報</h2>
+            <h2 class="text-lg font-semibold text-gray-700 capitalize dark:text-white mb-5" id="imageModalOpen">アカウント情報</h2>
 
             <div class="flex flex-col">
                 {{-- アイコン画像 --}}
