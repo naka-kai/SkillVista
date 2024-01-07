@@ -205,6 +205,7 @@
             let reader = new FileReader();
             reader.onload = function(e) {
                 $('#displayImg').attr('src', e.target.result);
+                $(this).closest('form').remove('<input type="hidden" name="delete" id="delete" value="true" />')
             }
             reader.readAsDataURL(e.target.files[0]);
         })
@@ -213,6 +214,7 @@
             $('#displayImg').attr('src', "{{ asset('img/kkrn_icon_user_13.png') }}");
             $('#image').val('');
             $('#fileName').text('画像を選択してください');
+            $(this).closest('form').append('<input type="hidden" name="delete" id="delete" value="true" />')
         })
 
         /* その場編集 */

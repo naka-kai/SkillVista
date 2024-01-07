@@ -30,7 +30,9 @@ class ProfileController extends Controller
         // dd($request);
 
         // アイコン画像変更
-        if ($request->file('image')) {
+        if($request->input('delete')) {
+            $user->image = null;
+        } elseif ($request->hasFile('image')) {
             $dir = 'img/user' . $user->id;
             $file_name = $request->file('image')->getClientOriginalName();
             $request->file('image')->storeAs('public/' . $dir, $file_name);

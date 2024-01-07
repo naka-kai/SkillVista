@@ -22,7 +22,7 @@
         </div>
 
         <div class="max-w-4xl p-6 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800 flex flex-col items-center">
-            <h2 class="text-lg font-semibold text-gray-700 capitalize dark:text-white">アカウント情報</h2>
+            <h2 class="text-lg font-semibold text-gray-700 capitalize dark:text-white mb-5">アカウント情報</h2>
 
             <div class="flex flex-col">
                 {{-- アイコン画像 --}}
@@ -33,7 +33,7 @@
                             alt="">
                     </figure>
                     <div class="flex items-center mt-2 mb-5">
-                        <p>アイコン画像 *</p>
+                        <p>アイコン画像</p>
                         <button
                             class="modalOpen inline-flex items-center py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border rounded-sm hover:opacity-70 ml-5"
                             type="button">編集</button>
@@ -271,6 +271,7 @@
                 let reader = new FileReader();
                 reader.onload = function(e) {
                     $('#displayImg').attr('src', e.target.result);
+                    $(this).closest('form').remove('<input type="hidden" name="delete" id="delete" value="true" />')
                 }
                 reader.readAsDataURL(e.target.files[0]);
             })
@@ -279,6 +280,7 @@
                 $('#displayImg').attr('src', "{{ asset('img/kkrn_icon_user_13.png') }}");
                 $('#image').val('');
                 $('#fileName').text('画像を選択してください');
+                $(this).closest('form').append('<input type="hidden" name="delete" id="delete" value="true" />')
             })
 
             /* その場編集 */

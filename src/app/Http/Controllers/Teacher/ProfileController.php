@@ -27,9 +27,11 @@ class ProfileController extends Controller
     public function update(Request $request)
     {
         $teacher = Teacher::find($request->id);
-
+        // dd($request->input('delete'));
         // アイコン画像変更
-        if ($request->file('image')) {
+        if($request->input('delete')) {
+            $teacher->image = null;
+        } elseif ($request->hasFile('image')) {
             $dir = 'img/teacher' . $teacher->id;
             $file_name = $request->file('image')->getClientOriginalName();
             $request->file('image')->storeAs('public/' . $dir, $file_name);
