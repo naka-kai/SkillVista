@@ -53,8 +53,8 @@ Route::middleware('auth:teacher')->group(function() {
         Route::get('/create/{teacherName}', [CourseController::class, 'create'])->name('create');
         Route::post('/create-confirm/{teacherName}', [CourseController::class, 'createConfirm'])->name('createConfirm');
         Route::post('/{teacherName}', [CourseController::class, 'store'])->name('store');
-        Route::get('edit/{teacherName}/{courseName}', [CourseController::class, 'edit'])->name('edit');
-        Route::post('edit-confirm/{teacherName}/{courseName}', [CourseController::class, 'editConfirm'])->name('editConfirm');
+        Route::get('/{teacherName}/{courseName}', [CourseController::class, 'edit'])->name('edit');
+        // Route::post('edit-confirm/{teacherName}/{courseName}', [CourseController::class, 'editConfirm'])->name('editConfirm');
         Route::put('/{teacherName}/{courseName}', [CourseController::class, 'update'])->name('update');
         Route::delete('/{teacherName}/{courseName}', [CourseController::class, 'destroy'])->name('destroy');
     });

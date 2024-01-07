@@ -151,25 +151,29 @@
             </p>
         </div>
 
-        <div class="mt-10">
-            <h3 class="text-xl font-semibold text-gray-800">コースの対象受講者</h3>
+        @if ($course->target)
+            <div class="mt-10">
+                <h3 class="text-xl font-semibold text-gray-800">コースの対象受講者</h3>
 
-            <hr class="mt-3 mb-5 border-gray-200 dark:border-gray-700">
+                <hr class="mt-3 mb-5 border-gray-200 dark:border-gray-700">
 
-            <p class="mt-2">
-                {!! nl2br(e($course->target)) !!}
-            </p>
-        </div>
+                <p class="mt-2">
+                    {!! nl2br(e($course->target)) !!}
+                </p>
+            </div>
+        @endif
 
-        <div class="mt-10">
-            <h3 class="text-xl font-semibold text-gray-800">受講における前提条件</h3>
+        @if ($course->need)
+            <div class="mt-10">
+                <h3 class="text-xl font-semibold text-gray-800">受講における前提条件</h3>
 
-            <hr class="mt-3 mb-5 border-gray-200 dark:border-gray-700">
+                <hr class="mt-3 mb-5 border-gray-200 dark:border-gray-700">
 
-            <p class="mt-2">
-                {!! nl2br(e($course->need)) !!}
-            </p>
-        </div>
+                <p class="mt-2">
+                    {!! nl2br(e($course->need)) !!}
+                </p>
+            </div>
+        @endif
 
         <div id="rate" class="mt-7 pt-3">
             <h3 class="text-xl font-semibold text-gray-800">このコースの評価</h3>

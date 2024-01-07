@@ -175,6 +175,12 @@ return [
         'image' => '画像',
         'profile' => 'プロフィール',
         'newPassword' => '新しいパスワード',
+        'thumbnail' => 'サムネイル画像',
+        'title' => 'タイトル',
+        'description' => '軽い説明',
+        'outline' => '詳しい説明',
+        'target' => '大賞受講者',
+        'need' => '前提条件'
     ],
 
 ];

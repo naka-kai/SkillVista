@@ -59,7 +59,7 @@ class CourseController extends Controller
         return redirect()->route('teacher.myCourse', compact('courseName', 'teacherName'));
     }
 
-    public function edit($teacherName, $courseName)
+    public function edit(Request $request, $teacherName, $courseName)
     {
         // 渡ってきた１つのコースの情報
         $course = Course::with
@@ -73,23 +73,7 @@ class CourseController extends Controller
             ->where('course_url', '=', $courseName)
             ->first();
 
-        // 受講済みユーザー
-        $purchased_course = Course::with('purchased')
-            ->where('course_url', '=', $courseName)
-            ->first();
-
-        // 受講済み人数
-        $purchased_count = count($purchased_course->purchased);
-
-        // そのコースの平均評価値、評価した人の数
-        list($rate, $rated_people_num) = $this->calcRate($course);
-
-        // 動画の合計時間
-        $movie_total_time = $this->calcMovie($course);
-
-        $teacherId = 1;
-
-        return view('Pages.Course.edit', compact('course', 'rate', 'rated_people_num', 'movie_total_time', 'purchased_count', 'teacherId'));
+        return view('Pages.Course.edit', compact('course'));
     }
 
     public function editConfirm()
@@ -97,12 +81,81 @@ class CourseController extends Controller
         return view('Pages.Course.edit_confirm');
     }
 
-    public function update()
+    public function update(Request $request, $teacherName, $courseName)
     {
-        $courseName = 'courseName';
-        $teacherName = 'teacherName';
+        // 渡ってきた１つのコースの情報
+        $course = Course::with
+            (
+                'teacher', 
+                'rates.users',
+                'chapters', 
+                'chapters.tests', 
+                'chapters.movies'
+            )
+            ->where('course_url', '=', $courseName)
+            ->first();
+        
+        // サムネイル画像変更
+        // TODO: null許容しないのでエラー出す
+        if ($request->hasFile('thumbnail')) {
+            $dir = 'img/course' . $course->id;
+            $file_name = $request->file('thumbnail')->getClientOriginalName();
+            $request->file('thumbnail')->storeAs('public/' . $dir, $file_name);
+            $course->thumbnail = 'storage/' . $dir . '/' . $file_name;
+        } else {
+            $course->thumbnail = $course->thumbnail;
+        }
 
-        return redirect()->route('teacher.myCourse', compact('courseName', 'teacherName'));
+        // コースのタイトル（検索時に使用）変更
+        if ($request->has('title')) {
+            $validated = $request->validate([
+                'title' => ['required', 'string', 'max:255'],
+            ]);
+
+            $course->title = $request->input('title');
+        }
+
+        // コースの軽い説明（検索時に使用）変更
+        if ($request->has('description')) {
+            $validated = $request->validate([
+                'description' => ['required', 'string'],
+            ]);
+
+            $course->description = $request->input('description');
+        }
+
+        // コースの詳しい説明変更
+        if ($request->has('outline')) {
+            $validated = $request->validate([
+                'outline' => ['required', 'string'],
+            ]);
+
+            $course->outline = $request->input('outline');
+        }
+
+        // 対象受講者変更
+        if ($request->has('target')) {
+            $validated = $request->validate([
+                'target' => ['string'],
+            ]);
+
+            $course->target = $request->input('target');
+        }
+
+        // 前提条件変更
+        if ($request->has('need')) {
+            $validated = $request->validate([
+                'need' => ['string'],
+            ]);
+
+            $course->need = $request->input('need');
+        }
+
+        $course->save();
+
+        // dd($course);
+
+        return redirect()->route('course.update', ['courseName' => $courseName, 'teacherName' => $teacherName])->with(['course' => $course]);
     }
 
     public function destroy()

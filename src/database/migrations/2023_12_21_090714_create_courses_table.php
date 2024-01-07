@@ -21,8 +21,8 @@ return new class extends Migration
             $table->foreignId('teacher_id')->constrained()->cascadeOnDelete();
             $table->integer('progress')->comment('進捗率');
             $table->text('target')->nullable()->comment('対象者');
-            $table->text('need')->nullable()->comment('必要条件');
-            $table->text('thumbnail')->nullable()->comment('サムネイル画像(後でnull外す)');
+            $table->text('need')->comment('必要条件');
+            $table->text('thumbnail')->nullable()->comment('サムネイル画像');
             $table->string('course_url', 255)->comment('コースのURL');
             $table->string('created_by', 255)->comment('作成者');
             $table->string('updated_by', 255)->comment('更新者');
