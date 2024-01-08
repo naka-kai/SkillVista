@@ -48,20 +48,22 @@
         @endif
     </div>
     
-    {{-- アイコン画像 --}}
-    <div class="wrapper flex flex-col items-center justify-center">
-        <figure class="w-full flex justify-center">
-            <img class="object-cover object-center w-full h-[26rem] rounded-lg"
+    <div class="wrapper mt-8">
+        {{-- アイコン画像 --}}
+        <div class="mt-10">
+            <div class="flex items-center mt-7">
+                <h3 class="text-xl font-semibold text-gray-800">アイコン画像</h3>
+                <button
+                    class="modalOpen inline-flex items-center py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border rounded-sm hover:opacity-70 ml-5"
+                    type="button">編集</button>
+            </div>
+            <hr class="mt-3 mb-5 border-gray-200 dark:border-gray-700">
+            <figure class="w-full flex justify-center">
+                <img class="object-cover object-center w-full h-[26rem] rounded-lg"
                 src="{{ $course->thumbnail == null || '' ? asset('img/noimage.png') : asset($course->thumbnail) }}"
                 alt="">
-        </figure>
-        <div class="flex items-center mt-2 mb-5">
-            <p>アイコン画像 *</p>
-            <button
-                class="modalOpen inline-flex items-center py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border rounded-sm hover:opacity-70 ml-5"
-                type="button">編集</button>
-        </div>
-        <div class="modal hidden fixed z-50 left-0 top-0 h-full w-full bg-[rgba(0,0,0,0.5)]">
+            </figure>
+            <div class="modal hidden fixed z-50 left-0 top-0 h-full w-full bg-[rgba(0,0,0,0.5)]">
             <div
                 class="bg-white mx-auto my-[50%] w-1/2 lg:w-1/3 duration-300 transform ease-in-out p-6 rounded-sm">
                 <div class="flex items-center justify-between mb-5">
@@ -95,7 +97,7 @@
                 </div>
             </div>
         </div>
-    </div>
+        </div>
 
     <div class="mt-8">
         {{-- コースのタイトル（検索時に使用） --}}
