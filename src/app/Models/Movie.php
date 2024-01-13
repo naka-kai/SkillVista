@@ -6,10 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Chapter;
 use App\Models\Comment;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Movie extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     protected $fillable = [
         'movie_title',

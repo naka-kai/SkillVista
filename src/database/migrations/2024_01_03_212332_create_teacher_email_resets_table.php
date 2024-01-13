@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('new_email')->comment('教師が新規に設定したメールアドレス');
             $table->string('token');
             $table->timestamps();
+
+            $table->softDeletes();
         });
     }
 

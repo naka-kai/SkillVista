@@ -11,10 +11,12 @@ use App\Models\Comment;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use App\Models\Course;
 use App\Models\Rate;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.

@@ -22,6 +22,8 @@ return new class extends Migration
             $table->text('image')->nullable()->comment('アイコン画像');
             $table->rememberToken();
             $table->timestamps();
+
+            $table->softDeletes();
         });
     }
 

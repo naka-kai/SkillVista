@@ -6,11 +6,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use App\Notifications\TeacherChangeEmail;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class TeacherEmailReset extends Model
 {
     use HasFactory;
     use Notifiable;
+
+    use SoftDeletes;
 
     protected $fillable = [
         'teacher_id',

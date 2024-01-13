@@ -17,6 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('coursecategory', 100)->comment('コースカテゴリ');
             $table->timestamps();
+
+            $table->softDeletes();
         });
     }
 

@@ -9,10 +9,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use App\Models\Coursecategory;
 use App\Models\User;
 use App\Models\Teacher;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Course extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     protected $fillable = [
         'title',

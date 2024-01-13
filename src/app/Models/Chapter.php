@@ -7,10 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Test;
 use App\Models\Course;
 use App\Models\Movie;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Chapter extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     protected $fillable = [
         'title',

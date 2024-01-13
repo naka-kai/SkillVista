@@ -29,6 +29,8 @@ return new class extends Migration
             $table->text('youtube')->nullable()->comment('YouTubeのアカウントURL');
             $table->rememberToken();
             $table->timestamps();
+
+            $table->softDeletes();
         });
     }
 

@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('email')->index();
             $table->string('token')->comment('トークン');
             $table->timestamp('created_at')->nullable();
+
+            $table->softDeletes();
         });
     }
 

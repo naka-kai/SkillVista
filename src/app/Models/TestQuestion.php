@@ -6,10 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Test;
 use App\Models\TestAnswer;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class TestQuestion extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     protected $fillable = [
         'question',
