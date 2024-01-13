@@ -308,6 +308,14 @@
                 <textarea name="need" class="editContent mt-2 resize-none outline-none w-full h-auto" readonly>{!! nl2br(e($course->need)) !!}</textarea>
             </form>
         </div>
+
+        <div class="w-full mt-10">
+            <div class="flex items-center w-4/5 justify-between mx-auto">
+                <a href="{{ route('course', ['courseName' => $course->course_url]) }}" class="bg-blue-300 hover:opacity-70 py-3 px-5 text-center my-5 font-bold w-full m-7 rounded-md">表示を見てみる</a>
+                <a href="{{ route('teacher.myCourse', ['teacherName' => $course->teacher->last_name_en . $course->teacher->first_name_en]) }}" class="bg-blue-300 hover:opacity-70 py-3 px-5 text-center my-5 font-bold w-full rounded-md">マイコース一覧</a>
+            </div>
+        </div>
+
     </div>
 </div>
 @endsection
