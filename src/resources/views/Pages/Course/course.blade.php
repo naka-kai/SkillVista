@@ -90,8 +90,12 @@
                     // １つの章にいくつの動画を持っているか
                     $count_movies = count($chapter->movies);
                     
-                    // TODO: １つの章に合計で何時間何分の動画が含まれているか
-
+                    // １つの章に合計で何時間何分の動画が含まれているか
+                    $chapter_movie_total_second = 0;
+                    foreach ($chapter->movies as $movie) {
+                        $chapter_movie_total_second += $movie->second;
+                    }
+                    $chapter_movie_total_minutes = (int)round($chapter_movie_total_second / 60);
                 @endphp
                 <div class="my-5 accordion">
                     <div class="accordion_header flex items-center focus:outline-none cursor-pointer">
@@ -108,19 +112,22 @@
 
                         <div class="flex items-center w-full">
                             <h1 class="mx-4 text-xl">{{ $chapter->title }}</h1>
-                            <!-- TODO: 時間入れる -->
-                            <p class="text-sm ml-auto">{{ $count_movies }}個のレクチャー・15分</p>
+                            <p class="text-sm ml-auto">{{ $count_movies }}個のレクチャー・{{ $chapter_movie_total_minutes }}分</p>
                         </div>
                     </div>
 
                     <div class="accordion_inner flex mt-8 md:mx-10">
-                        <ul class="max-w-3xl px-2 text-gray-700">
+                        <ul class="px-2 text-gray-700">
                             @foreach ($chapter->movies as $movie)
-                            <li class="leading-8 flex items-center mb-1">
-                                <figure>
-                                    <img src="{{ asset('img/movie.png') }}" class="w-9 h-auto">
-                                </figure>
-                                <p class="ml-1 text-lg">{{ $movie->movie_title }}</p>
+                            <li class="leading-8 mb-1 flex justify-between">
+                                <div class="flex items-center">
+                                    <figure>
+                                        <img src="{{ asset('img/movie.png') }}" class="w-9 h-auto">
+                                    </figure>
+                                    <p class="ml-1 text-lg">{{ $movie->movie_title }}</p>
+                                </div>
+                                {{-- TODO: "H"消す？ --}}
+                                <p>{{ gmdate('H:i:s', $movie->second) }}</p>
                             </li>
                             @endforeach
                             @foreach ($chapter->tests as $test)

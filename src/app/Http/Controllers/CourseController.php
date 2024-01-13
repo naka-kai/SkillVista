@@ -193,6 +193,12 @@ class CourseController extends Controller
         return redirect()->route('teacher.myCourse');
     }
 
+    /**
+     * そのコースの平均評価値、評価した人数を返す
+     *
+     * @param [type] $course
+     * @return void
+     */
     public function calcRate($course)
     {
         // そのコースに対する評価の全ての情報
@@ -217,6 +223,12 @@ class CourseController extends Controller
         return [$rate, $rated_people_num];
     }
 
+    /**
+     * 動画の合計時間を返す(単位は"時間")
+     *
+     * @param [type] $course
+     * @return void
+     */
     public function calcMovie($course)
     {
         $chapters = $course->chapters;
