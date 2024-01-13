@@ -7,6 +7,7 @@ use App\Models\Movie;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use FFMpeg;
 
 class CourseController extends Controller
 {
@@ -139,12 +140,15 @@ class CourseController extends Controller
             $dir = 'movie/course' . $course->id;
             $file_name = $request->file('movie')->getClientOriginalName();
             $request->file('movie')->storeAs('public/' . $dir, $file_name);
+
+            $media = FFMpeg::fromDisk('public')->open('/' . $dir . '/' . $file_name);
+            $durationInSeconds = $media->getDurationInSeconds();
             
             $movie = Movie::create([
                 'movie_title' => $request->movie_title,
                 'movie' => 'storage/' . $dir . '/' . $file_name,
                 'chapter_id' => $request->chapter_id,
-                'second' => '7200',
+                'second' => $durationInSeconds,
                 'created_by' => Auth::guard('teacher')->id(),
                 'updated_by' => Auth::guard('teacher')->id(),
             ]);
