@@ -48,7 +48,7 @@ Route::middleware('auth:user,teacher')->group(function() {
 
 // 教師
 Route::middleware('auth:teacher')->group(function() {
-    // コース編集・削除
+    // コース
     Route::prefix('course')->name('course.')->group(function() {
         Route::get('/create/{teacherName}', [CourseController::class, 'create'])->name('create');
         Route::post('/create-confirm/{teacherName}', [CourseController::class, 'createConfirm'])->name('createConfirm');
@@ -57,5 +57,9 @@ Route::middleware('auth:teacher')->group(function() {
         // Route::post('edit-confirm/{teacherName}/{courseName}', [CourseController::class, 'editConfirm'])->name('editConfirm');
         Route::put('/{teacherName}/{courseName}', [CourseController::class, 'update'])->name('update');
         Route::delete('/{teacherName}/{courseName}', [CourseController::class, 'destroy'])->name('destroy');
+    });
+    // 動画
+    Route::prefix('movie')->name('movie.')->group(function() {
+        Route::delete('/{teacherName}/{courseName}', [MovieController::class, 'destroy'])->name('destroy');
     });
 });

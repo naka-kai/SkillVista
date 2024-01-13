@@ -12,9 +12,12 @@ class Movie extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title',
+        'movie_title',
         'movie',
         'chapter_id',
+        'second',
+        'created_by',
+        'updated_by',
     ];
 
     public function chapter() {

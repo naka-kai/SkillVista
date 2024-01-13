@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\Movie;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CourseController extends Controller
 {
@@ -96,8 +98,11 @@ class CourseController extends Controller
             ->first();
         
         // サムネイル画像変更
-        // TODO: null許容しないのでエラー出す
         if ($request->hasFile('thumbnail')) {
+            $validated = $request->validate([
+                'title' => ['required', 'string', 'max:255'],
+            ]);
+
             $dir = 'img/course' . $course->id;
             $file_name = $request->file('thumbnail')->getClientOriginalName();
             $request->file('thumbnail')->storeAs('public/' . $dir, $file_name);
@@ -122,6 +127,29 @@ class CourseController extends Controller
             ]);
 
             $course->description = $request->input('description');
+        }
+
+        // 動画変更
+        if ($request->hasFile('movie')) {
+            $validated = $request->validate([
+                'movie' => ['required', 'file', 'mimes:mp4,mov,x-ms-wmv,mpeg,avi,jpeg,jpg,png', 'max:1000000'],
+                'movie_title' => ['required', 'string', 'max:255'],
+            ]);
+
+            $dir = 'movie/course' . $course->id;
+            $file_name = $request->file('movie')->getClientOriginalName();
+            $request->file('movie')->storeAs('public/' . $dir, $file_name);
+            
+            $movie = Movie::create([
+                'movie_title' => $request->movie_title,
+                'movie' => 'storage/' . $dir . '/' . $file_name,
+                'chapter_id' => $request->chapter_id,
+                'second' => '7200',
+                'created_by' => Auth::guard('teacher')->id(),
+                'updated_by' => Auth::guard('teacher')->id(),
+            ]);
+        } else {
+            
         }
 
         // コースの詳しい説明変更
@@ -153,12 +181,10 @@ class CourseController extends Controller
 
         $course->save();
 
-        // dd($course);
-
         return redirect()->route('course.update', ['courseName' => $courseName, 'teacherName' => $teacherName])->with(['course' => $course]);
     }
 
-    public function destroy()
+    public function destroy(Request $request)
     {
         return redirect()->route('teacher.myCourse');
     }

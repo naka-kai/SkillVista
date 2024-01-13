@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('movies', function (Blueprint $table) {
             $table->id();
-            $table->string('title', 255)->comment('タイトル');
+            $table->string('movie_title', 255)->comment('タイトル');
             $table->text('movie')->comment('動画');
             $table->foreignId('chapter_id')->comment('章ID');
             $table->integer('second')->comment('動画の長さ(秒)');

@@ -55,10 +55,10 @@
         </div>
 
         <div class="flex items-center mt-3">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-film" viewBox="0 0 16 16">
-                <path d="M0 1a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V1zm4 0v6h8V1H4zm8 8H4v6h8V9zM1 1v2h2V1H1zm2 3H1v2h2V4zM1 7v2h2V7H1zm2 3H1v2h2v-2zm-2 3v2h2v-2H1zM15 1h-2v2h2V1zm-2 3v2h2V4h-2zm2 3h-2v2h2V7zm-2 3v2h2v-2h-2zm2 3h-2v2h2v-2z"/>
-            </svg>
-            <span class="text-sm ml-2">{{ number_format($movie_total_time) }}時間の動画</span>
+            <figure>
+                <img src="{{ asset('img/movie.png') }}" class="w-7 h-auto">
+            </figure>
+            <span class="text-sm ml-1">{{ number_format($movie_total_time) }}時間の動画</span>
         </div>
 
         @if (Auth::guard('teacher')->id() === $teacherId)
@@ -96,12 +96,12 @@
                 <div class="my-5 accordion">
                     <div class="accordion_header flex items-center focus:outline-none cursor-pointer">
                         <span class="is_open text-gray-400 bg-gray-200 rounded-full block">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 12H6" />
                             </svg>
                         </span>
                         <span class="is_close text-white bg-blue-500 rounded-full cursor-pointer hidden">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                             </svg>
                         </span>
@@ -114,23 +114,21 @@
                     </div>
 
                     <div class="accordion_inner flex mt-8 md:mx-10">
-                        <ul class="max-w-3xl px-4 text-gray-700">
+                        <ul class="max-w-3xl px-2 text-gray-700">
                             @foreach ($chapter->movies as $movie)
-                            <li class="leading-8 flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-film" viewBox="0 0 16 16">
-                                    <path d="M0 1a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V1zm4 0v6h8V1H4zm8 8H4v6h8V9zM1 1v2h2V1H1zm2 3H1v2h2V4zM1 7v2h2V7H1zm2 3H1v2h2v-2zm-2 3v2h2v-2H1zM15 1h-2v2h2V1zm-2 3v2h2V4h-2zm2 3h-2v2h2V7zm-2 3v2h2v-2h-2zm2 3h-2v2h2v-2z"/>
-                                </svg>
-                                <p class="ml-2">{{ $movie->title }}</p>
+                            <li class="leading-8 flex items-center mb-1">
+                                <figure>
+                                    <img src="{{ asset('img/movie.png') }}" class="w-9 h-auto">
+                                </figure>
+                                <p class="ml-1 text-lg">{{ $movie->movie_title }}</p>
                             </li>
                             @endforeach
                             @foreach ($chapter->tests as $test)
                             <li class="leading-8 flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard-check" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd" d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
-                                    <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
-                                    <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
-                                </svg>
-                                <p class="ml-2">{{ $test->title }}</p>
+                                <figure>
+                                    <img src="{{ asset('img/file.png') }}" class="w-10 h-auto">
+                                </figure>
+                                <p class="text-lg">{{ $test->title }}</p>
                             </li>
                             @endforeach
                         </ul>

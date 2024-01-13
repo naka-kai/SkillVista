@@ -39,7 +39,7 @@ class MovieSeeder extends Seeder
             foreach ($chapter_sub_titles as $chapter_key => $chapter_sub_title) {
                 foreach ($movie_sub_titles as $movie_key => $movie_sub_title) {
                     $movie_title = $i.'_'.$chapter_sub_title . '_' . $movie_sub_title;
-                    $params[$i - 1][$chapter_key][$movie_key]['title'] = $movie_title;
+                    $params[$i - 1][$chapter_key][$movie_key]['movie_title'] = $movie_title;
                     $params[$i - 1][$chapter_key][$movie_key]['movie'] = 'https://www.' . $movie_title;
                     $params[$i - 1][$chapter_key][$movie_key]['chapter_id'] = $chapter_id;
                     $params[$i - 1][$chapter_key][$movie_key]['second'] = 7200;
