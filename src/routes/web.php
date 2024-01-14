@@ -3,6 +3,7 @@
 require __DIR__ . '/user.php';
 require __DIR__ . '/teacher.php';
 
+use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\CommentController;
