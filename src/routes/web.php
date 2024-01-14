@@ -63,8 +63,4 @@ Route::middleware('auth:teacher')->group(function() {
     Route::prefix('movie')->name('movie.')->group(function() {
         Route::delete('/{teacherName}/{courseName}', [MovieController::class, 'destroy'])->name('destroy');
     });
-    // チャプター
-    Route::prefix('chapter')->name('chapter.')->group(function() {
-        Route::put('/{teacherName}/{courseName}', [ChapterController::class, 'update'])->name('update');
-    });
 });

@@ -192,7 +192,13 @@ class CourseController extends Controller
 
         $course->save();
 
-        return redirect()->route('course.update', ['courseName' => $courseName, 'teacherName' => $teacherName])->with(['course' => $course]);
+        $html = view('Pages.Course.edit', ['course' => $course])->render();
+
+        return response()->json([
+            'html' => $html
+        ]);
+
+        // return redirect()->route('course.update', ['courseName' => $courseName, 'teacherName' => $teacherName])->with(['course' => $course]);
     }
 
     public function destroy(Request $request)

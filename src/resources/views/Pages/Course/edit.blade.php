@@ -147,7 +147,7 @@
         </div>
 
         {{-- コースの内容 --}}
-        <div class="mt-10">            
+        <div class="mt-10" id="content">            
             <h3 class="text-xl font-semibold text-gray-800">コースの内容</h3>
 
             <hr class="mt-3 border-gray-200 dark:border-gray-700">
@@ -258,7 +258,7 @@
                 @endforeach
 
             </div>
-            <form action="{{ route('chapter.update', ['teacherName' => $course->teacher->last_name . $course->teacher->first_name, 'courseName' => $course->course_url]) }}" id="chapter_form" method="POST">
+            <form action="{{ route('course.update', ['teacherName' => $course->teacher->last_name . $course->teacher->first_name, 'courseName' => $course->course_url]) }}" id="chapter_form" method="POST">
                 @csrf
                 @method('PUT')
                 <input type="hidden" name="chapter_result" id="chapter_result">
@@ -444,14 +444,31 @@
                     let chapter_seq = $(this).val(i);
                     i++;
                 });
-                $.ajax({
-                    url: 'chapter.update',
-                    type: 'GET',
-                }).done(function(json) {
-                    console.log('ajax成功');
-                }).fail(function(json) {
-                    console.log('ajax失敗');
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
                 });
+                // $.ajax({
+                //     url: "{{ route('course.update', ['teacherName' => $course->teacher->last_name . $course->teacher->first_name, 'courseName' => $course->course_url]) }}",
+                //     type: 'PUT',
+                //     dataType: 'json',
+                // }).done(function(json) {
+                //     console.log('ajax成功');
+                // }).fail(function(json) {
+                //     console.log('ajax失敗');
+                // });
+                const container = $('#content');
+                $.ajax({
+                    url: "{{ route('course.update', ['teacherName' => $course->teacher->last_name . $course->teacher->first_name, 'courseName' => $course->course_url]) }}",
+                    type: "PUT",
+                    data: {}
+                }).done(function(data) {
+                    let html = data.html;
+                    container.innerHTML = html;
+                }).fail(function(jqXHR, textStatus) {
+                    console.log("更新に失敗しました");
+                })
             }
         })
     });
