@@ -34,6 +34,7 @@ class ChapterSeeder extends Seeder
 
                 $params[$i - 1][$key]['title'] = $chapter_title;
                 $params[$i - 1][$key]['course_id'] = $i;
+                $params[$i - 1][$key]['display_num'] = $key;
                 $params[$i - 1][$key]['created_by'] = 'ああ';
                 $params[$i - 1][$key]['updated_by'] = 'ああ';
                 $params[$i - 1][$key]['created_at'] = Carbon::now();

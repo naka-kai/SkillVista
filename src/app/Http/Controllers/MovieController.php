@@ -16,16 +16,18 @@ class MovieController extends Controller
     public function destroy(Request $request, $teacherName, $courseName)
     {
         // 渡ってきた１つのコースの情報
-        $course = Course::with
-            (
-                'teacher', 
-                'rates.users',
-                'chapters', 
-                'chapters.tests', 
-                'chapters.movies'
-            )
-            ->where('course_url', '=', $courseName)
-            ->first();
+        $course = Course::with([
+            'teacher', 
+            'rates.users',
+            'chapters' => function($q) {
+                $q->orderBy('display_num');
+                $q->with([
+                    'tests', 'movies'
+                ]);
+            },
+        ])
+        ->where('course_url', '=', $courseName)
+        ->first();
 
         if ($request->input('action') === 'delete_movie') {
             $movie_id = $request->input('movie_id');

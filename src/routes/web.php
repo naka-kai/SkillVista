@@ -3,6 +3,7 @@
 require __DIR__ . '/user.php';
 require __DIR__ . '/teacher.php';
 
+use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\CommentController;
@@ -61,5 +62,9 @@ Route::middleware('auth:teacher')->group(function() {
     // 動画
     Route::prefix('movie')->name('movie.')->group(function() {
         Route::delete('/{teacherName}/{courseName}', [MovieController::class, 'destroy'])->name('destroy');
+    });
+    // チャプター
+    Route::prefix('chapter')->name('chapter.')->group(function() {
+        Route::put('/{teacherName}/{courseName}', [ChapterController::class, 'update'])->name('update');
     });
 });

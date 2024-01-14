@@ -8,22 +8,25 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use FFMpeg;
+use Illuminate\Support\Facades\DB;
 
 class CourseController extends Controller
 {
     public function show($courseName)
     {
         // 渡ってきた１つのコースの情報
-        $course = Course::with
-            (
-                'teacher', 
-                'rates.users',
-                'chapters', 
-                'chapters.tests', 
-                'chapters.movies'
-            )
-            ->where('course_url', '=', $courseName)
-            ->first();
+        $course = Course::with([
+            'teacher', 
+            'rates.users',
+            'chapters' => function($q) {
+                $q->orderBy('display_num');
+                $q->with([
+                    'tests', 'movies'
+                ]);
+            },
+        ])
+        ->where('course_url', '=', $courseName)
+        ->first();
 
         // 受講済みユーザー
         $purchased_course = Course::with('purchased')
@@ -65,16 +68,18 @@ class CourseController extends Controller
     public function edit(Request $request, $teacherName, $courseName)
     {
         // 渡ってきた１つのコースの情報
-        $course = Course::with
-            (
-                'teacher', 
-                'rates.users',
-                'chapters', 
-                'chapters.tests', 
-                'chapters.movies'
-            )
-            ->where('course_url', '=', $courseName)
-            ->first();
+        $course = Course::with([
+            'teacher', 
+            'rates.users',
+            'chapters' => function($q) {
+                $q->orderBy('display_num');
+                $q->with([
+                    'tests', 'movies'
+                ]);
+            },
+        ])
+        ->where('course_url', '=', $courseName)
+        ->first();
 
         return view('Pages.Course.edit', compact('course'));
     }
@@ -87,16 +92,18 @@ class CourseController extends Controller
     public function update(Request $request, $teacherName, $courseName)
     {
         // 渡ってきた１つのコースの情報
-        $course = Course::with
-            (
-                'teacher', 
-                'rates.users',
-                'chapters', 
-                'chapters.tests', 
-                'chapters.movies'
-            )
-            ->where('course_url', '=', $courseName)
-            ->first();
+        $course = Course::with([
+            'teacher', 
+            'rates.users',
+            'chapters' => function($q) {
+                $q->orderBy('display_num');
+                $q->with([
+                    'tests', 'movies'
+                ]);
+            },
+        ])
+        ->where('course_url', '=', $courseName)
+        ->first();
         
         // サムネイル画像変更
         if ($request->hasFile('thumbnail')) {
