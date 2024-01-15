@@ -78,7 +78,7 @@
                 </div>
                 <div>
                     <form
-                        action="{{ route('course.update', ['teacherName' => $course->teacher->last_name . $course->teacher->first_name, 'courseName' => $course->course_url]) }}"
+                        action="{{ route('course.update', ['teacherName' => $course->teacher->last_name_en . $course->teacher->first_name_en, 'courseName' => $course->course_url]) }}"
                         method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
@@ -108,7 +108,7 @@
     <div class="mt-8">
         {{-- コースのタイトル（検索時に使用） --}}
         <div class="mt-10">
-            <form action="{{ route('course.update', ['teacherName' => $course->teacher->last_name . $course->teacher->first_name, 'courseName' => $course->course_url]) }}" method="POST">
+            <form action="{{ route('course.update', ['teacherName' => $course->teacher->last_name_en . $course->teacher->first_name_en, 'courseName' => $course->course_url]) }}" method="POST">
                 @csrf
                 @method('PUT')
                 <input type="hidden" name="id" value="{{ $course->id }}">
@@ -128,7 +128,7 @@
 
         {{-- コースの軽い説明（検索時に使用） --}}
         <div class="mt-10">
-            <form action="{{ route('course.update', ['teacherName' => $course->teacher->last_name . $course->teacher->first_name, 'courseName' => $course->course_url]) }}" method="POST">
+            <form action="{{ route('course.update', ['teacherName' => $course->teacher->last_name_en . $course->teacher->first_name_en, 'courseName' => $course->course_url]) }}" method="POST">
                 @csrf
                 @method('PUT')
                 <input type="hidden" name="id" value="{{ $course->id }}">
@@ -179,7 +179,7 @@
                                 @foreach ($chapter->movies as $movie)
                                 <div id="movie_list">
                                     <li class="leading-8 flex items-center mb-1">
-                                        <form action="{{ route('movie.destroy', ['teacherName' => $course->teacher->last_name . $course->teacher->first_name, 'courseName' => $course->course_url]) }}" method="POST" class="flex items-center">
+                                        <form action="{{ route('movie.destroy', ['teacherName' => $course->teacher->last_name_en . $course->teacher->first_name_en, 'courseName' => $course->course_url]) }}" method="POST" class="flex items-center">
                                             @csrf
                                             @method('DELETE')
                                             <input type="hidden" name="action" value="delete_movie">
@@ -209,7 +209,7 @@
                                             </div>
                                             <div>
                                                 <form
-                                                    action="{{ route('course.update', ['teacherName' => $course->teacher->last_name . $course->teacher->first_name, 'courseName' => $course->course_url]) }}"
+                                                    action="{{ route('course.update', ['teacherName' => $course->teacher->last_name_en . $course->teacher->first_name_en, 'courseName' => $course->course_url]) }}"
                                                     method="POST" enctype="multipart/form-data">
                                                     @csrf
                                                     @method('PUT')
@@ -258,7 +258,7 @@
                 @endforeach
 
             </div>
-            <form action="{{ route('course.update', ['teacherName' => $course->teacher->last_name . $course->teacher->first_name, 'courseName' => $course->course_url]) }}" id="chapter_form" method="POST">
+            <form action="{{ route('course.update', ['teacherName' => $course->teacher->last_name_en . $course->teacher->first_name_en, 'courseName' => $course->course_url]) }}" id="chapter_form" method="POST">
                 @csrf
                 @method('PUT')
                 <input type="hidden" name="chapter_result" id="chapter_result">
@@ -272,7 +272,7 @@
 
         {{-- コースの詳しい説明 --}}
         <div class="mt-10">
-            <form action="{{ route('course.update', ['teacherName' => $course->teacher->last_name . $course->teacher->first_name, 'courseName' => $course->course_url]) }}" method="POST">
+            <form action="{{ route('course.update', ['teacherName' => $course->teacher->last_name_en . $course->teacher->first_name_en, 'courseName' => $course->course_url]) }}" method="POST">
                 @csrf
                 @method('PUT')
                 <input type="hidden" name="id" value="{{ $course->id }}">
@@ -292,7 +292,7 @@
 
         {{-- 対象受講者 --}}
         <div class="mt-10">
-            <form action="{{ route('course.update', ['teacherName' => $course->teacher->last_name . $course->teacher->first_name, 'courseName' => $course->course_url]) }}" method="POST">
+            <form action="{{ route('course.update', ['teacherName' => $course->teacher->last_name_en . $course->teacher->first_name_en, 'courseName' => $course->course_url]) }}" method="POST">
                 @csrf
                 @method('PUT')
                 <input type="hidden" name="id" value="{{ $course->id }}">
@@ -312,7 +312,7 @@
 
         {{-- 前提条件 --}}
         <div class="mt-10">
-            <form action="{{ route('course.update', ['teacherName' => $course->teacher->last_name . $course->teacher->first_name, 'courseName' => $course->course_url]) }}" method="POST">
+            <form action="{{ route('course.update', ['teacherName' => $course->teacher->last_name_en . $course->teacher->first_name_en, 'courseName' => $course->course_url]) }}" method="POST">
                 @csrf
                 @method('PUT')
                 <input type="hidden" name="id" value="{{ $course->id }}">
@@ -450,7 +450,7 @@
                     }
                 });
                 // $.ajax({
-                //     url: "{{ route('course.update', ['teacherName' => $course->teacher->last_name . $course->teacher->first_name, 'courseName' => $course->course_url]) }}",
+                //     url: "{{ route('course.update', ['teacherName' => $course->teacher->last_name_en . $course->teacher->first_name_en, 'courseName' => $course->course_url]) }}",
                 //     type: 'PUT',
                 //     dataType: 'json',
                 // }).done(function(json) {
@@ -460,7 +460,7 @@
                 // });
                 const container = $('#content');
                 $.ajax({
-                    url: "{{ route('course.update', ['teacherName' => $course->teacher->last_name . $course->teacher->first_name, 'courseName' => $course->course_url]) }}",
+                    url: "{{ route('course.update', ['teacherName' => $course->teacher->last_name_en . $course->teacher->first_name_en, 'courseName' => $course->course_url]) }}",
                     type: "PUT",
                     data: {}
                 }).done(function(data) {
