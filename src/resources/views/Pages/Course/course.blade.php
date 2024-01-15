@@ -61,7 +61,7 @@
             <span class="text-sm ml-1">{{ number_format($movie_total_time) }}時間の動画</span>
         </div>
 
-        @if (Auth::guard('teacher')->id() === $teacherId)
+        @if (Auth::guard('teacher')->id() === $course->teacher_id)
             <div>
                 <a href="{{ route('course.edit', ['teacherName' => $course->teacher->last_name_en . $course->teacher->first_name_en, 'courseName' => $course->course_url]) }}">
                     <div class="flex justify-center">
