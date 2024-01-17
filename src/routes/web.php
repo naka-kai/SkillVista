@@ -56,7 +56,7 @@ Route::middleware('auth:teacher')->group(function() {
         Route::post('/{teacherName}', [CourseController::class, 'store'])->name('store');
         Route::get('/{teacherName}/{courseName}', [CourseController::class, 'edit'])->name('edit');
         // Route::post('edit-confirm/{teacherName}/{courseName}', [CourseController::class, 'editConfirm'])->name('editConfirm');
-        Route::put('/{teacherName}/{courseName}', [CourseController::class, 'update'])->name('update');
+        Route::post('/{teacherName}/{courseName}', [CourseController::class, 'update'])->name('update');
         Route::delete('/{teacherName}/{courseName}', [CourseController::class, 'destroy'])->name('destroy');
     });
     // 動画

@@ -105,12 +105,10 @@ class CourseController extends Controller
         ->where('course_url', '=', $courseName)
         ->first();
         
+        // dd($request);
         // サムネイル画像変更
         if ($request->hasFile('thumbnail')) {
-            $validated = $request->validate([
-                'title' => ['required', 'string', 'max:255'],
-            ]);
-
+            
             $dir = 'img/course' . $course->id;
             $file_name = $request->file('thumbnail')->getClientOriginalName();
             $request->file('thumbnail')->storeAs('public/' . $dir, $file_name);
@@ -192,13 +190,7 @@ class CourseController extends Controller
 
         $course->save();
 
-        $html = view('Pages.Course.edit', ['course' => $course])->render();
-
-        return response()->json([
-            'html' => $html
-        ]);
-
-        // return redirect()->route('course.update', ['courseName' => $courseName, 'teacherName' => $teacherName])->with(['course' => $course]);
+        return redirect()->route('course.update', ['courseName' => $courseName, 'teacherName' => $teacherName])->with(['course' => $course]);
     }
 
     public function destroy(Request $request)

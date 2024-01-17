@@ -81,7 +81,6 @@
                         action="{{ route('course.update', ['teacherName' => $course->teacher->last_name_en . $course->teacher->first_name_en, 'courseName' => $course->course_url]) }}"
                         method="POST" enctype="multipart/form-data">
                         @csrf
-                        @method('PUT')
                         <input type="hidden" name="id" value="{{ $course->id }}">
                         <div>
                             <div class="flex flex-col items-center justify-center mb-4 mt-3">
@@ -110,7 +109,6 @@
         <div class="mt-10">
             <form action="{{ route('course.update', ['teacherName' => $course->teacher->last_name_en . $course->teacher->first_name_en, 'courseName' => $course->course_url]) }}" method="POST">
                 @csrf
-                @method('PUT')
                 <input type="hidden" name="id" value="{{ $course->id }}">
                 <div class="flex items-center mt-7">
                     <h3 class="text-xl font-semibold text-gray-800">コースのタイトル（検索時に使用されます）</h3>
@@ -130,7 +128,6 @@
         <div class="mt-10">
             <form action="{{ route('course.update', ['teacherName' => $course->teacher->last_name_en . $course->teacher->first_name_en, 'courseName' => $course->course_url]) }}" method="POST">
                 @csrf
-                @method('PUT')
                 <input type="hidden" name="id" value="{{ $course->id }}">
                 <div class="flex items-center mt-7">
                     <h3 class="text-xl font-semibold text-gray-800">コースの軽い説明（検索時に使用されます）</h3>
@@ -212,7 +209,6 @@
                                                     action="{{ route('course.update', ['teacherName' => $course->teacher->last_name_en . $course->teacher->first_name_en, 'courseName' => $course->course_url]) }}"
                                                     method="POST" enctype="multipart/form-data">
                                                     @csrf
-                                                    @method('PUT')
                                                     <input type="hidden" name="id" value="{{ $course->id }}">
                                                     <input type="hidden" name="chapter_id" value="{{ $chapter->id }}">
                                                     <div>
@@ -260,12 +256,10 @@
             </div>
             <form action="{{ route('course.update', ['teacherName' => $course->teacher->last_name_en . $course->teacher->first_name_en, 'courseName' => $course->course_url]) }}" id="chapter_form" method="POST">
                 @csrf
-                @method('PUT')
                 <input type="hidden" name="chapter_result" id="chapter_result">
             </form>
             <form action="" id="movie_form" method="POST">
                 @csrf
-                @method('PUT')
                 <input type="hidden" name="movie_result" id="movie_result">
             </form>
         </div>
@@ -274,7 +268,6 @@
         <div class="mt-10">
             <form action="{{ route('course.update', ['teacherName' => $course->teacher->last_name_en . $course->teacher->first_name_en, 'courseName' => $course->course_url]) }}" method="POST">
                 @csrf
-                @method('PUT')
                 <input type="hidden" name="id" value="{{ $course->id }}">
                 <div class="flex items-center mt-7">
                     <h3 class="text-xl font-semibold text-gray-800">コースの詳しい説明</h3>
@@ -294,7 +287,6 @@
         <div class="mt-10">
             <form action="{{ route('course.update', ['teacherName' => $course->teacher->last_name_en . $course->teacher->first_name_en, 'courseName' => $course->course_url]) }}" method="POST">
                 @csrf
-                @method('PUT')
                 <input type="hidden" name="id" value="{{ $course->id }}">
                 <div class="flex items-center mt-7">
                     <h3 class="text-xl font-semibold text-gray-800">コースの対象受講者</h3>
@@ -314,7 +306,6 @@
         <div class="mt-10">
             <form action="{{ route('course.update', ['teacherName' => $course->teacher->last_name_en . $course->teacher->first_name_en, 'courseName' => $course->course_url]) }}" method="POST">
                 @csrf
-                @method('PUT')
                 <input type="hidden" name="id" value="{{ $course->id }}">
                 <div class="flex items-center mt-7">
                     <h3 class="text-xl font-semibold text-gray-800">受講における前提条件</h3>
@@ -438,7 +429,8 @@
 
         $chapterList.sortable({
             update: function() {
-                console.log($chapterList.sortable('toArray'));
+                let sorted = $chapterList.sortable('toArray');
+                console.log(sorted);
                 let i = 1;
                 $('.chapter_seq').each(function() {
                     let chapter_seq = $(this).val(i);
@@ -449,26 +441,17 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
                 });
-                // $.ajax({
-                //     url: "{{ route('course.update', ['teacherName' => $course->teacher->last_name_en . $course->teacher->first_name_en, 'courseName' => $course->course_url]) }}",
-                //     type: 'PUT',
-                //     dataType: 'json',
-                // }).done(function(json) {
-                //     console.log('ajax成功');
-                // }).fail(function(json) {
-                //     console.log('ajax失敗');
-                // });
                 const container = $('#content');
                 $.ajax({
                     url: "{{ route('course.update', ['teacherName' => $course->teacher->last_name_en . $course->teacher->first_name_en, 'courseName' => $course->course_url]) }}",
-                    type: "PUT",
+                    type: "POST",
                     data: {}
                 }).done(function(data) {
                     let html = data.html;
                     container.innerHTML = html;
                 }).fail(function(jqXHR, textStatus) {
                     console.log("更新に失敗しました");
-                })
+                });
             }
         })
     });
