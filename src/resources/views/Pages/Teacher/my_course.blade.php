@@ -1,11 +1,20 @@
 @extends('Layouts.app')
 
 @section('content')
-<section class="bg-white dark:bg-gray-900">
-    <div class="py-10">
-        <div class="flex items-center justify-between">
-            <h1 class="text-2xl font-semibold text-gray-800 capitalize lg:text-3xl dark:text-white">マイコース</h1>
-        </div>
+<div class="flex flex-col">
+    <div class="bg-white dark:bg-gray-900">
+        <div class="py-10">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center justify-between">
+                    <h1 class="text-2xl font-semibold text-gray-800 capitalize lg:text-3xl dark:text-white">マイコース</h1>
+                </div>
+    
+                <div>
+                    <a href="{{ route('course.create', ['teacherName' => 'teacherName']) }}" class="w-full px-8 py-3 mt-2 text-sm font-medium tracking-wide capitalize transition-colors duration-300 transform bg-white rounded-md sm:w-auto sm:mt-0 hover:opacity-70 focus:outline-none border-2">
+                        新規作成
+                    </a>
+                </div>
+            </div>
 
         <hr class="my-8 border-gray-200 dark:border-gray-700">
 
