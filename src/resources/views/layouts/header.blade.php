@@ -70,10 +70,10 @@
                                 @elseif (Auth::guard('teacher')->check())
                                     <li>
                                         <div class="items-center flex-row flex justify-center">
-                                            <a class="text-sm leading-5 text-gray-700 transition-colors duration-300 transform dark:text-gray-200 mx-4 my-0 text-center w-full" href="{{ route('teacher.myCourse', ['teacherName' => 'teacherName']) }}">マイコース</a>
-                                            <a href="{{ route('teacher.profile.show', ['teacherName' => 'teacherName']) }}" class="flex items-center focus:outline-none ml-4">
+                                            <a class="text-sm leading-5 text-gray-700 transition-colors duration-300 transform dark:text-gray-200 mx-4 my-0 text-center w-full" href="{{ route('teacher.myCourse', ['teacherName' => $loginTeacher->user()->last_name_en . $loginTeacher->user()->first_name_en]) }}">マイコース</a>
+                                            <a href="{{ route('teacher.profile.show', ['teacherName' => $loginTeacher->user()->last_name_en . $loginTeacher->user()->first_name_en]) }}" class="flex items-center focus:outline-none ml-4">
                                                 <div class="w-8 h-8 overflow-hidden border-2 border-gray-400 rounded-full">
-                                                    <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80" class="object-cover w-full h-full" alt="avatar">
+                                                    <img src="{{ $loginTeacher->user()->image == null || '' ? asset('img/kkrn_icon_user_13.png') : asset($teacher->image) }}" class="object-cover w-full h-full" alt="avatar">
                                                 </div>
                                             </a>
                                         </div>

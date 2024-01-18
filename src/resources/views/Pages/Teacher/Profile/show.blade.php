@@ -47,7 +47,7 @@
                             </div>
                             <div>
                                 <form
-                                    action="{{ route('teacher.profile.update', ['teacherName' => $teacher->last_name . $teacher->first_name]) }}"
+                                    action="{{ route('teacher.profile.update', ['teacherName' => $teacher->last_name_en . $teacher->first_name_en]) }}"
                                     method="POST" enctype="multipart/form-data">
                                     @csrf
                                     @method('PUT')
@@ -120,7 +120,7 @@
 
                 {{-- プロフィール --}}
                 <div>
-                    <form action="{{ route('teacher.profile.update', ['teacherName' => $teacher->last_name . $teacher->first_name]) }}" method="POST">
+                    <form action="{{ route('teacher.profile.update', ['teacherName' => $teacher->last_name_en . $teacher->first_name_en]) }}" method="POST">
                         @csrf
                         @method('PUT')
                         <input type="hidden" name="id" value="{{ $teacher->id }}">
@@ -139,7 +139,7 @@
 
                 {{-- Webサイト --}}
                 <div>
-                    <form action="{{ route('teacher.profile.update', ['teacherName' => $teacher->last_name . $teacher->first_name]) }}" method="POST">
+                    <form action="{{ route('teacher.profile.update', ['teacherName' => $teacher->last_name_en . $teacher->first_name_en]) }}" method="POST">
                         @csrf
                         @method('PUT')
                         <input type="hidden" name="id" value="{{ $teacher->id }}">
@@ -158,7 +158,7 @@
 
                 {{-- Xアカウント --}}
                 <div>
-                    <form action="{{ route('teacher.profile.update', ['teacherName' => $teacher->last_name . $teacher->first_name]) }}" method="POST">
+                    <form action="{{ route('teacher.profile.update', ['teacherName' => $teacher->last_name_en . $teacher->first_name_en]) }}" method="POST">
                         @csrf
                         @method('PUT')
                         <input type="hidden" name="id" value="{{ $teacher->id }}">
@@ -177,7 +177,7 @@
 
                 {{-- Youtubeアカウント --}}
                 <div>
-                    <form action="{{ route('teacher.profile.update', ['teacherName' => $teacher->last_name . $teacher->first_name]) }}" method="POST">
+                    <form action="{{ route('teacher.profile.update', ['teacherName' => $teacher->last_name_en . $teacher->first_name_en]) }}" method="POST">
                         @csrf
                         @method('PUT')
                         <input type="hidden" name="id" value="{{ $teacher->id }}">
@@ -206,7 +206,7 @@
                             </div>
                             <div>
                                 <form
-                                    action="{{ route('teacher.profile.update', ['teacherName' => $teacher->last_name . $teacher->first_name]) }}"
+                                    action="{{ route('teacher.profile.update', ['teacherName' => $teacher->last_name_en . $teacher->first_name_en]) }}"
                                     method="POST">
                                     @csrf
                                     @method('PUT')
