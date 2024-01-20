@@ -116,7 +116,7 @@
                         class="editBtn inline-flex items-center py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border rounded-sm hover:opacity-70 ml-5"
                         type="button">編集</button>
                     <button
-                        class="submitBtn items-center py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border border-gray-500 rounded-sm hover:opacity-70 ml-5 hidden"
+                        class="submitBtn items-center py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border rounded-sm hover:opacity-70 ml-5 hidden"
                         type="submit">保存</button>
                 </div>
                 <hr class="mt-3 mb-5 border-gray-200 dark:border-gray-700">
@@ -135,7 +135,7 @@
                         class="editBtn inline-flex items-center py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border rounded-sm hover:opacity-70 ml-5"
                         type="button">編集</button>
                     <button
-                        class="submitBtn items-center py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border border-gray-500 rounded-sm hover:opacity-70 ml-5 hidden"
+                        class="submitBtn items-center py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border rounded-sm hover:opacity-70 ml-5 hidden"
                         type="submit">保存</button>
                 </div>
                 <hr class="mt-3 mb-5 border-gray-200 dark:border-gray-700">
@@ -144,7 +144,7 @@
         </div>
 
         {{-- コースの内容 --}}
-        <div class="mt-10" id="content">            
+        <div class="mt-10">
             <h3 class="text-xl font-semibold text-gray-800">コースの内容</h3>
 
             <hr class="mt-3 border-gray-200 dark:border-gray-700">
@@ -275,7 +275,7 @@
                         class="editBtn inline-flex items-center py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border rounded-sm hover:opacity-70 ml-5"
                         type="button">編集</button>
                     <button
-                        class="submitBtn items-center py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border border-gray-500 rounded-sm hover:opacity-70 ml-5 hidden"
+                        class="submitBtn items-center py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border rounded-sm hover:opacity-70 ml-5 hidden"
                         type="submit">保存</button>
                 </div>
                 <hr class="mt-3 mb-5 border-gray-200 dark:border-gray-700">
@@ -294,7 +294,7 @@
                         class="editBtn inline-flex items-center py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border rounded-sm hover:opacity-70 ml-5"
                         type="button">編集</button>
                     <button
-                        class="submitBtn items-center py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border border-gray-500 rounded-sm hover:opacity-70 ml-5 hidden"
+                        class="submitBtn items-center py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border rounded-sm hover:opacity-70 ml-5 hidden"
                         type="submit">保存</button>
                 </div>
                 <hr class="mt-3 mb-5 border-gray-200 dark:border-gray-700">
@@ -313,7 +313,7 @@
                         class="editBtn inline-flex items-center py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border rounded-sm hover:opacity-70 ml-5"
                         type="button">編集</button>
                     <button
-                        class="submitBtn items-center py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border border-gray-500 rounded-sm hover:opacity-70 ml-5 hidden"
+                        class="submitBtn items-center py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border rounded-sm hover:opacity-70 ml-5 hidden"
                         type="submit">保存</button>
                 </div>
                 <hr class="mt-3 mb-5 border-gray-200 dark:border-gray-700">
@@ -440,17 +440,6 @@
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
-                });
-                const container = $('#content');
-                $.ajax({
-                    url: "{{ route('course.update', ['teacherName' => $course->teacher->last_name_en . $course->teacher->first_name_en, 'courseName' => $course->course_url]) }}",
-                    type: "POST",
-                    data: {}
-                }).done(function(data) {
-                    let html = data.html;
-                    container.innerHTML = html;
-                }).fail(function(jqXHR, textStatus) {
-                    console.log("更新に失敗しました");
                 });
             }
         })

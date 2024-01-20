@@ -43,46 +43,69 @@
 @endsection
 
 @section('content')
-    <form action="" method="POST" enctype="multipart/form-data">
-        @csrf
-        <div class="my-5">
-            {{-- フラッシュメッセージ・エラー表示 --}}
-            <div class="text-left mx-auto flex flex-col text-red-400">
-                @if (session('flash_message'))
-                    <div class="my-3">
-                        {{ session('flash_message') }}
-                    </div>
-                @endif
-                @if ($errors->any())
-                    <div class="my-3">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li class="my-1">{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-            </div>
+    <div class="my-5">
+        {{-- フラッシュメッセージ・エラー表示 --}}
+        <div class="text-left mx-auto flex flex-col text-red-400">
+            @if (session('flash_message'))
+                <div class="my-3">
+                    {{ session('flash_message') }}
+                </div>
+            @endif
+            @if ($errors->any())
+                <div class="my-3">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li class="my-1">{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+        </div>
 
-            <div class="wrapper mt-8">
-                {{-- サムネイル画像 --}}
-                <div>
-                    <div class="flex items-center mt-7">
-                        <h3 class="text-xl font-semibold text-gray-800">サムネイル画像</h3>
-                    </div>
-                    <hr class="mt-3 mb-5 border-gray-200 dark:border-gray-700">
-                    <div>
-                        <div class="flex flex-col items-center justify-center mb-4 mt-3">
-                            <img src="{{ old('thumbnail') == null || '' ? asset('img/noimage.png') : asset(old('thumbnail')) }}"
-                                alt="" class="displayImg object-cover object-center w-full h-auto rounded-lg">
+        <div class="wrapper mt-8">
+            {{-- サムネイル画像 --}}
+            <div>
+                <div class="flex items-center mt-7">
+                    <h3 class="text-xl font-semibold text-gray-800">サムネイル画像</h3>
+                    <button
+                        class="modalOpen inline-flex items-center py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border rounded-sm hover:opacity-70 ml-5"
+                        type="button">編集</button>
+                </div>
+                <hr class="mt-3 mb-5 border-gray-200 dark:border-gray-700">
+                <figure class="w-full flex justify-center">
+                    <img class="object-cover object-center w-full h-[26rem] rounded-lg"
+                        src="{{ old('thumbnail') == null || '' ? asset('img/noimage.png') : asset(old('thumbnail')) }}"
+                        alt="">
+                </figure>
+                <div class="modal hidden fixed z-50 left-0 top-0 h-full w-full bg-[rgba(0,0,0,0.5)]">
+                    <div class="bg-white mx-auto my-[50%] w-1/2 lg:w-1/3 duration-300 transform ease-in-out p-6 rounded-sm">
+                        <div class="flex items-center justify-between mb-5">
+                            <h1 class="font-bold text-lg">サムネイル画像を変更</h1>
+                            <span class="modalClose cursor-pointer">×</span>
                         </div>
-                        <label for="thumbnail"
-                            class="flex items-center px-3 py-3 text-center bg-white border-2 border-dashed rounded-lg cursor-pointer dark:border-gray-600 dark:bg-gray-900">
-                            <h2 class="fileName mx-3 text-gray-400">画像を選択してください</h2>
-                            <input id="thumbnail" type="file" name="thumbnail"
-                                class="preview hidden @error('thumbnail') is-invalid @enderror"
-                                accept=".jpg, .jpeg, .png, .gif" value="{{ old('thumbnail') }}" autocomplete="thumbnail" />
-                        </label>
+                        <div>
+                            <form action="{{ route('course.store', ['teacherName' => $teacherName]) }}" method="POST"
+                                enctype="multipart/form-data">
+                                @csrf
+                                <div>
+                                    <div class="flex flex-col items-center justify-center mb-4 mt-3">
+                                        <img src="{{ old('thumbnail') == null || '' ? asset('img/noimage.png') : asset(old('thumbnail')) }}"
+                                            alt=""
+                                            class="displayImg object-cover object-center w-full h-auto rounded-lg">
+                                    </div>
+                                    <label for="thumbnail"
+                                        class="flex items-center px-3 py-3 text-center bg-white border-2 border-dashed rounded-lg cursor-pointer dark:border-gray-600 dark:bg-gray-900">
+                                        <h2 class="fileName mx-3 text-gray-400">画像を選択してください</h2>
+                                        <input id="thumbnail" type="file" name="thumbnail"
+                                            class="preview hidden @error('thumbnail') is-invalid @enderror"
+                                            accept=".jpg, .jpeg, .png, .gif" value="{{ old('thumbnail') }}"
+                                            autocomplete="thumbnail" />
+                                    </label>
+                                </div>
+                                <button type="submit"
+                                    class="bg-gray-700 text-white hover:opacity-70 py-2 px-5 rounded-md w-full mt-5">変更</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -90,25 +113,43 @@
             <div class="mt-8">
                 {{-- コースのタイトル（検索時に使用） --}}
                 <div class="mt-10">
-                    <div class="flex items-center mt-7">
-                        <h3 class="text-xl font-semibold text-gray-800">コースのタイトル（検索時に使用されます）</h3>
-                    </div>
-                    <hr class="mt-3 mb-5 border-gray-200 dark:border-gray-700">
-                    <textarea name="title" class="mt-2 border w-full h-auto">{!! nl2br(e(old('title'))) !!}</textarea>
+                    <form action="{{ route('course.store', ['teacherName' => $teacherName]) }}" method="POST">
+                        @csrf
+                        <div class="flex items-center mt-7">
+                            <h3 class="text-xl font-semibold text-gray-800">コースのタイトル（検索時に使用されます）</h3>
+                            <button
+                                class="editBtn items-center py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border rounded-sm hover:opacity-70 ml-5 hidden"
+                                type="button">編集</button>
+                            <button
+                                class="submitBtn inline-flex items-center py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border rounded-sm hover:opacity-70 ml-5"
+                                type="submit">保存</button>
+                        </div>
+                        <hr class="mt-3 mb-5 border-gray-200 dark:border-gray-700">
+                        <textarea name="title" class="editContent mt-2 border w-full h-auto">{!! nl2br(e(old('title'))) !!}</textarea>
+                    </form>
                 </div>
 
                 {{-- コースの軽い説明（検索時に使用） --}}
                 <div class="mt-10">
-                    <div class="flex items-center mt-7">
-                        <h3 class="text-xl font-semibold text-gray-800">コースの軽い説明（検索時に使用されます）</h3>
-                    </div>
-                    <hr class="mt-3 mb-5 border-gray-200 dark:border-gray-700">
-                    <textarea name="description" class="mt-2 border w-full h-auto" rows="5">{!! nl2br(e(old('description'))) !!}</textarea>
+                    <form action="{{ route('course.store', ['teacherName' => $teacherName]) }}" method="POST">
+                        @csrf
+                        <div class="flex items-center mt-7">
+                            <h3 class="text-xl font-semibold text-gray-800">コースの軽い説明（検索時に使用されます）</h3>
+                            <button
+                                class="editBtn items-center py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border rounded-sm hover:opacity-70 ml-5 hidden"
+                                type="button">編集</button>
+                            <button
+                                class="submitBtn inline-flex items-center py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border rounded-sm hover:opacity-70 ml-5 "
+                                type="submit">保存</button>
+                        </div>
+                        <hr class="mt-3 mb-5 border-gray-200 dark:border-gray-700">
+                        <textarea name="description" class="editContent mt-2 border w-full h-auto" rows="5">{!! nl2br(e(old('description'))) !!}</textarea>
+                    </form>
                 </div>
 
                 {{-- コースの内容 --}}
-                <div class="wrapper mt-10" id="content">
-                    <h3 classx="text-xl font-semibold text-gray-800">コースの内容</h3>
+                <div class="mt-10">
+                    <h3 class="text-xl font-semibold text-gray-800">コースの内容</h3>
 
                     <hr class="mt-3 border-gray-200 dark:border-gray-700">
 
@@ -145,11 +186,9 @@
                                                 <button type="submit" onclick="return confirm('この動画を削除しますか？')">
                                                     <img src="{{ asset('img/remove-movie.png') }}"
                                                         class="w-9 h-auto cursor-pointer">
-                                                    <input id="movie" type="file" name="movie"
-                                                    class="preview hidden @error('movie') is-invalid @enderror"
-                                                    accept=".jpg, .jpeg, .png, .gif" value="{{ old('movie') }}" autocomplete="movie" />
                                                 </button>
-                                                <p class="displayMovieName ml-1 text-lg border">{{ old('movie_title') }}</p>
+                                                <p class="displayMovieName ml-1 text-lg border">{{ old('movie_title') }}
+                                                </p>
                                             </li>
                                         </div>
 
@@ -182,8 +221,7 @@
                                                                     class="flex items-center px-3 py-3 text-center bg-white border-2 border-dashed rounded-lg cursor-pointer dark:border-gray-600 dark:bg-gray-900">
                                                                     <h2 class="fileName mx-3 text-gray-400">動画を選択してください
                                                                     </h2>
-                                                                    <input id="movie" type="file"
-                                                                        name="movie"
+                                                                    <input id="movie" type="file" name="movie"
                                                                         class="preview hidden @error('movie') is-invalid @enderror"
                                                                         accept="video/*" value="{{ old('movie') }}"
                                                                         autocomplete="movie" />
@@ -191,10 +229,8 @@
                                                             </div>
                                                             <div class="mt-5 flex flex-col">
                                                                 <label for="movie_title" class="mb-1">動画タイトル</label>
-                                                                <input type="text" id="movie_title"
-                                                                    name="movie_title"
-                                                                    value="{{ old('movie_title') }}"
-                                                                    class="border p-1">
+                                                                <input type="text" id="movie_title" name="movie_title"
+                                                                    value="{{ old('movie_title') }}" class="border p-1">
                                                             </div>
                                                             <button type="button"
                                                                 class="bg-gray-700 text-white hover:opacity-70 py-2 px-5 rounded-md w-full mt-5">追加</button>
@@ -218,54 +254,81 @@
                         </li>
                     </ul>
 
-                    <form action="{{ route('course.store', ['teacherName' => $teacherName]) }}" id="chapter_form"
-                        method="POST">
-                        @csrf
-                        <input type="hidden" name="chapter_result" id="chapter_result">
-                    </form>
-                    <form action="" id="movie_form" method="POST">
-                        @csrf
-                        <input type="hidden" name="movie_result" id="movie_result">
-                    </form>
                 </div>
+                <form action="{{ route('course.store', ['teacherName' => $teacherName]) }}" id="chapter_form"
+                    method="POST">
+                    @csrf
+                    <input type="hidden" name="chapter_result" id="chapter_result">
+                </form>
+                <form action="" id="movie_form" method="POST">
+                    @csrf
+                    <input type="hidden" name="movie_result" id="movie_result">
+                </form>
+            </div>
 
-                {{-- コースの詳しい説明 --}}
-                <div class="mt-10">
+            {{-- コースの詳しい説明 --}}
+            <div class="mt-10">
+                <form action="{{ route('course.store', ['teacherName' => $teacherName]) }}" method="POST">
+                    @csrf
                     <div class="flex items-center mt-7">
                         <h3 class="text-xl font-semibold text-gray-800">コースの詳しい説明</h3>
+                        <button
+                            class="editBtn items-center py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border rounded-sm hover:opacity-70 ml-5 hidden"
+                            type="button">編集</button>
+                        <button
+                            class="submitBtn inline-flex items-center py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border rounded-sm hover:opacity-70 ml-5"
+                            type="submit">保存</button>
                     </div>
                     <hr class="mt-3 mb-5 border-gray-200 dark:border-gray-700">
-                    <textarea name="outline" class="mt-2 border w-full h-auto" rows="8">{!! nl2br(e(old('outline'))) !!}</textarea>
-                </div>
+                    <textarea name="outline" class="editContent mt-2 border w-full h-auto" rows="8">{!! nl2br(e(old('outline'))) !!}</textarea>
+                </form>
+            </div>
 
-                {{-- 対象受講者 --}}
-                <div class="mt-10">
+            {{-- 対象受講者 --}}
+            <div class="mt-10">
+                <form action="{{ route('course.store', ['teacherName' => $teacherName]) }}" method="POST">
+                    @csrf
                     <div class="flex items-center mt-7">
                         <h3 class="text-xl font-semibold text-gray-800">コースの対象受講者</h3>
+                        <button
+                            class="editBtn items-center py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border rounded-sm hover:opacity-70 ml-5 hidden"
+                            type="button">編集</button>
+                        <button
+                            class="submitBtn inline-flex items-center py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border rounded-sm hover:opacity-70 ml-5"
+                            type="submit">保存</button>
                     </div>
                     <hr class="mt-3 mb-5 border-gray-200 dark:border-gray-700">
-                    <textarea name="target" class="mt-2 border w-full h-auto" rows="3">{!! nl2br(e(old('target'))) !!}</textarea>
-                </div>
+                    <textarea name="target" class="editContent mt-2 border w-full h-auto" rows="3">{!! nl2br(e(old('target'))) !!}</textarea>
+                </form>
+            </div>
 
-                {{-- 前提条件 --}}
-                <div class="mt-10">
+            {{-- 前提条件 --}}
+            <div class="mt-10">
+                <form action="{{ route('course.store', ['teacherName' => $teacherName]) }}" method="POST">
+                    @csrf
                     <div class="flex items-center mt-7">
                         <h3 class="text-xl font-semibold text-gray-800">受講における前提条件</h3>
+                        <button
+                            class="editBtn items-center py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border rounded-sm hover:opacity-70 ml-5 hidden"
+                            type="button">編集</button>
+                        <button
+                            class="submitBtn inline-flex items-center py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border rounded-sm hover:opacity-70 ml-5"
+                            type="submit">保存</button>
                     </div>
                     <hr class="mt-3 mb-5 border-gray-200 dark:border-gray-700">
-                    <textarea name="need" class="mt-2 border w-full h-auto" rows="3">{!! nl2br(e(old('need'))) !!}</textarea>
-                </div>
-
-                <div class="w-full mt-10">
-                    <div class="flex items-center w-4/5 justify-between mx-auto">
-                        <a href="{{ route('teacher.myCourse', ['teacherName' => $teacherName]) }}"
-                            class="bg-blue-300 hover:opacity-70 py-3 px-5 text-center my-5 font-bold w-full rounded-md">マイコース一覧</a>
-                    </div>
-                </div>
-
+                    <textarea name="need" class="editContent mt-2 border w-full h-auto" rows="3">{!! nl2br(e(old('need'))) !!}</textarea>
+                </form>
             </div>
+
+            <div class="w-full mt-10">
+                <div class="flex items-center w-4/5 justify-between mx-auto">
+                    <a href="{{ route('teacher.myCourse', ['teacherName' => $teacherName]) }}"
+                        class="bg-blue-300 hover:opacity-70 py-3 px-5 text-center my-5 font-bold w-full rounded-md">マイコース一覧</a>
+                </div>
+            </div>
+
         </div>
-    </form>
+    </div>
 @endsection
 
 @section('script')
@@ -322,6 +385,16 @@
                 }
             });
 
+            /* 編集モーダル開閉 */
+            $('.modalOpen').on('click', function() {
+                $(this).parent().nextAll('.modal').removeClass('hidden').addClass(
+                    'flex justify-center items-center');
+            })
+            $('.modalClose').on('click', function() {
+                $(this).closest('.wrapper').find('.modal').removeClass('flex justify-center items-center')
+                    .addClass('hidden');
+            })
+
             /* コースのサムネイル画像を選択時にプレビュー表示 */
             $('.preview').on('change', function(e) {
                 $(this).prev('.fileName').text($(this).prop('files')[0].name);
@@ -333,19 +406,24 @@
                 reader.readAsDataURL(e.target.files[0]);
             })
 
-            /* 編集モーダル開閉 */
-            $('.modalOpen').on('click', function() {
-                $(this).parent().nextAll('.modal').removeClass('hidden').addClass('flex justify-center items-center');
+            /* その場編集 */
+            // 編集・保存ボタンの切り替え
+            $('.editBtn').on('click', function() {
+                $(this).next('.submitBtn').removeClass('hidden').addClass('inline-flex');
+                $(this).addClass('hidden').removeClass('inline-flex');
+                // テキストエリア編集可能
+                $(this).parent().nextAll('.editContent').attr('readonly', false).attr('rows', 5);
+                $(this).parent().nextAll('.editContent').removeClass('resize-none outline-none').addClass(
+                    'border p-1');
             })
-            $('.modalClose').on('click', function() {
-                $(this).closest('.wrapper').find('.modal').removeClass('flex justify-center items-center').addClass('hidden');
+            $('.submitBtn').on('click', function() {
+                $(this).prev('.editBtn').removeClass('hidden').addClass('inline-flex');
+                $(this).removeClass('inline-flex').addClass('hidden');
+                // テキストエリア編集不可
+                $(this).parent().nextAll('.editContent').attr('readonly', true).attr('rows', 1);
+                $(this).parent().nextAll('.editContent').removeClass('border p-1').addClass(
+                    'resize-none outline-none');
             })
-
-            /* コースの内容の追加 */
-            let prefixChapterList = 'chapter_list_'; // チャプター入力欄のname属性の接頭辞
-
-            // チャプターの追加を押した場合の処理
-            $('#')
 
             /* チャプターの順番を並べ替える */
             const $chapterForm = $('#chapter_form');
@@ -353,7 +431,7 @@
             const $chapterList = $('#chapter_list');
 
             $chapterList.sortable({
-                update: function() {
+                store: function() {
                     let sorted = $chapterList.sortable('toArray');
                     console.log(sorted);
                     let i = 1;
@@ -365,17 +443,6 @@
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         }
-                    });
-                    const container = $('#content');
-                    $.ajax({
-                        url: "{{ route('course.store', ['teacherName' => $teacherName]) }}",
-                        type: "POST",
-                        data: {}
-                    }).done(function(data) {
-                        let html = data.html;
-                        container.innerHTML = html;
-                    }).fail(function(jqXHR, textStatus) {
-                        console.log("更新に失敗しました");
                     });
                 }
             })
