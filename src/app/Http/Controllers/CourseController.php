@@ -81,7 +81,7 @@ class CourseController extends Controller
         ->where('course_url', '=', $courseName)
         ->first();
 
-        return view('Pages.Course.edit', compact('course'));
+        return view('Pages.Course.edit', compact('course', 'teacherName', 'courseName'));
     }
 
     public function editConfirm()
@@ -104,8 +104,9 @@ class CourseController extends Controller
         ])
         ->where('course_url', '=', $courseName)
         ->first();
+
+        dd($request);
         
-        // dd($request);
         // サムネイル画像変更
         if ($request->hasFile('thumbnail')) {
             

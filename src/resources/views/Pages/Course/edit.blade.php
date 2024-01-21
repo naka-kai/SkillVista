@@ -427,6 +427,14 @@
         const $chapterResult = $('#chapter_result');
         const $chapterList = $('#chapter_list');
 
+        // let teacherName = @json($teacherName);
+        // let courseName = @json($courseName);
+        // console.log(teacherName);
+        // console.log(courseName);
+        let route = @json(route('course.update', ['teacherName' => $teacherName, 'courseName' => $courseName]));
+        // let route = {{ route('course.update', ['teacherName' => ':teacherName', 'courseName' => ':courseName']) }};
+        // route = route.replace(':teacherName', teacherName).replace(':courseName', courseName);
+
         $chapterList.sortable({
             update: function() {
                 let sorted = $chapterList.sortable('toArray');
@@ -436,21 +444,29 @@
                     let chapter_seq = $(this).val(i);
                     i++;
                 });
+
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
                 });
-                const container = $('#content');
+
                 $.ajax({
-                    url: "{{ route('course.update', ['teacherName' => $course->teacher->last_name_en . $course->teacher->first_name_en, 'courseName' => $course->course_url]) }}",
+                    url: route,
                     type: "POST",
-                    data: {}
+                    data: {
+                        sorted: sorted,
+                        // teacherName: teacherName,
+                        // courseName: courseName
+                    },
+                    dataType: 'json',
                 }).done(function(data) {
-                    let html = data.html;
-                    container.innerHTML = html;
-                }).fail(function(jqXHR, textStatus) {
+                    console.log(data);
+                }).fail(function(jqXHR, textStatus, error) {
                     console.log("更新に失敗しました");
+                    console.log(jqXHR);
+                    console.log(textStatus);
+                    console.log(error);
                 });
             }
         })
