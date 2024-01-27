@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('movie')->comment('動画');
             $table->foreignId('chapter_id')->comment('章ID');
             $table->integer('second')->comment('動画の長さ(秒)');
+            $table->integer('display_num')->comment('表示順序');
             $table->string('created_by', 255)->comment('作成者');
             $table->string('updated_by', 255)->comment('更新者');
             $table->timestamps();

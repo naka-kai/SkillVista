@@ -59,8 +59,13 @@ Route::middleware('auth:teacher')->group(function() {
         Route::post('/{teacherName}/{courseName}', [CourseController::class, 'update'])->name('update');
         Route::delete('/{teacherName}/{courseName}', [CourseController::class, 'destroy'])->name('destroy');
     });
+    // チャプター
+    Route::prefix('chapter')->name('chapter.')->group(function() {
+        Route::post('/{teacherName}/{courseName}', [ChapterController::class, 'update'])->name('update');
+    });
     // 動画
     Route::prefix('movie')->name('movie.')->group(function() {
+        Route::post('/{teacherName}/{courseName}', [MovieController::class, 'update'])->name('update');
         Route::delete('/{teacherName}/{courseName}', [MovieController::class, 'destroy'])->name('destroy');
     });
 });

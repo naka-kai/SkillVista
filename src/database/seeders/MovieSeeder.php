@@ -43,6 +43,7 @@ class MovieSeeder extends Seeder
                     $params[$i - 1][$chapter_key][$movie_key]['movie'] = 'https://www.' . $movie_title;
                     $params[$i - 1][$chapter_key][$movie_key]['chapter_id'] = $chapter_id;
                     $params[$i - 1][$chapter_key][$movie_key]['second'] = 7200;
+                    $params[$i - 1][$chapter_key][$movie_key]['display_num'] = $movie_key + 1;
                     $params[$i - 1][$chapter_key][$movie_key]['created_by'] = 'ああ';
                     $params[$i - 1][$chapter_key][$movie_key]['updated_by'] = 'ああ';
                     $params[$i - 1][$chapter_key][$movie_key]['created_at'] = Carbon::now();

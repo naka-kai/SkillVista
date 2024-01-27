@@ -144,15 +144,14 @@
         </div>
 
         {{-- コースの内容 --}}
-        <div class="mt-10" id="content">            
+        <div class="mt-10" id="content">
             <h3 class="text-xl font-semibold text-gray-800">コースの内容</h3>
 
             <hr class="mt-3 border-gray-200 dark:border-gray-700">
 
             <div id="chapter_list">
                 @foreach ($course->chapters as $chapter)
-                <div id="{{ $chapter->id }}" class="accordion">
-                    <input type="hidden" form="chapter_form" class="chapter_seq" value="{{ $chapter->id }}" name="seq[{{ $chapter->id }}]">
+                <div id="chapter_{{ $chapter->id }}" class="accordion">
                     <div class="my-5">
                         <div class="accordion_header flex items-center focus:outline-none">
                             <span class="is_open text-gray-400 bg-gray-200 rounded-full block cursor-pointer">
@@ -172,9 +171,9 @@
                         </div>
     
                         <div class="accordion_inner flex mt-8 md:mx-10">
-                            <ul class="max-w-3xl px-2 text-gray-700">
+                            <ul class="movie_list max-w-3xl px-2 text-gray-700">
                                 @foreach ($chapter->movies as $movie)
-                                <div id="movie_list">
+                                <div id="movie_{{ $movie->id }}">
                                     <li class="leading-8 flex items-center mb-1">
                                         <form action="{{ route('movie.destroy', ['teacherName' => $course->teacher->last_name_en . $course->teacher->first_name_en, 'courseName' => $course->course_url]) }}" method="POST" class="flex items-center">
                                             @csrf
@@ -189,55 +188,59 @@
                                     </li>
                                 </div>
                                 @endforeach
-                                <div class="mb-1">
-                                    <div>
-                                        <div class="flex items-center">
-                                            <div class="modalOpen cursor-pointer flex items-center">
-                                                <img src="{{ asset('img/add-movie.png') }}" class="w-9 h-auto">
-                                                <h2 class="fileName text-gray-400 ml-1">動画を選択してください</h2>
+                            </ul>
+                            <ul class="max-w-3xl px-2 text-gray-700">
+                                <li>
+                                    <div class="mb-1">
+                                        <div>
+                                            <div class="flex items-center">
+                                                <div class="modalOpen cursor-pointer flex items-center">
+                                                    <img src="{{ asset('img/add-movie.png') }}" class="w-9 h-auto">
+                                                    <h2 class="fileName text-gray-400 ml-1">動画を選択してください</h2>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="modal hidden fixed z-50 left-0 top-0 h-full w-full bg-[rgba(0,0,0,0.5)]">
-                                        <div
-                                            class="bg-white mx-auto my-[50%] w-1/2 lg:w-1/3 duration-300 transform ease-in-out p-6 rounded-sm">
-                                            <div class="flex items-center justify-between mb-5">
-                                                <h1 class="font-bold text-lg">動画を追加</h1>
-                                                <span class="modalClose cursor-pointer">×</span>
-                                            </div>
-                                            <div>
-                                                <form
-                                                    action="{{ route('course.update', ['teacherName' => $course->teacher->last_name_en . $course->teacher->first_name_en, 'courseName' => $course->course_url]) }}"
-                                                    method="POST" enctype="multipart/form-data">
-                                                    @csrf
-                                                    <input type="hidden" name="id" value="{{ $course->id }}">
-                                                    <input type="hidden" name="chapter_id" value="{{ $chapter->id }}">
-                                                    <div>
-                                                        <div class="flex flex-col items-center justify-center mb-4 mt-3">
-                                                            <video
-                                                                src="" class="displayImg object-cover object-center w-full h-auto rounded-lg" controls></video>
+                                            <div class="modal hidden fixed z-50 left-0 top-0 h-full w-full bg-[rgba(0,0,0,0.5)]">
+                                            <div
+                                                class="bg-white mx-auto my-[50%] w-1/2 lg:w-1/3 duration-300 transform ease-in-out p-6 rounded-sm">
+                                                <div class="flex items-center justify-between mb-5">
+                                                    <h1 class="font-bold text-lg">動画を追加</h1>
+                                                    <span class="modalClose cursor-pointer">×</span>
+                                                </div>
+                                                <div>
+                                                    <form
+                                                        action="{{ route('course.update', ['teacherName' => $course->teacher->last_name_en . $course->teacher->first_name_en, 'courseName' => $course->course_url]) }}"
+                                                        method="POST" enctype="multipart/form-data">
+                                                        @csrf
+                                                        <input type="hidden" name="id" value="{{ $course->id }}">
+                                                        <input type="hidden" name="chapter_id" value="{{ $chapter->id }}">
+                                                        <div>
+                                                            <div class="flex flex-col items-center justify-center mb-4 mt-3">
+                                                                <video
+                                                                    src="" class="displayImg object-cover object-center w-full h-auto rounded-lg" controls></video>
+                                                            </div>
+                                                            <label for="movie"
+                                                                class="flex items-center px-3 py-3 text-center bg-white border-2 border-dashed rounded-lg cursor-pointer dark:border-gray-600 dark:bg-gray-900">
+                                                                <h2 class="fileName mx-3 text-gray-400">動画を選択してください</h2>
+                                                                <input id="movie" type="file" name="movie"
+                                                                    class="preview hidden @error('movie') is-invalid @enderror" accept="video/*"
+                                                                    value="{{ old('movie') }}" autocomplete="movie" />
+                                                            </label>
                                                         </div>
-                                                        <label for="movie"
-                                                            class="flex items-center px-3 py-3 text-center bg-white border-2 border-dashed rounded-lg cursor-pointer dark:border-gray-600 dark:bg-gray-900">
-                                                            <h2 class="fileName mx-3 text-gray-400">動画を選択してください</h2>
-                                                            <input id="movie" type="file" name="movie"
-                                                                class="preview hidden @error('movie') is-invalid @enderror" accept="video/*"
-                                                                value="{{ old('movie') }}" autocomplete="movie" />
-                                                        </label>
-                                                    </div>
-                                                    <div class="mt-5 flex flex-col">
-                                                        <label for="movie_title" class="mb-1">動画タイトル</label>
-                                                        <input type="text" id="movie_title" name="movie_title" value="{{ old('movie_title') }}" class="border p-1">
-                                                    </div>
-                                                    <button type="submit"
-                                                        class="bg-gray-700 text-white hover:opacity-70 py-2 px-5 rounded-md w-full mt-5">追加</button>
-                                                </form>
+                                                        <div class="mt-5 flex flex-col">
+                                                            <label for="movie_title" class="mb-1">動画タイトル</label>
+                                                            <input type="text" id="movie_title" name="movie_title" value="{{ old('movie_title') }}" class="border p-1">
+                                                        </div>
+                                                        <button type="submit"
+                                                            class="bg-gray-700 text-white hover:opacity-70 py-2 px-5 rounded-md w-full mt-5">追加</button>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
+        
                                     </div>
-    
-                                </div>
-                                
-    
+                                </li>
+                            </ul>
+                            <ul class="max-w-3xl px-2 text-gray-700">
                                 @foreach ($chapter->tests as $test)
                                 <li class="leading-8 flex items-center">
                                     <figure>
@@ -254,14 +257,6 @@
                 @endforeach
 
             </div>
-            <form action="{{ route('course.update', ['teacherName' => $course->teacher->last_name_en . $course->teacher->first_name_en, 'courseName' => $course->course_url]) }}" id="chapter_form" method="POST">
-                @csrf
-                <input type="hidden" name="chapter_result" id="chapter_result">
-            </form>
-            <form action="" id="movie_form" method="POST">
-                @csrf
-                <input type="hidden" name="movie_result" id="movie_result">
-            </form>
         </div>
 
         {{-- コースの詳しい説明 --}}
@@ -423,18 +418,16 @@
         })
 
         /* チャプターの順番を並べ替える */
-        const $chapterForm = $('#chapter_form')
-        const $chapterResult = $('#chapter_result')
         const $chapterList = $('#chapter_list')
 
         $chapterList.sortable({
             update: function() {
-                let sorted = $chapterList.sortable('toArray')
-                // console.log(sorted)
-                let i = 0
-                $('.chapter_seq').each(function() {
-                    let chapter_seq = $(this).val(++i);
-                });
+                let chapterSortedList = $chapterList.sortable('toArray')
+                let chapterSorted = []
+                chapterSortedList.forEach((e) => {
+                    chapterSorted.push(e.replace('chapter_', ''))
+                })
+                // console.log(chapterSorted)
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -442,10 +435,47 @@
                 })
 
                 $.ajax({
-                    url: "{{ route('course.update', ['teacherName' => $course->teacher->last_name_en . $course->teacher->first_name_en, 'courseName' => $course->course_url]) }}",
+                    url: "{{ route('chapter.update', ['teacherName' => $course->teacher->last_name_en . $course->teacher->first_name_en, 'courseName' => $course->course_url]) }}",
                     type: "POST",
                     data: {
-                        sorted: sorted
+                        chapterSorted: chapterSorted
+                    },
+                }).done(function(data) {
+                    // console.log(data)
+                }).fail(function(jqXHR, textStatus, error) {
+                    console.log("更新に失敗しました")
+                    console.log(jqXHR)
+                    console.log(textStatus)
+                    console.log(error)
+                })
+            }
+        })
+
+        /* 動画の順番を並べ替える */
+        let $movieList = $('.movie_list')
+
+        $movieList.sortable({
+            update: function() {
+                const chapterId = $(this).closest('#chapter_list').find('.accordion').attr('id').replace('chapter_', '')
+                let movieSortedList = $movieList.sortable('toArray')
+                let movieSorted = []
+                movieSortedList.forEach((e) => {
+                    movieSorted.push(e.replace('movie_', ''))
+                })
+                movieSorted.pop()
+                // console.log(movieSorted)
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                })
+
+                $.ajax({
+                    url: "{{ route('movie.update', ['teacherName' => $course->teacher->last_name_en . $course->teacher->first_name_en, 'courseName' => $course->course_url]) }}",
+                    type: "POST",
+                    data: {
+                        movieSorted: movieSorted,
+                        chapterId: chapterId
                     },
                 }).done(function(data) {
                     // console.log(data)

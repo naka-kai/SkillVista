@@ -20,6 +20,7 @@ class Movie extends Model
         'second',
         'created_by',
         'updated_by',
+        'display_num',
     ];
 
     public function chapter() {

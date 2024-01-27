@@ -19,10 +19,13 @@ class CourseController extends Controller
         $course = Course::with([
             'teacher', 
             'rates.users',
-            'chapters' => function($q) {
-                $q->orderBy('display_num');
-                $q->with([
-                    'tests', 'movies'
+            'chapters' => function($chapter_query) {
+                $chapter_query->orderBy('display_num');
+                $chapter_query->with([
+                    'tests',
+                    'movies' => function($movie_query) {
+                        $movie_query->orderBy('display_num');
+                    }
                 ]);
             },
         ])
@@ -72,10 +75,13 @@ class CourseController extends Controller
         $course = Course::with([
             'teacher', 
             'rates.users',
-            'chapters' => function($q) {
-                $q->orderBy('display_num');
-                $q->with([
-                    'tests', 'movies'
+            'chapters' => function($chapter_query) {
+                $chapter_query->orderBy('display_num');
+                $chapter_query->with([
+                    'tests',
+                    'movies' => function($movie_query) {
+                        $movie_query->orderBy('display_num');
+                    }
                 ]);
             },
         ])
@@ -96,17 +102,20 @@ class CourseController extends Controller
         $course = Course::with([
             'teacher', 
             'rates.users',
-            'chapters' => function($q) {
-                $q->orderBy('display_num');
-                $q->with([
-                    'tests', 'movies'
+            'chapters' => function($chapter_query) {
+                $chapter_query->orderBy('display_num');
+                $chapter_query->with([
+                    'tests',
+                    'movies' => function($movie_query) {
+                        $movie_query->orderBy('display_num');
+                    }
                 ]);
             },
         ])
         ->where('course_url', '=', $courseName)
         ->first();
 
-        // dd($request['sorted']);
+        // dd($request['chapterSorted']);
         
         // サムネイル画像変更
         if ($request->hasFile('thumbnail')) {
@@ -135,32 +144,6 @@ class CourseController extends Controller
             ]);
 
             $course->description = $request->input('description');
-        }
-
-        // チャプターの並び替え
-        $chapter_data = [];
-        if ($request->has('sorted')) {
-            $sorted_data = $request->input('sorted');
-            try {
-                DB::beginTransaction();
-
-                foreach ($course->chapters as $key => $chapter) {
-                    $chapter_data [] = [
-                        'id' => $sorted_data[$key],
-                        'title' => $chapter->title,
-                        'course_id' => $chapter->course_id,
-                        'display_num' => $key + 1,
-                        'created_by' => Auth::guard('teacher')->user()->last_name . Auth::guard('teacher')->user()->first_name,
-                        'updated_by' => Auth::guard('teacher')->user()->last_name . Auth::guard('teacher')->user()->first_name,
-                    ];
-                }
-                Chapter::upsert($chapter_data, ['id'], ['display_num']);
-
-                DB::commit();
-            } catch (\Exception $e) {
-                DB::rollBack();
-                \Log::error($e);
-            }
         }
 
         // 動画変更
