@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Chapter;
 use App\Models\Course;
 use App\Models\Movie;
 use Carbon\Carbon;
@@ -105,7 +106,7 @@ class CourseController extends Controller
         ->where('course_url', '=', $courseName)
         ->first();
 
-        dd($request);
+        // dd($request['sorted']);
         
         // サムネイル画像変更
         if ($request->hasFile('thumbnail')) {
@@ -134,6 +135,23 @@ class CourseController extends Controller
             ]);
 
             $course->description = $request->input('description');
+        }
+
+        // チャプターの並び替え
+        $chapter_data = [];
+        if ($request->has('sorted')) {
+            $sorted_data = $request->input('sorted');
+            foreach ($course->chapters as $key => $chapter) {
+                $chapter_data [] = [
+                    'id' => $chapter->id,
+                    'title' => $chapter->title,
+                    'course_id' => $chapter->course_id,
+                    'display_num' => $sorted_data[$key],
+                    'created_by' => Auth::guard('teacher')->user()->last_name . Auth::guard('teacher')->user()->first_name,
+                    'updated_by' => Auth::guard('teacher')->user()->last_name . Auth::guard('teacher')->user()->first_name,
+                ];
+            }
+            Chapter::upsert($chapter_data, ['id'], ['display_num']);
         }
 
         // 動画変更

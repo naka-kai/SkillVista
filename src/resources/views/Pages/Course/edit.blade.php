@@ -423,51 +423,40 @@
         })
 
         /* チャプターの順番を並べ替える */
-        const $chapterForm = $('#chapter_form');
-        const $chapterResult = $('#chapter_result');
-        const $chapterList = $('#chapter_list');
-
-        // let teacherName = @json($teacherName);
-        // let courseName = @json($courseName);
-        // console.log(teacherName);
-        // console.log(courseName);
-        let route = @json(route('course.update', ['teacherName' => $teacherName, 'courseName' => $courseName]));
-        // let route = {{ route('course.update', ['teacherName' => ':teacherName', 'courseName' => ':courseName']) }};
-        // route = route.replace(':teacherName', teacherName).replace(':courseName', courseName);
+        const $chapterForm = $('#chapter_form')
+        const $chapterResult = $('#chapter_result')
+        const $chapterList = $('#chapter_list')
 
         $chapterList.sortable({
             update: function() {
-                let sorted = $chapterList.sortable('toArray');
-                console.log(sorted);
-                let i = 1;
+                let sorted = $chapterList.sortable('toArray')
+                // console.log(sorted)
+                let i = 1
                 $('.chapter_seq').each(function() {
-                    let chapter_seq = $(this).val(i);
-                    i++;
-                });
+                    let chapter_seq = $(this).val(i)
+                    i++
+                })
 
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
-                });
+                })
 
                 $.ajax({
-                    url: route,
+                    url: "{{ route('course.update', ['teacherName' => $course->teacher->last_name_en . $course->teacher->first_name_en, 'courseName' => $course->course_url]) }}",
                     type: "POST",
                     data: {
-                        sorted: sorted,
-                        // teacherName: teacherName,
-                        // courseName: courseName
+                        sorted: sorted
                     },
-                    dataType: 'json',
                 }).done(function(data) {
-                    console.log(data);
+                    // console.log(data)
                 }).fail(function(jqXHR, textStatus, error) {
-                    console.log("更新に失敗しました");
-                    console.log(jqXHR);
-                    console.log(textStatus);
-                    console.log(error);
-                });
+                    console.log("更新に失敗しました")
+                    console.log(jqXHR)
+                    console.log(textStatus)
+                    console.log(error)
+                })
             }
         })
     });
