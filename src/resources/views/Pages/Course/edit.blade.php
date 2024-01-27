@@ -431,12 +431,10 @@
             update: function() {
                 let sorted = $chapterList.sortable('toArray')
                 // console.log(sorted)
-                let i = 1
+                let i = 0
                 $('.chapter_seq').each(function() {
-                    let chapter_seq = $(this).val(i)
-                    i++
-                })
-
+                    let chapter_seq = $(this).val(++i);
+                });
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

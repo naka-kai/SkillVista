@@ -141,17 +141,26 @@ class CourseController extends Controller
         $chapter_data = [];
         if ($request->has('sorted')) {
             $sorted_data = $request->input('sorted');
-            foreach ($course->chapters as $key => $chapter) {
-                $chapter_data [] = [
-                    'id' => $chapter->id,
-                    'title' => $chapter->title,
-                    'course_id' => $chapter->course_id,
-                    'display_num' => $sorted_data[$key],
-                    'created_by' => Auth::guard('teacher')->user()->last_name . Auth::guard('teacher')->user()->first_name,
-                    'updated_by' => Auth::guard('teacher')->user()->last_name . Auth::guard('teacher')->user()->first_name,
-                ];
+            try {
+                DB::beginTransaction();
+
+                foreach ($course->chapters as $key => $chapter) {
+                    $chapter_data [] = [
+                        'id' => $sorted_data[$key],
+                        'title' => $chapter->title,
+                        'course_id' => $chapter->course_id,
+                        'display_num' => $key + 1,
+                        'created_by' => Auth::guard('teacher')->user()->last_name . Auth::guard('teacher')->user()->first_name,
+                        'updated_by' => Auth::guard('teacher')->user()->last_name . Auth::guard('teacher')->user()->first_name,
+                    ];
+                }
+                Chapter::upsert($chapter_data, ['id'], ['display_num']);
+
+                DB::commit();
+            } catch (\Exception $e) {
+                DB::rollBack();
+                \Log::error($e);
             }
-            Chapter::upsert($chapter_data, ['id'], ['display_num']);
         }
 
         // 動画変更
