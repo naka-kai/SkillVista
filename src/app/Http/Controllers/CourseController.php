@@ -2,14 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Chapter;
 use App\Models\Course;
-use App\Models\Movie;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use FFMpeg;
-use Illuminate\Support\Facades\DB;
 
 class CourseController extends Controller
 {
@@ -144,32 +138,6 @@ class CourseController extends Controller
             ]);
 
             $course->description = $request->input('description');
-        }
-
-        // 動画変更
-        if ($request->hasFile('movie')) {
-            $validated = $request->validate([
-                'movie' => ['required', 'file', 'mimes:mp4,mov,x-ms-wmv,mpeg,avi,jpeg,jpg,png', 'max:1000000'],
-                'movie_title' => ['required', 'string', 'max:255'],
-            ]);
-
-            $dir = 'movie/course' . $course->id;
-            $file_name = $request->file('movie')->getClientOriginalName();
-            $request->file('movie')->storeAs('public/' . $dir, $file_name);
-
-            $media = FFMpeg::fromDisk('public')->open('/' . $dir . '/' . $file_name);
-            $durationInSeconds = $media->getDurationInSeconds();
-            
-            $movie = Movie::create([
-                'movie_title' => $request->movie_title,
-                'movie' => 'storage/' . $dir . '/' . $file_name,
-                'chapter_id' => $request->chapter_id,
-                'second' => $durationInSeconds,
-                'created_by' => Auth::guard('teacher')->id(),
-                'updated_by' => Auth::guard('teacher')->id(),
-            ]);
-        } else {
-            
         }
 
         // コースの詳しい説明変更

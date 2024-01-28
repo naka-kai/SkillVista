@@ -65,6 +65,7 @@ Route::middleware('auth:teacher')->group(function() {
     });
     // 動画
     Route::prefix('movie')->name('movie.')->group(function() {
+        Route::post('/{teacherName}/{courseName}/store', [MovieController::class, 'store'])->name('store');
         Route::post('/{teacherName}/{courseName}', [MovieController::class, 'update'])->name('update');
         Route::delete('/{teacherName}/{courseName}', [MovieController::class, 'destroy'])->name('destroy');
     });

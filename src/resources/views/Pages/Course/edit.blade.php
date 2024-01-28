@@ -208,7 +208,7 @@
                                                 </div>
                                                 <div>
                                                     <form
-                                                        action="{{ route('course.update', ['teacherName' => $course->teacher->last_name_en . $course->teacher->first_name_en, 'courseName' => $course->course_url]) }}"
+                                                        action="{{ route('movie.store', ['teacherName' => $course->teacher->last_name_en . $course->teacher->first_name_en, 'courseName' => $course->course_url]) }}"
                                                         method="POST" enctype="multipart/form-data">
                                                         @csrf
                                                         <input type="hidden" name="id" value="{{ $course->id }}">
@@ -218,17 +218,17 @@
                                                                 <video
                                                                     src="" class="displayImg object-cover object-center w-full h-auto rounded-lg" controls></video>
                                                             </div>
-                                                            <label for="movie"
+                                                            <label for="chapter{{ $chapter->id }}_movie"
                                                                 class="flex items-center px-3 py-3 text-center bg-white border-2 border-dashed rounded-lg cursor-pointer dark:border-gray-600 dark:bg-gray-900">
                                                                 <h2 class="fileName mx-3 text-gray-400">動画を選択してください</h2>
-                                                                <input id="movie" type="file" name="movie"
+                                                                <input id="chapter{{ $chapter->id }}_movie" type="file" name="movie"
                                                                     class="preview hidden @error('movie') is-invalid @enderror" accept="video/*"
                                                                     value="{{ old('movie') }}" autocomplete="movie" />
                                                             </label>
                                                         </div>
                                                         <div class="mt-5 flex flex-col">
-                                                            <label for="movie_title" class="mb-1">動画タイトル</label>
-                                                            <input type="text" id="movie_title" name="movie_title" value="{{ old('movie_title') }}" class="border p-1">
+                                                            <label for="chapter{{ $chapter->id }}_movie_title" class="mb-1">動画タイトル</label>
+                                                            <input type="text" id="chapter{{ $chapter->id }}_movie_title" name="movie_title" value="{{ old('movie_title') }}" class="border p-1">
                                                         </div>
                                                         <button type="submit"
                                                             class="bg-gray-700 text-white hover:opacity-70 py-2 px-5 rounded-md w-full mt-5">追加</button>
@@ -389,7 +389,7 @@
             $(this).closest('.wrapper').find('.modal').removeClass('flex justify-center items-center').addClass('hidden');
         })
 
-        /* コースのサムネイル画像を選択時にプレビュー表示 */
+        /* 画像・動画を選択時にプレビュー表示 */
         $('.preview').on('change', function(e) {
             $(this).prev('.fileName').text($(this).prop('files')[0].name);
             let displayImg = $(this).parent().prev().children('.displayImg');
