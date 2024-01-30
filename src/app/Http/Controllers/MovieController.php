@@ -95,22 +95,24 @@ class MovieController extends Controller
         if ($request->has('movieSorted')) {
             $movieSorted_data = $request->input('movieSorted');
             $chapterId = $request->input('chapterId');
-            dd($chapterId);
+            // dd($movieSorted_data);
             try {
                 DB::beginTransaction();
 
-                dd($course->chapters);
-                foreach ($course->chapters->movies as $key => $movie) {
+                // dd($course->chapters[$chapterId - 1]->movies);
+                foreach ($course->chapters[$chapterId - 1]->movies as $key => $movie) {
                     $movie_data [] = [
-                        'id' => $movieSorted_data[$key],
+                        'id' => $movie->id,
                         'movie_title' => $movie->movie_title,
+                        'movie' => $movie->movie,
                         'chapter_id' => $movie->chapter_id,
                         'second' => $movie->second,
-                        'display_num' => $key + 1,
+                        'display_num' => $movieSorted_data[$key],
                         'created_by' => Auth::guard('teacher')->user()->last_name . Auth::guard('teacher')->user()->first_name,
                         'updated_by' => Auth::guard('teacher')->user()->last_name . Auth::guard('teacher')->user()->first_name,
                     ];
                 }
+                // dd($movieSorted_data);
                 Movie::upsert($movie_data, ['id'], ['display_num']);
 
                 DB::commit();

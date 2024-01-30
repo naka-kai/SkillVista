@@ -171,9 +171,9 @@
                         </div>
     
                         <div class="accordion_inner flex mt-8 md:mx-10">
-                            <ul class="movie_list max-w-3xl px-2 text-gray-700">
+                            <ul id="movie_list{{ $chapter->id }} max-w-3xl px-2 text-gray-700">
                                 @foreach ($chapter->movies as $movie)
-                                <div id="movie_{{ $movie->id }}">
+                                <div id="movie_{{ $movie->display_num }}">
                                     <li class="leading-8 flex items-center mb-1">
                                         <form action="{{ route('movie.destroy', ['teacherName' => $course->teacher->last_name_en . $course->teacher->first_name_en, 'courseName' => $course->course_url]) }}" method="POST" class="flex items-center">
                                             @csrf
@@ -427,7 +427,7 @@
                 chapterSortedList.forEach((e) => {
                     chapterSorted.push(e.replace('chapter_', ''))
                 })
-                // console.log(chapterSorted)
+                console.log(chapterSorted)
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -452,41 +452,48 @@
         })
 
         /* 動画の順番を並べ替える */
-        let $movieList = $('.movie_list')
+        let $countMovieList = $('[id^="movie_list"]').length
 
-        $movieList.sortable({
-            update: function() {
-                const chapterId = $(this).closest('#chapter_list').find('.accordion').attr('id').replace('chapter_', '')
-                let movieSortedList = $movieList.sortable('toArray')
-                let movieSorted = []
-                movieSortedList.forEach((e) => {
-                    movieSorted.push(e.replace('movie_', ''))
-                })
-                movieSorted.pop()
-                // console.log(movieSorted)
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        for (let i = 1; i <= $countMovieList; i++) {
+            if ($('#movie_list' + i)) {
+                const movieListId = '#movie_list' + i
+                const $movieList = $(movieListId)
+                console.log(movieListId)
+                console.log($movieList)
+                $movieList.sortable({
+                    update: function() {
+                        const chapterId = $(this).parent().parent().parent().attr('id').replace('chapter_', '')
+                        let movieSortedList = $movieList.sortable('toArray')
+                        let movieSorted = []
+                        movieSortedList.forEach((e) => {
+                            movieSorted.push(e.replace('movie_', ''))
+                        })
+                        // console.log(movieSorted)
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            }
+                        })
+        
+                        $.ajax({
+                            url: "{{ route('movie.update', ['teacherName' => $course->teacher->last_name_en . $course->teacher->first_name_en, 'courseName' => $course->course_url]) }}",
+                            type: "POST",
+                            data: {
+                                movieSorted: movieSorted,
+                                chapterId: chapterId
+                            },
+                        }).done(function(data) {
+                            // console.log(data)
+                        }).fail(function(jqXHR, textStatus, error) {
+                            console.log("更新に失敗しました")
+                            console.log(jqXHR)
+                            console.log(textStatus)
+                            console.log(error)
+                        })
                     }
                 })
-
-                $.ajax({
-                    url: "{{ route('movie.update', ['teacherName' => $course->teacher->last_name_en . $course->teacher->first_name_en, 'courseName' => $course->course_url]) }}",
-                    type: "POST",
-                    data: {
-                        movieSorted: movieSorted,
-                        chapterId: chapterId
-                    },
-                }).done(function(data) {
-                    // console.log(data)
-                }).fail(function(jqXHR, textStatus, error) {
-                    console.log("更新に失敗しました")
-                    console.log(jqXHR)
-                    console.log(textStatus)
-                    console.log(error)
-                })
             }
-        })
+        }
     });
 </script>
 @endsection
