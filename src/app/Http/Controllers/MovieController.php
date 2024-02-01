@@ -6,7 +6,7 @@ use App\Models\Chapter;
 use App\Models\Course;
 use Illuminate\Http\Request;
 use App\Models\Movie;
-
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -63,10 +63,15 @@ class MovieController extends Controller
                 'created_by' => Auth::guard('teacher')->user()->last_name . Auth::guard('teacher')->user()->first_name,
                 'updated_by' => Auth::guard('teacher')->user()->last_name . Auth::guard('teacher')->user()->first_name,
             ]);
+
         } else {
             
         }
 
+        // コースのupdated_byとupdated_atを最新にする
+        $course->updated_by = Auth::guard('teacher')->user()->last_name . Auth::guard('teacher')->user()->first_name;
+        $course->updated_at = Carbon::now();
+        
         $course->save();
 
         return redirect()->route('course.update', ['courseName' => $courseName, 'teacherName' => $teacherName])->with(['course' => $course]);
@@ -114,6 +119,11 @@ class MovieController extends Controller
                 }
                 // dd($movieSorted_data);
                 Movie::upsert($movie_data, ['id'], ['display_num']);
+
+                // コースのupdated_byとupdated_atを最新にする
+                $course->updated_by = Auth::guard('teacher')->user()->last_name . Auth::guard('teacher')->user()->first_name;
+                $course->updated_at = Carbon::now();
+                $course->save();
 
                 DB::commit();
             } catch (\Exception $e) {

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CourseController extends Controller
 {
@@ -166,7 +168,9 @@ class CourseController extends Controller
 
             $course->need = $request->input('need');
         }
-
+        $course->updated_by = Auth::guard('teacher')->user()->last_name . Auth::guard('teacher')->user()->first_name;
+        $course->updated_at = Carbon::now();
+        
         $course->save();
 
         return redirect()->route('course.update', ['courseName' => $courseName, 'teacherName' => $teacherName])->with(['course' => $course]);

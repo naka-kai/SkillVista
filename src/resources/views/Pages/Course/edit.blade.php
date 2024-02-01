@@ -470,7 +470,7 @@
 
                 /* チャプターの順番を並べ替える */
                 const $chapterList = $('#chapter_list')
-                console.log($chapterList)
+                // console.log($chapterList)
 
                 $chapterList.sortable({
                     update: function() {
@@ -505,15 +505,15 @@
 
                 /* 動画の順番を並べ替える */
                 let $countMovieList = $('[id^="movie_list"]').length
-                console.log($countMovieList)
+                // console.log($countMovieList)
 
                 for (let i = 1; i <= $countMovieList; i++) {
                     if ($('#movie_list' + i)) {
                         const movieListId = '#movie_list' + i
-                        // const $movieList = $(movieListId)
-                        const $movieList = $('#movie_list1')
+                        const $movieList = $(movieListId)
+                        // const $movieList = $('#movie_list1')
                         // console.log(movieListId)
-                        console.log($movieList)
+                        // console.log($movieList)
                         $movieList.sortable({
                             update: function() {
                                 const chapterId = $(this).parent().parent().parent().attr('id').replace(

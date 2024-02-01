@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Chapter;
 use Illuminate\Http\Request;
 use App\Models\Course;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
@@ -47,6 +48,11 @@ class ChapterController extends Controller
                     ];
                 }
                 Chapter::upsert($chapter_data, ['id'], ['display_num']);
+
+                // コースのupdated_byとupdated_atを最新にする
+                $course->updated_by = Auth::guard('teacher')->user()->last_name . Auth::guard('teacher')->user()->first_name;
+                $course->updated_at = Carbon::now();
+                $course->save();
 
                 DB::commit();
             } catch (\Exception $e) {
