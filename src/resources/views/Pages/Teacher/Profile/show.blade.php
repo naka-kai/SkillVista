@@ -65,8 +65,9 @@
                                             class="flex items-center px-3 py-3 text-center bg-white border-2 border-dashed rounded-lg cursor-pointer dark:border-gray-600 dark:bg-gray-900">
                                             <h2 id="fileName" class="mx-3 text-gray-400">画像を選択してください</h2>
                                             <input id="image" type="file" name="image"
-                                                class="hidden @error('image') is-invalid @enderror" accept=".jpg, .jpeg, .png, .gif"
-                                                value="{{ old('image') }}" autocomplete="image" />
+                                                class="hidden @error('image') is-invalid @enderror"
+                                                accept=".jpg, .jpeg, .png, .gif" value="{{ old('image') }}"
+                                                autocomplete="image" />
                                         </label>
                                     </div>
                                     <button type="submit"
@@ -76,7 +77,7 @@
                         </div>
                     </div>
                 </div>
-        
+
                 {{-- 氏名 --}}
                 <div>
                     <div class="flex items-center mt-7">
@@ -120,7 +121,9 @@
 
                 {{-- プロフィール --}}
                 <div>
-                    <form action="{{ route('teacher.profile.update', ['teacherName' => $teacher->last_name_en . $teacher->first_name_en]) }}" method="POST">
+                    <form
+                        action="{{ route('teacher.profile.update', ['teacherName' => $teacher->last_name_en . $teacher->first_name_en]) }}"
+                        method="POST">
                         @csrf
                         @method('PUT')
                         <input type="hidden" name="id" value="{{ $teacher->id }}">
@@ -139,7 +142,9 @@
 
                 {{-- Webサイト --}}
                 <div>
-                    <form action="{{ route('teacher.profile.update', ['teacherName' => $teacher->last_name_en . $teacher->first_name_en]) }}" method="POST">
+                    <form
+                        action="{{ route('teacher.profile.update', ['teacherName' => $teacher->last_name_en . $teacher->first_name_en]) }}"
+                        method="POST">
                         @csrf
                         @method('PUT')
                         <input type="hidden" name="id" value="{{ $teacher->id }}">
@@ -152,13 +157,16 @@
                                 class="submitBtn items-center py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border border-gray-500 rounded-sm hover:opacity-70 ml-5 hidden"
                                 type="submit">保存</button>
                         </div>
-                        <input name="hp" value="{{ $teacher->hp }}" class="editContent ml-3 mt-2 resize-none outline-none" readonly />
+                        <input name="hp" value="{{ $teacher->hp }}"
+                            class="editContent ml-3 mt-2 resize-none outline-none" readonly />
                     </form>
                 </div>
 
                 {{-- Xアカウント --}}
                 <div>
-                    <form action="{{ route('teacher.profile.update', ['teacherName' => $teacher->last_name_en . $teacher->first_name_en]) }}" method="POST">
+                    <form
+                        action="{{ route('teacher.profile.update', ['teacherName' => $teacher->last_name_en . $teacher->first_name_en]) }}"
+                        method="POST">
                         @csrf
                         @method('PUT')
                         <input type="hidden" name="id" value="{{ $teacher->id }}">
@@ -171,13 +179,16 @@
                                 class="submitBtn items-center py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border border-gray-500 rounded-sm hover:opacity-70 ml-5 hidden"
                                 type="submit">保存</button>
                         </div>
-                        <input name="x" value="{{ $teacher->x }}" class="editContent ml-3 mt-2 resize-none outline-none" readonly />
+                        <input name="x" value="{{ $teacher->x }}"
+                            class="editContent ml-3 mt-2 resize-none outline-none" readonly />
                     </form>
                 </div>
 
                 {{-- Youtubeアカウント --}}
                 <div>
-                    <form action="{{ route('teacher.profile.update', ['teacherName' => $teacher->last_name_en . $teacher->first_name_en]) }}" method="POST">
+                    <form
+                        action="{{ route('teacher.profile.update', ['teacherName' => $teacher->last_name_en . $teacher->first_name_en]) }}"
+                        method="POST">
                         @csrf
                         @method('PUT')
                         <input type="hidden" name="id" value="{{ $teacher->id }}">
@@ -190,13 +201,15 @@
                                 class="submitBtn items-center py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border border-gray-500 rounded-sm hover:opacity-70 ml-5 hidden"
                                 type="submit">保存</button>
                         </div>
-                        <input name="youtube" value="{{ $teacher->youtube }}" class="editContent ml-3 mt-2 resize-none outline-none" readonly />
+                        <input name="youtube" value="{{ $teacher->youtube }}"
+                            class="editContent ml-3 mt-2 resize-none outline-none" readonly />
                     </form>
                 </div>
 
                 {{-- パスワード --}}
                 <div class="wrapper flex justify-start mt-9">
-                    <button class="modalOpen px-8 py-2.5 leading-5 text-gray-700 transition-colors duration-300 transform bg-gray-100 border border-gray-500 rounded-md hover:opacity-70">パスワードを変更</button>
+                    <button
+                        class="modalOpen px-8 py-2.5 leading-5 text-gray-700 transition-colors duration-300 transform bg-gray-100 border border-gray-500 rounded-md hover:opacity-70">パスワードを変更</button>
                     <div class="modal hidden fixed z-50 left-0 top-0 h-full w-full bg-[rgba(0,0,0,0.5)]">
                         <div
                             class="bg-white mx-auto my-[50%] w-1/2 lg:w-1/3 duration-300 transform ease-in-out p-6 rounded-sm">
@@ -261,7 +274,8 @@
                 $(this).parent().nextAll('.modal').removeClass('hidden').addClass('flex justify-center items-center');
             })
             $('.modalClose').on('click', function() {
-                $(this).closest('.wrapper').find('.modal').removeClass('flex justify-center items-center').addClass('hidden');
+                $(this).closest('.wrapper').find('.modal').removeClass('flex justify-center items-center').addClass(
+                    'hidden');
             })
 
             /* アイコン画像を選択時にプレビュー表示 */
