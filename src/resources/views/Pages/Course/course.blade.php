@@ -86,7 +86,7 @@
             @else
                 <div>
                     <a
-                        href="{{ route('movie', ['teacherId' => 'teacherId', 'courseName' => 'courseName', 'movieId' => 'movieId']) }}">
+                        href="{{ route('movie', ['teacherName' => 'teacherName', 'courseName' => 'courseName', 'movieId' => 'movieId']) }}">
                         <div class="flex justify-center">
                             <button type="submit"
                                 class="bg-blue-300 hover:opacity-70 py-3 px-5 text-center w-full lg:w-1/5 my-5 font-bold text-lg">受講する</button>

@@ -33,45 +33,50 @@
                                 $rate = 0;
                             }
                         @endphp
-                        <a href="{{ route('course', ['courseName' => $course->course_url]) }}" class="hover:opacity-70">
-                            <div class="my-5">
-                                <img class="object-cover object-center w-full h-64 rounded-lg lg:h-80"
-                                    src="https://images.unsplash.com/photo-1624996379697-f01d168b1a52?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
-                                    alt="">
+                            <a href="
+                                @if (auth()->guard('user')->user()->courses()->wherePivot('course_id', $course->id)->wherePivot('status', 3)->first())
+                                    {{ route('movie', ['teacherName' => $course->teacher->last_name_en . $course->teacher->first_name_en,'courseName' => $course->course_url, 'movieId' => 'movieId']) }}
+                                @else
+                                    {{ route('course', ['courseName' => $course->course_url]) }}
+                                @endif
+                                " class="hover:opacity-70">
+                                <div class="my-5">
+                                    <img class="object-cover object-center w-full h-64 rounded-lg lg:h-80"
+                                        src="https://images.unsplash.com/photo-1624996379697-f01d168b1a52?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
+                                        alt="">
 
-                                <div class="mt-8">
-                                    <h1 class="mt-4 text-xl font-semibold text-gray-800 dark:text-white">
-                                        {{ $course->title }}
-                                    </h1>
+                                    <div class="mt-8">
+                                        <h1 class="mt-4 text-xl font-semibold text-gray-800 dark:text-white">
+                                            {{ $course->title }}
+                                        </h1>
 
-                                    <p class="mt-2">{{ $course->description }}</p>
+                                        <p class="mt-2">{{ $course->description }}</p>
 
-                                    <p class="mt-4 text-sm">{{ $course->teacher->last_name }}
-                                        {{ $course->teacher->first_name }}</p>
+                                        <p class="mt-4 text-sm">{{ $course->teacher->last_name }}
+                                            {{ $course->teacher->first_name }}</p>
 
-                                    <div class="flex items-center justify-between mt-4">
-                                        <div class="flex items-center">
-                                            <p class="font-bold mr-1">
-                                                {{ $rate }}
-                                            </p>
-                                            <p
-                                                class="text-lg font-medium text-gray-700 dark:text-gray-300 hover:underline hover:text-gray-500">
-                                                <span class="star5_rating" data-rate="{{ $rate }}"></span></p>
+                                        <div class="flex items-center justify-between mt-4">
+                                            <div class="flex items-center">
+                                                <p class="font-bold mr-1">
+                                                    {{ $rate }}
+                                                </p>
+                                                <p
+                                                    class="text-lg font-medium text-gray-700 dark:text-gray-300 hover:underline hover:text-gray-500">
+                                                    <span class="star5_rating" data-rate="{{ $rate }}"></span></p>
 
-                                            <p class="text-sm text-gray-500 dark:text-gray-400 ml-1">
-                                                （{{ $rated_people_num }}）</p>
+                                                <p class="text-sm text-gray-500 dark:text-gray-400 ml-1">
+                                                    （{{ $rated_people_num }}）</p>
+                                            </div>
                                         </div>
+
+                                        {{-- <div class="bg-yellow-200 py-2 px-4 w-36 mt-2">
+                                        <p class="text-sm text-center">ベストセラー</p>
+                                    </div> --}}
+
                                     </div>
-
-                                    {{-- <div class="bg-yellow-200 py-2 px-4 w-36 mt-2">
-                                    <p class="text-sm text-center">ベストセラー</p>
-                                </div> --}}
-
                                 </div>
-                            </div>
-                        </a>
+                            </a>
                     @endforeach
-
                 </div>
             </div>
         </div>
