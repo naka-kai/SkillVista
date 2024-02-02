@@ -47,9 +47,9 @@ class CourseController extends Controller
         return view('Pages.Course.course', compact('course', 'rate', 'rated_people_num', 'movie_total_time', 'purchased_count', 'teacherId'));
     }
 
-    public function create()
+    public function create($teacherName)
     {
-        return view('Pages.Course.create');
+        return view('Pages.Course.create', compact('teacherName'));
     }
 
     public function createConfirm()
