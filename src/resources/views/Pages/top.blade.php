@@ -34,7 +34,7 @@
                             }
                         @endphp
                             <a href="
-                                @if (auth()->guard('user')->user()->courses()->wherePivot('course_id', $course->id)->wherePivot('status', 3)->first())
+                                @if (auth()->guard('user')->check() && auth()->guard('user')->user()->courses()->wherePivot('course_id', $course->id)->wherePivot('status', 3)->first())
                                     {{ route('movie', ['teacherName' => $course->teacher->last_name_en . $course->teacher->first_name_en,'courseName' => $course->course_url, 'movieId' => 'movieId']) }}
                                 @else
                                     {{ route('course', ['courseName' => $course->course_url]) }}
