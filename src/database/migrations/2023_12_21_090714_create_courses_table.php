@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
             $table->string('title', 255)->comment('タイトル');
-            $table->text('description')->comment('詳細な説明');
-            $table->text('outline')->comment('簡単な概要');
+            $table->text('description')->comment('軽い説明');
+            $table->text('outline')->comment('詳しい説明(概要)');
             $table->foreignId('teacher_id')->constrained()->cascadeOnDelete();
             $table->integer('progress')->comment('進捗率');
             $table->text('target')->nullable()->comment('対象者');

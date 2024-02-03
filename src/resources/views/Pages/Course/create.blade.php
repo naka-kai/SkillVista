@@ -250,7 +250,7 @@
                 {{-- コースの詳しい説明 --}}
                 <div class="mt-10">
                     <div class="flex items-center mt-7">
-                        <h3 class="text-xl font-semibold text-gray-800">コースの詳しい説明</h3>
+                        <h3 class="text-xl font-semibold text-gray-800">コースの詳しい説明（概要）</h3>
                     </div>
                     <hr class="mt-3 mb-5 border-gray-200 dark:border-gray-700">
                     <textarea name="outline" class="editContent mt-2 border w-full h-auto" rows="8">{!! nl2br(e(old('outline'))) !!}</textarea>

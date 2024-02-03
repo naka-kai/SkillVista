@@ -306,7 +306,7 @@
                         @csrf
                         <input type="hidden" name="id" value="{{ $course->id }}">
                         <div class="flex items-center mt-7">
-                            <h3 class="text-xl font-semibold text-gray-800">コースの詳しい説明</h3>
+                            <h3 class="text-xl font-semibold text-gray-800">コースの詳しい説明（概要）</h3>
                             <button
                                 class="editBtn inline-flex items-center py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border rounded-sm hover:opacity-70 ml-5"
                                 type="button">編集</button>
