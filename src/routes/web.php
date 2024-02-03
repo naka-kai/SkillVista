@@ -3,7 +3,6 @@
 require __DIR__ . '/user.php';
 require __DIR__ . '/teacher.php';
 
-use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\CommentController;
@@ -45,28 +44,4 @@ Route::middleware('auth:user,teacher')->group(function() {
     Route::get('/{courseName}/test/{testId}/answer', [TestController::class, 'testAnswer'])->name('testAnswer');
     // テスト問題
     Route::get('/{courseName}/test/{testId}/{userId}', [TestController::class, 'testQuestion'])->name('testQuestion');
-});
-
-// 教師
-Route::middleware('auth:teacher')->group(function() {
-    // コース
-    Route::prefix('course')->name('course.')->group(function() {
-        Route::get('/create/{teacherName}', [CourseController::class, 'create'])->name('create');
-        // Route::post('/create-confirm/{teacherName}', [CourseController::class, 'createConfirm'])->name('createConfirm');
-        Route::post('/{teacherName}', [CourseController::class, 'store'])->name('store');
-        Route::get('/{teacherName}/{courseName}', [CourseController::class, 'edit'])->name('edit');
-        // Route::post('edit-confirm/{teacherName}/{courseName}', [CourseController::class, 'editConfirm'])->name('editConfirm');
-        Route::post('/{teacherName}/{courseName}', [CourseController::class, 'update'])->name('update');
-        Route::delete('/{teacherName}/{courseName}', [CourseController::class, 'destroy'])->name('destroy');
-    });
-    // チャプター
-    Route::prefix('chapter')->name('chapter.')->group(function() {
-        Route::post('/{teacherName}/{courseName}', [ChapterController::class, 'update'])->name('update');
-    });
-    // 動画
-    Route::prefix('movie')->name('movie.')->group(function() {
-        Route::post('/{teacherName}/{courseName}/store', [MovieController::class, 'store'])->name('store');
-        Route::post('/{teacherName}/{courseName}', [MovieController::class, 'update'])->name('update');
-        Route::delete('/{teacherName}/{courseName}', [MovieController::class, 'destroy'])->name('destroy');
-    });
 });

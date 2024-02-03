@@ -28,6 +28,7 @@ class Course extends Model
         'need',
         'thumbnail',
         'course_url',
+        'publish_flg',
     ];
 
     public function chapters() {

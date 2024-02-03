@@ -24,6 +24,7 @@ return new class extends Migration
             $table->text('need')->comment('必要条件');
             $table->text('thumbnail')->nullable()->comment('サムネイル画像');
             $table->string('course_url', 255)->comment('コースのURL');
+            $table->integer('publish_flg')->comment('0: 下書き, 1: 公開中');
             $table->string('created_by', 255)->comment('作成者');
             $table->string('updated_by', 255)->comment('更新者');
             $table->timestamps();

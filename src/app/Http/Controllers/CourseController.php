@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CourseController extends Controller
 {
@@ -52,17 +54,11 @@ class CourseController extends Controller
         return view('Pages.Course.create', compact('teacherName'));
     }
 
-    public function createConfirm()
+    public function store(Request $request, $teacherName)
     {
-        return view('Pages.Course.create_confirm');
-    }
+        
 
-    public function store()
-    {
-        $courseName = 'courseName';
-        $teacherName = 'teacherName';
-
-        return redirect()->route('teacher.myCourse', compact('courseName', 'teacherName'));
+        return redirect()->route('teacher.myCourse', compact('teacherName'));
     }
 
     public function edit(Request $request, $teacherName, $courseName)
@@ -187,7 +183,7 @@ class CourseController extends Controller
      * @param [type] $course
      * @return void
      */
-    public function calcRate($course)
+    private function calcRate($course)
     {
         // そのコースに対する評価の全ての情報
         $rates = $course->rates;
@@ -217,7 +213,7 @@ class CourseController extends Controller
      * @param [type] $course
      * @return void
      */
-    public function calcMovie($course)
+    private function calcMovie($course)
     {
         $chapters = $course->chapters;
         $movie_total_second = 0;
