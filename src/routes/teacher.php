@@ -53,6 +53,7 @@ Route::middleware('auth:teacher')->group(function() {
     });
     // チャプター
     Route::prefix('chapter')->name('chapter.')->group(function() {
+        Route::post('/{teacherName}/{courseName}/store', [ChapterController::class, 'store'])->name('store');
         Route::post('/{teacherName}/{courseName}', [ChapterController::class, 'update'])->name('update');
     });
     // 動画

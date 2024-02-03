@@ -11,6 +11,12 @@ use Illuminate\Support\Facades\Auth;
 
 class ChapterController extends Controller
 {
+
+    public function store()
+    {
+        return;
+    }
+
     public function update(Request $request, $teacherName, $courseName)
     {
         $course = Course::with([

@@ -96,6 +96,15 @@
                         <textarea name="title" class="editContent mt-2 border w-full h-auto">{!! nl2br(e(old('title'))) !!}</textarea>
                     </div>
 
+                    {{-- コースのURL --}}
+                    <div class="mt-10">
+                        <div class="flex items-center mt-7">
+                            <h3 class="text-xl font-semibold text-gray-800">コースのURL</h3>
+                        </div>
+                        <hr class="mt-3 mb-5 border-gray-200 dark:border-gray-700">
+                        <input name="course_url" class="editContent mt-2 border w-full h-auto" value="{{ old('course_url') }}" />
+                    </div>
+
                     {{-- コースの軽い説明（検索時に使用） --}}
                     <div class="mt-10">
                         <div class="flex items-center mt-7">
@@ -137,8 +146,19 @@
                                     </div>
 
                                     <div class="accordion_inner flex mt-8 md:mx-10">
-                                        <ul id="movie_list¥¥¥¥¥ max-w-3xl text-gray-700">
+                                        <ul id="movie_list¥¥¥¥¥" class="text-gray-700">
                                             {{-- @foreach ($chapter->movies as $movie) --}}
+                                            <div id="movie_¥¥¥¥¥">
+                                                <li class="leading-8 flex items-center mb-1">
+                                                    <input type="hidden" name="action" value="delete_movie">
+                                                    <input type="hidden" name="movie_id" value="¥¥¥¥¥">
+                                                    <button type="button" onclick="return confirm('この動画を削除しますか？')">
+                                                        <img src="{{ asset('img/remove-movie.png') }}"
+                                                            class="w-9 h-auto cursor-pointer">
+                                                    </button>
+                                                    <p class="ml-1 text-lg">¥¥¥¥¥</p>
+                                                </li>
+                                            </div>
                                             <div id="movie_¥¥¥¥¥">
                                                 <li class="leading-8 flex items-center mb-1">
                                                     <input type="hidden" name="action" value="delete_movie">
@@ -157,7 +177,8 @@
                                                 <div class="mb-1">
                                                     <div class="flex items-center">
                                                         <div class="modalOpen cursor-pointer flex items-center">
-                                                            <img src="{{ asset('img/add-movie.png') }}" class="w-9 h-auto">
+                                                            <img src="{{ asset('img/add-movie.png') }}"
+                                                                class="w-9 h-auto">
                                                             <h2 class="fileName text-gray-400 ml-1">動画を選択してください</h2>
                                                         </div>
                                                     </div>
@@ -304,26 +325,77 @@
             })
 
             /* チャプターの順番を並べ替える */
-            const $chapterForm = $('#chapter_form');
-            const $chapterResult = $('#chapter_result');
-            const $chapterList = $('#chapter_list');
+            const $chapterList = $('#chapter_list')
+            // console.log($chapterList)
 
             $chapterList.sortable({
                 update: function() {
-                    let sorted = $chapterList.sortable('toArray');
-                    console.log(sorted);
-                    let i = 1;
-                    $('.chapter_seq').each(function() {
-                        let chapter_seq = $(this).val(i);
-                        i++;
-                    });
+                    let chapterSortedList = $chapterList.sortable('toArray')
+                    let chapterSorted = []
+                    chapterSortedList.forEach((e) => {
+                        chapterSorted.push(e.replace('chapter_', ''))
+                    })
+                    // console.log(chapterSorted)
                     $.ajaxSetup({
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         }
-                    });
+                    })
+                    $.ajax({
+                        // 保存せずに一旦保持しておきたい -> 保存ボタン押下後に保存
+                        url: "{{ route('chapter.store', ['teacherName' => $teacherName, 'courseName' => 'courseName']) }}",
+                        type: "POST",
+                        data: {
+                            chapterSorted: chapterSorted
+                        },
+                    }).done(function(data) {}).fail(function(jqXHR, textStatus, error) {
+                        console.log("更新に失敗しました")
+                        console.log(jqXHR)
+                        console.log(textStatus)
+                        console.log(error)
+                    })
                 }
             })
+
+            /* 動画の順番を並べ替える */
+            let $countMovieList = $('[id^="movie_list"]').length
+
+            for (let i = 1; i <= $countMovieList; i++) {
+                if ($('#movie_list' + i)) {
+                    const movieListId = '#movie_list' + i
+                    const $movieList = $(movieListId)
+                    $movieList.sortable({
+                        update: function() {
+                            const chapterId = $(this).parent().parent().parent().attr('id').replace(
+                                'chapter_', '')
+                            let movieSortedList = $movieList.sortable('toArray')
+                            let movieSorted = []
+                            movieSortedList.forEach((e) => {
+                                movieSorted.push(e.replace('movie_', ''))
+                            })
+                            // console.log(movieSorted)
+                            $.ajaxSetup({
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                }
+                            })
+                            $.ajax({
+                                url: "{{ route('movie.store', ['teacherName' => $teacherName, 'courseName' => 'courseName']) }}",
+                                type: "POST",
+                                data: {
+                                    movieSorted: movieSorted,
+                                    chapterId: chapterId
+                                },
+                            }).done(function(data) {}).fail(function(jqXHR, textStatus, error) {
+                                console.log("更新に失敗しました")
+                                console.log(jqXHR)
+                                console.log(textStatus)
+                                console.log(error)
+                            })
+                        }
+                    })
+                }
+            }
         });
     </script>
 @endsection
