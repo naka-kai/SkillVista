@@ -187,9 +187,9 @@
                                     </div>
 
                                     <div class="accordion_inner flex mt-8 md:mx-10">
-                                        <ul id="movie_list{{ $chapter->id }} max-w-3xl px-2 text-gray-700">
+                                        <ul id="movie_list{{ $chapter->id }}" class="px-2 text-gray-700">
                                             @foreach ($chapter->movies as $movie)
-                                                <div id="movie_{{ $movie->display_num }}">
+                                                <div id="movie_{{ $movie->id }}">
                                                     <li class="leading-8 flex items-center mb-1">
                                                         <form
                                                             action="{{ route('movie.destroy', ['teacherName' => $course->teacher->last_name_en . $course->teacher->first_name_en, 'courseName' => $course->course_url]) }}"
@@ -479,7 +479,7 @@
                         chapterSortedList.forEach((e) => {
                             chapterSorted.push(e.replace('chapter_', ''))
                         })
-                        console.log(chapterSorted)
+                        // console.log(chapterSorted)
                         $.ajaxSetup({
                             headers: {
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -493,7 +493,6 @@
                                 chapterSorted: chapterSorted
                             },
                         }).done(function(data) {
-                            // console.log(data)
                         }).fail(function(jqXHR, textStatus, error) {
                             console.log("更新に失敗しました")
                             console.log(jqXHR)
@@ -505,15 +504,11 @@
 
                 /* 動画の順番を並べ替える */
                 let $countMovieList = $('[id^="movie_list"]').length
-                // console.log($countMovieList)
 
                 for (let i = 1; i <= $countMovieList; i++) {
                     if ($('#movie_list' + i)) {
                         const movieListId = '#movie_list' + i
                         const $movieList = $(movieListId)
-                        // const $movieList = $('#movie_list1')
-                        // console.log(movieListId)
-                        // console.log($movieList)
                         $movieList.sortable({
                             update: function() {
                                 const chapterId = $(this).parent().parent().parent().attr('id').replace(
@@ -523,7 +518,7 @@
                                 movieSortedList.forEach((e) => {
                                     movieSorted.push(e.replace('movie_', ''))
                                 })
-                                console.log(movieSorted)
+                                // console.log(movieSorted)
                                 $.ajaxSetup({
                                     headers: {
                                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -538,7 +533,6 @@
                                         chapterId: chapterId
                                     },
                                 }).done(function(data) {
-                                    // console.log(data)
                                 }).fail(function(jqXHR, textStatus, error) {
                                     console.log("更新に失敗しました")
                                     console.log(jqXHR)

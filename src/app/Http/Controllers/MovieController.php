@@ -107,12 +107,12 @@ class MovieController extends Controller
                 // dd($course->chapters[$chapterId - 1]->movies);
                 foreach ($course->chapters[$chapterId - 1]->movies as $key => $movie) {
                     $movie_data [] = [
-                        'id' => $movie->id,
+                        'id' =>  $movieSorted_data[$key],
                         'movie_title' => $movie->movie_title,
                         'movie' => $movie->movie,
                         'chapter_id' => $movie->chapter_id,
                         'second' => $movie->second,
-                        'display_num' => $movieSorted_data[$key],
+                        'display_num' => $key + 1,
                         'created_by' => Auth::guard('teacher')->user()->last_name . Auth::guard('teacher')->user()->first_name,
                         'updated_by' => Auth::guard('teacher')->user()->last_name . Auth::guard('teacher')->user()->first_name,
                     ];
