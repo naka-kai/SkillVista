@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Chapter;
 use App\Models\Course;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 use App\Models\Movie;
 use Carbon\Carbon;
@@ -14,9 +15,14 @@ use FFMpeg;
 
 class MovieController extends Controller
 {
-    public function show()
+    public function show($courseName, $movieId)
     {
-        return view('Pages.movie');
+        // Q & Aの一覧情報
+        $qas = Comment::query('movie_id', $movieId)
+            ->where('parent_flg', 0)
+            ->get();
+
+        return view('Pages.movie', compact('courseName', 'qas'));
     }
 
     public function store(Request $request, $teacherName, $courseName) {

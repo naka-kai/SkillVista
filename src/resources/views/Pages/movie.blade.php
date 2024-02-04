@@ -173,90 +173,24 @@
 
                 <hr class="mb-8 border-gray-200 dark:border-gray-700">
 
-                <a
-                    href="{{ route('comment.show', ['answerId' => 'answerId', 'commentId' => 'commentId', 'courseName' => 'courseName']) }}">
-                    <div class="flex items-center focus:outline-none">
-                        <img class="object-cover w-8 h-8 rounded-full ring ring-gray-300 dark:ring-gray-600"
-                            src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=4&w=880&h=880&q=100"
-                            alt="">
+                @foreach ($qas as $qa)
+                    <a
+                        href="{{ route('comment.show', ['answerId' => 'answerId', 'commentId' => $qa->id, 'courseName' => $courseName]) }}">
+                        <div class="flex items-center focus:outline-none">
+                            <img class="object-cover w-8 h-8 rounded-full ring ring-gray-300 dark:ring-gray-600"
+                                src="{{ $qa->image == null || '' ? asset('img/kkrn_icon_user_13.png') : asset($qa->image) }}">
 
-                        <h1 class="mx-4 text-xl text-gray-700 dark:text-white">Pythonでの負数の剰余算について(質問ではないのですが...)</h1>
-                    </div>
-                    <div class="flex items-center text-sm ml-12 mt-2">
-                        <span>田中</span>
-                        <span class="ml-2">2年前</span>
-                    </div>
-                </a>
+                            <h1 class="mx-4 text-xl text-gray-700 dark:text-white truncate">{{ $qa->title }}</h1>
+                        </div>
+                        <div class="flex items-center text-sm ml-12 mt-2">
+                            <span>{{ $qa->updated_by }}</span>
+                            <span class="ml-2">{{ \Util::getDateDiff($qa->updated_at) }}</span>
+                        </div>
+                    </a>
 
-                <hr class="my-8 border-gray-200 dark:border-gray-700">
+                    <hr class="my-8 border-gray-200 dark:border-gray-700">
+                @endforeach
 
-                <a
-                    href="{{ route('comment.show', ['answerId' => 'answerId', 'commentId' => 'commentId', 'courseName' => 'courseName']) }}">
-                    <div class="flex items-center focus:outline-none">
-                        <img class="object-cover w-8 h-8 rounded-full ring ring-gray-300 dark:ring-gray-600"
-                            src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=4&w=880&h=880&q=100"
-                            alt="">
-
-                        <h1 class="mx-4 text-xl text-gray-700 dark:text-white">シンメトリックのペアを探す</h1>
-                    </div>
-                    <div class="flex items-center text-sm ml-12 mt-2">
-                        <span>田中</span>
-                        <span class="ml-2">2年前</span>
-                    </div>
-                </a>
-
-                <hr class="my-8 border-gray-200 dark:border-gray-700">
-
-                <a
-                    href="{{ route('comment.show', ['answerId' => 'answerId', 'commentId' => 'commentId', 'courseName' => 'courseName']) }}">
-                    <div class="flex items-center focus:outline-none">
-                        <img class="object-cover w-8 h-8 rounded-full ring ring-gray-300 dark:ring-gray-600"
-                            src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=4&w=880&h=880&q=100"
-                            alt="">
-
-                        <h1 class="mx-4 text-xl text-gray-700 dark:text-white">タイポかな？</h1>
-                    </div>
-                    <div class="flex items-center text-sm ml-12 mt-2">
-                        <span>田中</span>
-                        <span class="ml-2">2年前</span>
-                    </div>
-                </a>
-
-                <hr class="my-8 border-gray-200 dark:border-gray-700">
-
-                <a
-                    href="{{ route('comment.show', ['answerId' => 'answerId', 'commentId' => 'commentId', 'courseName' => 'courseName']) }}">
-                    <div class="flex items-center focus:outline-none">
-                        <img class="object-cover w-8 h-8 rounded-full ring ring-gray-300 dark:ring-gray-600"
-                            src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=4&w=880&h=880&q=100"
-                            alt="">
-
-                        <h1 class="mx-4 text-xl text-gray-700 dark:text-white">bucket sortのindexについて</h1>
-                    </div>
-                    <div class="flex items-center text-sm ml-12 mt-2">
-                        <span>田中</span>
-                        <span class="ml-2">2年前</span>
-                    </div>
-                </a>
-
-                <hr class="my-8 border-gray-200 dark:border-gray-700">
-
-                <a
-                    href="{{ route('comment.show', ['answerId' => 'answerId', 'commentId' => 'commentId', 'courseName' => 'courseName']) }}">
-                    <div class="flex items-center focus:outline-none">
-                        <img class="object-cover w-8 h-8 rounded-full ring ring-gray-300 dark:ring-gray-600"
-                            src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=4&w=880&h=880&q=100"
-                            alt="">
-
-                        <h1 class="mx-4 text-xl text-gray-700 dark:text-white">selectionソートのfor文のところ</h1>
-                    </div>
-                    <div class="flex items-center text-sm ml-12 mt-2">
-                        <span>田中</span>
-                        <span class="ml-2">2年前</span>
-                    </div>
-                </a>
-
-                <hr class="my-8 border-gray-200 dark:border-gray-700">
             </div>
         </div>
 

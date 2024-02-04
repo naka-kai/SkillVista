@@ -17,7 +17,7 @@
                 </div>
             </div>
             <button
-                class="inline-flex items-center py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border rounded-sm hover:opacity-70 mr-4"
+                class="inline-flex items-center py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border rounded-sm hover:opacity-70 mr-6"
                 type="button">編集</button>
         </div>
 

@@ -43,10 +43,8 @@ class CourseController extends Controller
 
         // 動画の合計時間
         $movie_total_time = $this->calcMovie($course);
-
-        $teacherId = 1;
-
-        return view('Pages.Course.course', compact('course', 'rate', 'rated_people_num', 'movie_total_time', 'purchased_count', 'teacherId'));
+        
+        return view('Pages.Course.course', compact('course', 'rate', 'rated_people_num', 'movie_total_time', 'purchased_count'));
     }
 
     public function create($teacherName)

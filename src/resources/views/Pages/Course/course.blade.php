@@ -85,17 +85,18 @@
                 </div>
                 <div>
                     <a
-                        href="{{ route('movie', ['teacherName' => $course->teacher->last_name_en . $course->teacher->first_name_en, 'courseName' => $course->course_url, 'movieId' => 'movieId']) }}">
+                        href="{{ route('movie', ['teacherName' => $course->teacher->last_name_en . $course->teacher->first_name_en, 'courseName' => $course->course_url, 'movieId' => 1]) }}">
                         <div class="flex justify-center">
                             <button type="submit"
-                                class="bg-white border border-gray-400 hover:opacity-70 py-3 px-5 text-center w-full lg:w-1/5 my-5 font-bold text-lg">Q & Aを確認する</button>
+                                class="bg-white border border-gray-400 hover:opacity-70 py-3 px-5 text-center w-full lg:w-1/5 my-5 font-bold text-lg">Q
+                                & Aを確認する</button>
                         </div>
                     </a>
                 </div>
             @else
                 <div>
                     <a
-                        href="{{ route('movie', ['teacherName' => 'teacherName', 'courseName' => 'courseName', 'movieId' => 'movieId']) }}">
+                        href="{{ route('movie', ['teacherName' => $course->teacher->last_name_en . $course->teacher->first_name_en, 'courseName' => $course->course_url, 'movieId' => 1]) }}">
                         <div class="flex justify-center">
                             <button type="submit"
                                 class="bg-blue-300 hover:opacity-70 py-3 px-5 text-center w-full lg:w-1/5 my-5 font-bold text-lg">受講する</button>
@@ -218,8 +219,8 @@
                 <ul class="mt-2">
                     @foreach ($course->rates as $rate)
                         @if ($loop->index == 4)
-                        @break
-                    @endif
+                            @break
+                        @endif
                     <li>
                         <div class="flex items-center focus:outline-none">
                             <img class="object-cover w-12 h-12 rounded-full ring ring-gray-300 dark:ring-gray-600"
