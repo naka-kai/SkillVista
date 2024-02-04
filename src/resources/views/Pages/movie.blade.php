@@ -1,11 +1,5 @@
 @extends('Layouts.app')
 
-@section('style')
-    <style>
-        .tab_menu_item.is_active {}
-    </style>
-@endsection
-
 @section('content')
     <div class="my-5">
         <img class="object-cover object-center w-full h-96 rounded-lg"
@@ -14,11 +8,23 @@
 
         <ul
             class="tab_menu flex overflow-x-auto overflow-y-hidden border-b border-gray-200 whitespace-nowrap dark:border-gray-700 mt-5">
-            <li class="tab_menu_item is_active inline-flex items-center h-10 px-4 -mb-px text-sm text-center bg-transparent border-b-2 sm:text-base whitespace-nowrap focus:outline-none cursor-pointer text-blue-600 border-blue-500"
+            <li class="tab_menu_item inline-flex items-center h-10 px-4 -mb-px text-sm text-center bg-transparent border-b-2 sm:text-base whitespace-nowrap focus:outline-none cursor-pointer
+            @if(auth()->guard('user')->check())
+                is_active text-blue-600 border-blue-500
+            @else
+                text-gray-700 hover:border-gray-400 border-transparent
+            @endif
+            "
                 data-tab="01">
                 コース内容
             </li>
-            <li class="tab_menu_item inline-flex items-center h-10 px-4 -mb-px text-sm text-center bg-transparent border-b-2 sm:text-base whitespace-nowrap focus:outline-none cursor-pointer border-transparent hover:border-gray-400 text-gray-700"
+            <li class="tab_menu_item inline-flex items-center h-10 px-4 -mb-px text-sm text-center bg-transparent border-b-2 sm:text-base whitespace-nowrap focus:outline-none cursor-pointer
+            @if(auth()->guard('teacher')->check())
+                is_active text-blue-600 border-blue-500
+            @else
+                text-gray-700 hover:border-gray-400 border-transparent
+            @endif
+            "
                 data-tab="02">
                 Q & A
             </li>
@@ -26,7 +32,13 @@
 
         <div class="tab_panel mt-10">
             <!-- コース内容 -->
-            <div class="tab_panel_box is_show block" data-panel="01">
+            <div class="tab_panel_box
+            @if(auth()->guard('user')->check())
+                is_show block
+            @else
+                hidden
+            @endif
+            " data-panel="01">
                 <hr class="my-8 border-gray-200 dark:border-gray-700">
 
                 <div>
@@ -151,7 +163,13 @@
             </div>
 
             <!-- Q & A -->
-            <div class="tab_panel_box hidden" data-panel="02">
+            <div class="tab_panel_box
+            @if(auth()->guard('user')->check())
+                hidden
+            @else
+                is_show block
+            @endif
+            " data-panel="02">
 
                 <hr class="mb-8 border-gray-200 dark:border-gray-700">
 

@@ -2,18 +2,23 @@
 
 @section('content')
     <div class="bg-white dark:bg-gray-900 py-8 lg:py-16 antialiased">
-        <div class="mb-6">
-            <div class="flex items-center focus:outline-none">
-                <img class="object-cover w-8 h-8 rounded-full ring ring-gray-300 dark:ring-gray-600"
-                    src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=4&w=880&h=880&q=100"
-                    alt="">
-
-                <h1 class="mx-4 text-xl text-gray-700 dark:text-white font-bold">タイポかな？</h1>
+        <div class="mb-6 flex justify-between items-center">
+            <div>
+                <div class="flex items-center focus:outline-none">
+                    <img class="object-cover w-8 h-8 rounded-full ring ring-gray-300 dark:ring-gray-600"
+                        src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=4&w=880&h=880&q=100"
+                        alt="">
+    
+                    <h1 class="mx-4 text-xl text-gray-700 dark:text-white font-bold">タイポかな？</h1>
+                </div>
+                <div class="flex items-center text-sm ml-12 mt-2">
+                    <span>田中</span>
+                    <span class="ml-2">2年前</span>
+                </div>
             </div>
-            <div class="flex items-center text-sm ml-12 mt-2">
-                <span>田中</span>
-                <span class="ml-2">2年前</span>
-            </div>
+            <button
+                class="inline-flex items-center py-1 px-3 text-sm font-medium text-center text-gray-500 bg-gray-100 border rounded-sm hover:opacity-70 mr-4"
+                type="button">編集</button>
         </div>
 
         <!-- comments -->

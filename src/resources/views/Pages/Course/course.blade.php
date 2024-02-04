@@ -83,6 +83,15 @@
                         </div>
                     </a>
                 </div>
+                <div>
+                    <a
+                        href="{{ route('movie', ['teacherName' => $course->teacher->last_name_en . $course->teacher->first_name_en, 'courseName' => $course->course_url, 'movieId' => 'movieId']) }}">
+                        <div class="flex justify-center">
+                            <button type="submit"
+                                class="bg-white border border-gray-400 hover:opacity-70 py-3 px-5 text-center w-full lg:w-1/5 my-5 font-bold text-lg">Q & Aを確認する</button>
+                        </div>
+                    </a>
+                </div>
             @else
                 <div>
                     <a
