@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Chapter;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use App\Models\Coursecategory;
+use App\Models\CourseCoursecategory;
 use App\Models\User;
 use App\Models\Teacher;
 use Illuminate\Support\Facades\DB;
@@ -36,7 +37,8 @@ class Course extends Model
     }
 
     public function course_categories(): BelongsToMany {
-        return $this->belongsToMany(Coursecategory::class);
+        return $this->belongsToMany(Coursecategory::class, 'course_coursecategory', 'course_id', 'coursecategory_id')
+            ->using(CourseCoursecategory::class);
     }
 
     public function users(): BelongsToMany {

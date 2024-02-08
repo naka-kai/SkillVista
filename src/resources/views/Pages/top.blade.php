@@ -9,7 +9,13 @@
         <div class="bg-white dark:bg-gray-900">
             <div class="py-10">
                 <div class="flex items-center justify-between">
-                    <h1 class="text-2xl font-semibold text-gray-800 capitalize lg:text-3xl dark:text-white">最近の注目コース</h1>
+                    @if (isset($categoryName))
+                        <h1 class="text-2xl font-semibold text-gray-800 capitalize lg:text-3xl dark:text-white">{{ $categoryName }}に関連があるコース</h1>
+                    @elseif (isset($keyword))
+                        <h1 class="text-2xl font-semibold text-gray-800 capitalize lg:text-3xl dark:text-white">「{{ $keyword }}」の検索結果</h1>
+                    @else
+                        <h1 class="text-2xl font-semibold text-gray-800 capitalize lg:text-3xl dark:text-white">最近の注目コース</h1>
+                    @endif
                 </div>
 
                 <hr class="my-8 border-gray-200 dark:border-gray-700">
