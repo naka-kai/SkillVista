@@ -121,8 +121,8 @@
                         <hr class="mt-3 border-gray-200 dark:border-gray-700">
 
                         <div id="chapter_list">
-                            {{-- @foreach ($course->chapters as $chapter) --}}
-                            <div id="chapter_¥¥¥¥¥" class="accordion">
+                            @foreach ($course->chapters as $chapter)
+                            <div id="chapter_{{ $chapter->id }}" class="accordion">
                                 <div class="my-5">
                                     <div class="accordion_header flex items-center focus:outline-none">
                                         <span class="is_open text-gray-400 bg-gray-200 rounded-full block cursor-pointer">
@@ -241,7 +241,7 @@
                                 </div>
                                 <hr class="mt-3 border-gray-200 dark:border-gray-700">
                             </div>
-                            {{-- @endforeach --}}
+                            @endforeach
 
                         </div>
                     </div>
@@ -328,6 +328,7 @@
             const $chapterList = $('#chapter_list')
             // console.log($chapterList)
 
+            // 保存せずに一旦保持しておきたい -> 保存ボタン押下後に保存
             $chapterList.sortable({
                 update: function() {
                     let chapterSortedList = $chapterList.sortable('toArray')
@@ -336,25 +337,25 @@
                         chapterSorted.push(e.replace('chapter_', ''))
                     })
                     // console.log(chapterSorted)
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        }
-                    })
-                    $.ajax({
-                        // 保存せずに一旦保持しておきたい -> 保存ボタン押下後に保存
-                        url: "{{ route('chapter.store', ['teacherName' => $teacherName, 'courseName' => 'courseName']) }}",
-                        type: "POST",
-                        data: {
-                            chapterSorted: chapterSorted
-                        },
-                    }).done(function(data) {}).fail(function(jqXHR, textStatus, error) {
-                        console.log("更新に失敗しました")
-                        console.log(jqXHR)
-                        console.log(textStatus)
-                        console.log(error)
-                    })
+                    
                 }
+            })
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            })
+            $.ajax({
+                url: "{{ route('chapter.store', ['teacherName' => $teacherName, 'courseName' => 'courseName']) }}",
+                type: "POST",
+                data: {
+                    chapterSorted: chapterSorted
+                },
+            }).done(function(data) {}).fail(function(jqXHR, textStatus, error) {
+                console.log("更新に失敗しました")
+                console.log(jqXHR)
+                console.log(textStatus)
+                console.log(error)
             })
 
             /* 動画の順番を並べ替える */
