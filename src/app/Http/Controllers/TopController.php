@@ -35,7 +35,7 @@ class TopController extends Controller
                 ->paginate(10);
         }
 
-        return view('Pages.top', compact('courses'));
+        return view('Pages.top', compact('courses', 'keyword'));
     }
 
     /**
