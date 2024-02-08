@@ -1,11 +1,9 @@
 <?php
 
-require __DIR__ . '/user.php';
-require __DIR__ . '/teacher.php';
-
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\CoursecategoryController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\TopController;
 use App\Http\Controllers\TestController;
@@ -28,7 +26,9 @@ Route::get('/select-login', [TopController::class, 'selectLogin'])->name('select
 // コース詳細
 Route::get('/course/{courseName}', [CourseController::class, 'show'])->name('course');
 // 教師詳細
-Route::get('/teacher/{teacherName}', [TeacherController::class, 'show'])->name('teacher');
+Route::get('/teacher_presentation/{teacherName}', [TeacherController::class, 'show'])->name('teacher');
+// カテゴリー一覧
+Route::get('/course/category/{categoryName}', [CoursecategoryController::class, 'show'])->name('category');
 
 // 誰でも閲覧可能だが部分によってはauth必要(ログインしたら見えるマイコースなど)
 // TOPページ
@@ -45,3 +45,6 @@ Route::middleware('auth:user,teacher')->group(function() {
     // テスト問題
     Route::get('/{courseName}/test/{testId}/{userId}', [TestController::class, 'testQuestion'])->name('testQuestion');
 });
+
+require __DIR__ . '/user.php';
+require __DIR__ . '/teacher.php';

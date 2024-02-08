@@ -43,7 +43,8 @@
                         <form action="{{ route('top') }}" method="GET">
                             <div class="my-4 mx-4">
                                 <div class="relative">
-                                    <button type="submit" value="search" class="absolute inset-y-0 left-0 flex items-center pl-3">
+                                    <button type="submit" value="search"
+                                        class="absolute inset-y-0 left-0 flex items-center pl-3">
                                         <svg class="w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none">
                                             <path
                                                 d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z"
@@ -51,7 +52,7 @@
                                                 stroke-linejoin="round"></path>
                                         </svg>
                                     </button>
-    
+
                                     <input type="text" name="keyword"
                                         class="w-full py-2 pl-10 pr-4 text-gray-700 bg-white border rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 focus:ring-blue-300"
                                         placeholder="Search">
@@ -131,51 +132,14 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
 
             <div class="py-3 mt-3 -mx-3 overflow-y-auto whitespace-nowrap header-scroll-hidden">
-                <a class="mx-4 text-sm leading-5 text-gray-700 transition-colors duration-300 transform dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:underline lg:my-0"
-                    href="#">News</a>
-                <a class="mx-4 text-sm leading-5 text-gray-700 transition-colors duration-300 transform dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:underline lg:my-0"
-                    href="#">Articles</a>
-                <a class="mx-4 text-sm leading-5 text-gray-700 transition-colors duration-300 transform dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:underline lg:my-0"
-                    href="#">Videos</a>
-                <a class="mx-4 text-sm leading-5 text-gray-700 transition-colors duration-300 transform dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:underline lg:my-0"
-                    href="#">Tricks</a>
-                <a class="mx-4 text-sm leading-5 text-gray-700 transition-colors duration-300 transform dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:underline lg:my-0"
-                    href="#">PHP</a>
-                <a class="mx-4 text-sm leading-5 text-gray-700 transition-colors duration-300 transform dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:underline lg:my-0"
-                    href="#">Laravel</a>
-                <a class="mx-4 text-sm leading-5 text-gray-700 transition-colors duration-300 transform dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:underline lg:my-0"
-                    href="#">Vue</a>
-                <a class="mx-4 text-sm leading-5 text-gray-700 transition-colors duration-300 transform dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:underline lg:my-0"
-                    href="#">React</a>
-                <a class="mx-4 text-sm leading-5 text-gray-700 transition-colors duration-300 transform dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:underline lg:my-0"
-                    href="#">Tailwindcss</a>
-                <a class="mx-4 text-sm leading-5 text-gray-700 transition-colors duration-300 transform dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:underline lg:my-0"
-                    href="#">Meraki UI</a>
-                <a class="mx-4 text-sm leading-5 text-gray-700 transition-colors duration-300 transform dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:underline lg:my-0"
-                    href="#">CPP</a>
-                <a class="mx-4 text-sm leading-5 text-gray-700 transition-colors duration-300 transform dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:underline lg:my-0"
-                    href="#">JavaScript</a>
-                <a class="mx-4 text-sm leading-5 text-gray-700 transition-colors duration-300 transform dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:underline lg:my-0"
-                    href="#">Ruby</a>
-                <a class="mx-4 text-sm leading-5 text-gray-700 transition-colors duration-300 transform dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:underline lg:my-0"
-                    href="#">Mysql</a>
-                <a class="mx-4 text-sm leading-5 text-gray-700 transition-colors duration-300 transform dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:underline lg:my-0"
-                    href="#">Pest</a>
-                <a class="mx-4 text-sm leading-5 text-gray-700 transition-colors duration-300 transform dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:underline lg:my-0"
-                    href="#">PHPUnit</a>
-                <a class="mx-4 text-sm leading-5 text-gray-700 transition-colors duration-300 transform dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:underline lg:my-0"
-                    href="#">Netlify</a>
-                <a class="mx-4 text-sm leading-5 text-gray-700 transition-colors duration-300 transform dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:underline lg:my-0"
-                    href="#">VS Code</a>
-                <a class="mx-4 text-sm leading-5 text-gray-700 transition-colors duration-300 transform dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:underline lg:my-0"
-                    href="#">PHPStorm</a>
-                <a class="mx-4 text-sm leading-5 text-gray-700 transition-colors duration-300 transform dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:underline lg:my-0"
-                    href="#">Sublime</a>
+                @foreach ($categories as $category)
+                    <a class="mx-4 text-sm leading-5 text-gray-700 transition-colors duration-300 transform dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:underline lg:my-0"
+                        href="#">{{ $category->coursecategory }}</a>
+                @endforeach
             </div>
         </div>
     </nav>
