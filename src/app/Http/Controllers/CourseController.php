@@ -49,6 +49,7 @@ class CourseController extends Controller
 
     public function create($teacherName)
     {
+        // 新規作成なので$courseは渡せない。どう設計するか？
         return view('Pages.Course.create', compact('teacherName'));
     }
 

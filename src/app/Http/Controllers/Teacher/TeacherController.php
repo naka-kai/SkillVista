@@ -19,6 +19,6 @@ class TeacherController extends Controller
             ->where('teacher_id', $teacher_id)
             ->get();
 
-        return view('Pages.Teacher.my_course', compact('courses'));
+        return view('Pages.Teacher.my_course', compact('courses', 'teacherName'));
     }
 }

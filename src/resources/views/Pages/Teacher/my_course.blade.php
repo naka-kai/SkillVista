@@ -14,7 +14,7 @@
                 </div>
     
                 <div>
-                    <a href="{{ route('course.create', ['teacherName' => 'teacherName']) }}" class="w-full px-8 py-3 mt-2 text-sm font-medium tracking-wide capitalize transition-colors duration-300 transform bg-white rounded-md sm:w-auto sm:mt-0 hover:opacity-70 focus:outline-none border-2">
+                    <a href="{{ route('course.create', ['teacherName' => $teacherName]) }}" class="w-full px-8 py-3 mt-2 text-sm font-medium tracking-wide capitalize transition-colors duration-300 transform bg-white rounded-md sm:w-auto sm:mt-0 hover:opacity-70 focus:outline-none border-2">
                         新規作成
                     </a>
                 </div>
