@@ -175,7 +175,7 @@
 
                 @foreach ($qas as $qa)
                     <a
-                        href="{{ route('comment.show', ['answerId' => 'answerId', 'commentId' => $qa->id, 'courseName' => $courseName]) }}">
+                        href="{{ route('comment.show', ['commentId' => $qa->id, 'courseName' => $courseName]) }}">
                         <div class="flex items-center focus:outline-none">
                             <img class="object-cover w-8 h-8 rounded-full ring ring-gray-300 dark:ring-gray-600"
                                 src="{{ $qa->image == null || '' ? asset('img/kkrn_icon_user_13.png') : asset($qa->image) }}">

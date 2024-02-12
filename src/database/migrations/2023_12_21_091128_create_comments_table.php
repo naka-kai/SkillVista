@@ -15,11 +15,12 @@ return new class extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->string('title', 255)->comment('タイトル');
+            $table->string('title', 255)->nullable()->comment('タイトル');
             $table->text('comment')->comment('コメント');
             $table->text('image')->nullable()->comment('画像');
             $table->foreignId('movie_id')->constrained()->cascadeOnDelete();
-            $table->bigInteger('parent_flg')->comment('コメントの親, 0: 親コメント, その他: コメントID');
+            $table->string('course_title', 255)->comment('コースのタイトル');
+            $table->bigInteger('parent_id')->comment('コメントの親, 0: 親コメント, その他: 親のコメントID');
             $table->bigInteger('who_id')->comment('教師orユーザーのID');
             $table->integer('who_flg')->comment('0: ユーザー, 1: 教師');
             $table->string('created_by', 255)->comment('作成者');

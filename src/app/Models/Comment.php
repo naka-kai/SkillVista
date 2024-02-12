@@ -18,9 +18,10 @@ class Comment extends Model
         'comment',
         'image',
         'movie_id',
-        'parent_flg',
+        'parent_id',
         'who_id',
         'who_flg',
+        'course_title',
     ];
 
     public function movie() {

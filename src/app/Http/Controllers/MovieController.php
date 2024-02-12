@@ -15,11 +15,11 @@ use FFMpeg;
 
 class MovieController extends Controller
 {
-    public function show($courseName, $movieId)
+    public function show($teacherName, $courseName, $movieId)
     {
         // Q & Aの一覧情報
-        $qas = Comment::query('movie_id', $movieId)
-            ->where('parent_flg', 0)
+        $qas = Comment::query('course_title', $courseName)
+            ->where('parent_id', 0)
             ->get();
 
         return view('Pages.movie', compact('courseName', 'qas'));

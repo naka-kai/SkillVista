@@ -39,7 +39,7 @@ Route::middleware('auth:user,teacher')->group(function() {
     // 動画詳細
     Route::get('/movie/{teacherName}/{courseName}/{movieId}', [MovieController::class, 'show'])->name('movie');
     // コメント詳細
-    Route::get('/comment/{courseName}/{commentId}/{answerId}', [CommentController::class, 'show'])->name('comment.show');
+    Route::get('/comment/{courseName}/{commentId}', [CommentController::class, 'show'])->name('comment.show');
     // テスト回答
     Route::get('/{courseName}/test/{testId}/answer', [TestController::class, 'testAnswer'])->name('testAnswer');
     // テスト問題
