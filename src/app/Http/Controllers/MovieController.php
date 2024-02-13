@@ -7,6 +7,7 @@ use App\Models\Course;
 use App\Models\Comment;
 use Illuminate\Http\Request;
 use App\Models\Movie;
+use App\Models\Teacher;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
@@ -22,7 +23,16 @@ class MovieController extends Controller
             ->where('parent_id', 0)
             ->get();
 
-        return view('Pages.movie', compact('courseName', 'qas'));
+        // Q & Aの情報
+        $qa = Comment::where('course_title', $courseName)
+            ->first();
+        $teacher_id = Comment::where('who_flg', 1)
+            ->pluck('who_id')
+            ->first();
+        $teacher = Teacher::where('id', $teacher_id)
+            ->first();
+
+        return view('Pages.movie', compact('courseName', 'qas', 'teacher'));
     }
 
     public function store(Request $request, $teacherName, $courseName) {

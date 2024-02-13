@@ -46,5 +46,10 @@ Route::middleware('auth:user,teacher')->group(function() {
     Route::get('/{courseName}/test/{testId}/{userId}', [TestController::class, 'testQuestion'])->name('testQuestion');
 });
 
+// // ユーザー
+// Route::middleware('auth:user')->prefix('user')->name('user.')->group(function() {
+//     // コメント新規作成
+//     Route::get('/comment/create/{courseName}', [CommentController::class, 'create'])->name('comment.create');
+// });
 require __DIR__ . '/user.php';
 require __DIR__ . '/teacher.php';

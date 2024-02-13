@@ -61,14 +61,14 @@
                             <li class="leading-8 cursor-pointer hover:underline flex items-center">
                                 <input type="checkbox" name="" id="">
                                 <a
-                                    href="{{ route('movie', ['teacherName' => 'teacherName', 'courseName' => 'courseName', 'movieId' => 'movieId']) }}">
+                                    href="{{ route('movie', ['teacherName' => $teacher->last_name_en . $teacher->first_name_en, 'courseName' => 'courseName', 'movieId' => 'movieId']) }}">
                                     <p class="ml-2">アルゴリズムとデータ構造とは</p>
                                 </a>
                             </li>
                             <li class="leading-8 cursor-pointer hover:underline flex items-center">
                                 <input type="checkbox" name="" id="">
                                 <a
-                                    href="{{ route('movie', ['teacherName' => 'teacherName', 'courseName' => 'courseName', 'movieId' => 'movieId']) }}">
+                                    href="{{ route('movie', ['teacherName' => $teacher->last_name_en . $teacher->first_name_en, 'courseName' => 'courseName', 'movieId' => 'movieId']) }}">
                                     <p class="ml-2">Big O Notaion（Big O 記法）と安定ソートとは</p>
                                 </a>
                             </li>
@@ -171,6 +171,13 @@
             @endif
             " data-panel="02">
 
+                <!-- 新規作成ボタン -->
+                {{-- <div class="mb-10 flex justify-end">
+                    <a href="{{ route('user.comment.create', ['courseName' => $courseName]) }}" class="w-full px-8 py-3 mt-2 text-sm font-medium tracking-wide capitalize transition-colors duration-300 transform bg-white rounded-md sm:w-auto sm:mt-0 hover:opacity-70 focus:outline-none border-2">
+                        新規作成
+                    </a>
+                </div> --}}
+
                 <hr class="mb-8 border-gray-200 dark:border-gray-700">
 
                 @foreach ($qas as $qa)
@@ -191,6 +198,23 @@
                     <hr class="my-8 border-gray-200 dark:border-gray-700">
                 @endforeach
 
+                <h1 class="mt-10 text-xl font-semibold text-gray-800 capitalize lg:text-3xl">質問を投稿</h1>
+                <hr class="mt-3 mb-5 border-gray-200 dark:border-gray-700">
+                <div class="mt-5 mb-10">
+                    <form
+                        action="{{ route('movie', ['teacherName' => $teacher->last_name_en . $teacher->first_name_en, 'courseName' => $courseName, 'movieId' => 'movieId']) }}"
+                        id="form">
+                        @csrf
+                        <textarea name="title" id="title" class="border border-[#ccc] w-full p-2" placeholder="タイトル" rows="1"></textarea>
+                        <textarea name="contents" id="contents" class="hidden"></textarea>
+                        <div id="quill_editor" class="pb-16"></div>
+                        <div class="flex justify-end mt-3">
+                            <button type="button" onclick="clickSubmit();"
+                                class="px-10 py-2 font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-sm hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80">送信</button>
+                        </div>
+                    </form>
+                </div>
+
             </div>
         </div>
 
@@ -198,6 +222,7 @@
 @endsection
 
 @section('script')
+    <script src="{{ asset('js/quillcustom.js') }}"></script>
     <script>
         // タブ切り替え
         const tabMenus = document.querySelectorAll('.tab_menu_item');
@@ -239,6 +264,18 @@
                     tabPanelItem.classList.remove('hidden');
                 }
             })
+        }
+
+        /* エディター */
+        // https://blog.4breaker.com/2020/04/20/post-864/
+        var quill = quillEditor('quill_editor');
+
+        const form = document.getElementById('form');
+        const contents = document.getElementById('contents');
+
+        function clickSubmit() {
+            contents.value = quill.root.innerHTML;
+            form.submit();
         }
     </script>
 @endsection
