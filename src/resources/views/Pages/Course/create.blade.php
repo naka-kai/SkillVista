@@ -225,6 +225,7 @@
                                 </div>
                             </div>
                             <div class="accordion_inner wrapper flex mt-8 md:mx-10">
+                                <ul id="chapter${chapterCount}_movie_list" class="movie_list text-gray-700"></ul>
                                 <ul id="chapter${chapterCount}_add_movie" class="moviefile max-w-3xl text-gray-700">
                                     <li>
                                         <div class="mb-1">
@@ -256,7 +257,7 @@
                                                                 class="flex items-center px-3 py-3 text-center bg-white border-2 border-dashed rounded-lg cursor-pointer dark:border-gray-600 dark:bg-gray-900">
                                                                 <h2 class="fileName mx-3 text-gray-400">
                                                                     動画を選択してください</h2>
-                                                                <input id="chapter${chapterCount}_movie" type="file" name="movie" class="preview hidden @error('movie') is-invalid @enderror"
+                                                                <input id="chapter${chapterCount}_movie" type="file" name="chapter${chapterCount}_movie" value="" class="preview hidden @error('movie') is-invalid @enderror"
                                                                     accept="video/*" value=""
                                                                     autocomplete="movie" />
                                                             </label>
@@ -265,7 +266,7 @@
                                                             <label class="mb-1">動画タイトル</label>
                                                             <input type="text" id="chapter${chapterCount}_movie_title" value="" class="border p-1">
                                                         </div>
-                                                        <button type="button" id="chapter${chapterCount}_movie_add_btn" class="movie_add_btn bg-gray-700 text-white hover:opacity-70 py-2 px-5 rounded-md w-full mt-5">追加</button>
+                                                        <button type="button" class="movie_add_btn bg-gray-700 text-white hover:opacity-70 py-2 px-5 rounded-md w-full mt-5">追加</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -310,14 +311,18 @@
                 $('.modalOpen').on('click', function() {
                     $(this).parent().nextAll('.modal').removeClass('hidden').addClass(
                         'flex justify-center items-center');
+                    // もし以前に入力されている情報があれば動画情報をリセットする
+                    $(this).parent().next('.modal').find('.fileName').text('動画を選択してください');
+                    $(this).parent().next('.modal').find('.displayImg').attr('src', '');
+                    $(this).parent().next('.modal').find('.preview').val('');
                 })
                 $('.modalClose').on('click', function() {
                     $(this).closest('.wrapper').find('.modal').removeClass('flex justify-center items-center')
                         .addClass('hidden');
                 })
 
-                /* コースのサムネイル画像や動画を選択時にプレビュー表示 */
-                $('.preview').on('change', function(e) {
+                /* 動画を選択時にプレビュー表示 */
+                $(document).on('change', '.preview', function(e) {
                     $(this).prev('.fileName').text($(this).prop('files')[0].name);
                     let displayImg = $(this).parent().prev().children('.displayImg');
                     let reader = new FileReader();
@@ -328,45 +333,53 @@
                 })
 
                 /* 動画を追加 */
-                $(`#chapter${chapterCount}_movie_add_btn`).on('click', function() {
-                    // 動画タイトルの入力フィールドからデータを取得
-                    let newMovieTitle = $(`#chapter${chapterCount}_movie_title`).val();
-                    // 最新の動画IDを取得
-                    let movieCount = $(this).closest(`#chapter_${chapterCount}`).find('.movie').length + 1;
+                $(document).on('click', '.movie_add_btn', function() {
 
-                    // 動画一覧が入る
-                    let movieListElement = $(`<ul id="chapter${chapterCount}_movie_list${movieCount}" class="movie text-gray-700"></ul>`)
+                    // 動画を追加するチャプターのIDを取得
+                    const $chapter = $(this).closest('.chapter');
+                    const chapterId = $chapter.attr('id').replace('chapter_', '');
+
+                    // 動画数をカウント
+                    const movieCount = $(this).closest(`#chapter_${chapterCount}`).find('.movie').length + 1;
+                    // const movieCount = $chapter.find('.movie_list li').length + 1;
+
+                    // 動画タイトルの入力フィールドからデータを取得
+                    const $movieTitleInput = $chapter.find('.modal input[type="text"]');
+                    const newMovieTitle = $movieTitleInput.val();
+
                     // 新しい動画要素を生成
                     let movieElement = $(
-                        `<dv id="movie_${movieCount}">
+                        `<div class="movie_${movieCount} movie">
                             <li class="leading-8 flex items-center mb-1">
-                                <input type="hidden" name="action" value="delete_movie">
-                                <input type="hidden" name="movie_id" value="${movieCount}">
-                                <button type="button"
-                                    onclick="return confirm('この動画を削除しますか？')">
-                                    <img src="{{ asset('img/remove-movie.png') }}"
-                                        class="w-9 h-auto cursor-pointer">
-                                </button>
-                                <input type="text" id="movie_title${movieCount}" value="" class="border py-1 ml-1 text-lg w-full">
+                                <img src="{{ asset('img/remove-movie.png') }}"
+                                    class="remove_movie_btn w-9 h-auto cursor-pointer">
+                                <input type="text" class="movie_title${movieCount}" value="" class="border py-1 ml-1 text-lg w-full">
                             </li>
-                        </dv>`
+                        </div>`
                     );
 
                     // 動画の要素を追加
-                    $(`#chapter${chapterCount}_add_movie`).before(movieListElement)
-                    $(`#chapter${chapterCount}_movie_list${movieCount}`).append(movieElement);
+                    $(`#chapter${chapterId}_movie_list`).append(movieElement);
 
                     // 新しく作成された動画のタイトルに上記で取得した入力フィールドからの入力値を反映させる
-                    $(`#movie_title${movieCount}`).val(newMovieTitle);
+                    $(`#chapter${chapterId}_movie_list`).find(`.movie_title${movieCount}`).val(newMovieTitle);
 
                     // モーダルを閉じる
                     $(this).closest('.wrapper').find('.modal').removeClass('flex justify-center items-center')
                         .addClass('hidden');
 
-                    // プレビューや入力フォームをリセットする
-                    $('.moviefile').find('.fileName').text('動画を選択してください');
-                    $('.moviefile').find('.displayImg').attr('src', '');
-                    $(`#chapter${chapterCount}_movie_title`).val('');
+                    // 入力フォームをリセットする
+                    $movieTitleInput.val('');
+                })
+
+                /* 動画を削除 */
+                $(document).on('click', '.remove_movie_btn', function() {
+                    if (!confirm('この動画を削除しますか？')) {
+                        // キャンセルの場合
+                        return false;
+                    } else {
+                        $(this).closest('.movie').remove();
+                    }
                 })
             })
 
@@ -450,7 +463,7 @@
             //     }
             // }
 
-            /* コースのサムネイル画像や動画を選択時にプレビュー表示 */
+            /* コースのサムネイル画像を選択時にプレビュー表示 */
             $('.preview').on('change', function(e) {
                 $(this).prev('.fileName').text($(this).prop('files')[0].name);
                 let displayImg = $(this).parent().prev().children('.displayImg');
