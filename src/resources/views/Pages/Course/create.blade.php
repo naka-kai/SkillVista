@@ -3,14 +3,6 @@
 @section('style')
     <link rel="stylesheet" href="{{ asset('css/rate.css') }}">
     <style>
-        .accordion_inner {
-            display: none;
-        }
-
-        .accordion:first-of-type>.accordion_inner {
-            display: block;
-        }
-
         .is_open {
             display: none;
         }
@@ -266,7 +258,7 @@
                                                             <label class="mb-1">動画タイトル</label>
                                                             <input type="text" id="chapter${chapterCount}_movie_title" value="" class="border p-1">
                                                         </div>
-                                                        <button type="button" class="movie_add_btn bg-gray-700 text-white hover:opacity-70 py-2 px-5 rounded-md w-full mt-5">追加</button>
+                                                        <button type="button" class="chapter${chapterCount}_movie_add_btn bg-gray-700 text-white hover:opacity-70 py-2 px-5 rounded-md w-full mt-5">追加</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -299,10 +291,10 @@
                 $('#new_chapter_input').val('');
                 
                 /* 動画アコーディオン */
-                // 最初のチャプターは開いたままにしておく
-                $('.accordion:first-of-type .accordion_inner').css('display', 'block');
-                $('.accordion:first-of-type .accordion_header > .is_open').addClass('open');
-                $('.accordion_header').on('click', function() {
+                // 最初は開いたままにしておく
+                $('.accordion .accordion_inner').css('display', 'block');
+                $('.accordion .accordion_header > .is_open').addClass('open');
+                $(`#chapter_${chapterCount} .accordion_header`).on('click', function() {
                     $(this).next('.accordion_inner').slideToggle();
                     $(this).children('.is_open').toggleClass('open');
                 })
@@ -333,15 +325,15 @@
                 })
 
                 /* 動画を追加 */
-                $(document).on('click', '.movie_add_btn', function() {
+                $(`.chapter${chapterCount}_movie_add_btn`).on('click', function() {
 
                     // 動画を追加するチャプターのIDを取得
                     const $chapter = $(this).closest('.chapter');
                     const chapterId = $chapter.attr('id').replace('chapter_', '');
 
                     // 動画数をカウント
-                    const movieCount = $(this).closest(`#chapter_${chapterCount}`).find('.movie').length + 1;
-                    // const movieCount = $chapter.find('.movie_list li').length + 1;
+                    const $movieList = $(`#chapter${chapterId}_movie_list`);
+                    const movieCount = $movieList.find('.movie').length + 1;
 
                     // 動画タイトルの入力フィールドからデータを取得
                     const $movieTitleInput = $chapter.find('.modal input[type="text"]');
@@ -373,7 +365,7 @@
                 })
 
                 /* 動画を削除 */
-                $(document).on('click', '.remove_movie_btn', function() {
+                $(`#chapter_${chapterCount}`).on('click', '.remove_movie_btn', function() {
                     if (!confirm('この動画を削除しますか？')) {
                         // キャンセルの場合
                         return false;
