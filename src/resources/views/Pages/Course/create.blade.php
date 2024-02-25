@@ -113,6 +113,7 @@
                 <hr class="mt-3 border-gray-200 dark:border-gray-700">
 
                 <div id="course_contents">
+                    <div id="chapter_list"></div>
                     <div id="new_chapter" class="flex items-center my-5 w-full">
                         <input type="text" id="new_chapter_input" value="" class="border w-full py-2">
                         <button type="button" id="new_chapter_btn" class="ml-3">
@@ -179,20 +180,62 @@
     <script>
         $(function() {
 
-            /* コース内容登録 */
-            // チャプター一覧が入る
-            let chapterListElement = $('<div id="chapter_list"></div>')
-
-            $('#new_chapter_btn').on('click', function() {
+            /* チャプター追加イベント実行 */
+            $('#new_chapter_btn').on('click', async function() {
 
                 // 入力フィールドからデータを取得
-                let newChapterTitle = $('#new_chapter_input').val();
-                // 最新のチャプターIDを取得
-                let chapterCount = $(this).closest('#course_contents').find('.chapter').length + 1;
+                const newChapterTitle = await getNewChapterTitle()
 
-                // 新しいチャプター要素を生成
-                let chapterElement = $(
-                    `<div id="chapter_${chapterCount}" class="accordion chapter">
+                // チャプターの追加
+                const chapter = await addChapter(newChapterTitle)
+
+                // チャプターアコーディオン開閉
+                const chapterAccordion = await toggleChapterAccordion(chapter.id)
+
+                // 入力フィールドをクリア
+                const clearChapterTitle = await clearNewChapterTitle()
+            });
+
+            /* チャプター追加 */
+            async function addChapter(title) {
+
+                // id（チャプター数）の取得
+                const chapterCount = await getChapterCount()
+
+                // チャプター要素の作成
+                const chapterHtml = await createChapterHtml(chapterCount, title)
+
+                // チャプター要素の追加
+                await addChapterElement(chapterHtml)
+
+                // 動画モーダル開閉
+                movieModal()
+
+                // 動画を選択時にプレビュー表示
+                previewMovie()
+
+                return {
+                    id: chapterCount
+                }
+            }
+
+            /* id（チャプター数）の取得 */
+            async function getChapterCount() {
+                return new Promise((resolve, reject) => {
+                    const chapterLength = $('.chapter').length
+
+                    resolve(chapterLength + 1)
+                })
+            }
+
+            /* 入力フィールドからデータを取得 */
+            async function getNewChapterTitle() {
+                return $('#new_chapter_input').val()
+            }
+
+            /* チャプターHTMLの作成 */
+            async function createChapterHtml(id, title) {
+                return `<div id="chapter_${id}" class="accordion chapter">
                         <div class="my-5">
                             <div class="accordion_header flex items-center focus:outline-none">
                                 <span class="is_open text-gray-400 bg-gray-200 rounded-full block cursor-pointer">
@@ -212,13 +255,13 @@
 
                                 <div class="flex items-center w-full">
                                     <h1 class="ml-4 text-xl w-full">
-                                        <input type="text" id="chapter_title${chapterCount}" name="chapter_title${chapterCount}" value="chapter_title${chapterCount}" class="border py-2 w-full">
+                                        <input type="text" id="chapter_title${id}" name="chapter_title${id}" value="${title}" class="border py-2 w-full">
                                     </h1>
                                 </div>
                             </div>
                             <div class="accordion_inner wrapper flex mt-8 md:mx-10">
-                                <ul id="chapter${chapterCount}_movie_list" class="movie_list text-gray-700"></ul>
-                                <ul id="chapter${chapterCount}_add_movie" class="moviefile max-w-3xl text-gray-700">
+                                <ul id="chapter${id}_movie_list" class="movie_list text-gray-700"></ul>
+                                <ul id="chapter${id}_add_movie" class="moviefile max-w-3xl text-gray-700">
                                     <li>
                                         <div class="mb-1">
                                             <div class="flex items-center">
@@ -237,7 +280,7 @@
                                                         <span class="modalClose cursor-pointer">×</span>
                                                     </div>
                                                     <div>
-                                                        <input type="hidden" name="chapter_id" value="${chapterCount}">
+                                                        <input type="hidden" name="chapter_id" value="${id}">
                                                         <div>
                                                             <div
                                                                 class="flex flex-col items-center justify-center mb-4 mt-3">
@@ -245,20 +288,20 @@
                                                                     class="displayImg object-cover object-center w-full h-auto rounded-lg"
                                                                     controls></video>
                                                             </div>
-                                                            <label for="chapter${chapterCount}_movie"
+                                                            <label for="chapter${id}_movie"
                                                                 class="flex items-center px-3 py-3 text-center bg-white border-2 border-dashed rounded-lg cursor-pointer dark:border-gray-600 dark:bg-gray-900">
                                                                 <h2 class="fileName mx-3 text-gray-400">
                                                                     動画を選択してください</h2>
-                                                                <input id="chapter${chapterCount}_movie" type="file" name="chapter${chapterCount}_movie" value="" class="preview hidden @error('movie') is-invalid @enderror"
+                                                                <input id="chapter${id}_movie" type="file" name="chapter${id}_movie" value="" class="preview hidden @error('movie') is-invalid @enderror"
                                                                     accept="video/*" value=""
                                                                     autocomplete="movie" />
                                                             </label>
                                                         </div>
                                                         <div class="mt-5 flex flex-col">
                                                             <label class="mb-1">動画タイトル</label>
-                                                            <input type="text" id="chapter${chapterCount}_movie_title" value="" class="border p-1">
+                                                            <input type="text" id="chapter${id}_movie_title" value="" class="movie_title border p-1">
                                                         </div>
-                                                        <button type="button" class="chapter${chapterCount}_movie_add_btn bg-gray-700 text-white hover:opacity-70 py-2 px-5 rounded-md w-full mt-5">追加</button>
+                                                        <button type="button" class="chapter${id}_movie_add_btn movie_add_btn bg-gray-700 text-white hover:opacity-70 py-2 px-5 rounded-md w-full mt-5">追加</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -278,42 +321,73 @@
                         </div>
                         <hr class="mt-3 border-gray-200 dark:border-gray-700">
                     </div>`
-                );
+            }
 
-                // チャプターの要素を追加
-                $('#course_contents').prepend(chapterListElement)
-                $('#chapter_list').append(chapterElement);
+            /* チャプター要素の追加 */
+            async function addChapterElement(html) {
+                $('#chapter_list').append(html)
+            }
 
-                // 新しく作成されたチャプターのタイトルに上記で取得した入力フィールドからの入力値を反映させる
-                $(`#chapter_title${chapterCount}`).val(newChapterTitle);
-                
-                // 入力フィールドをクリア
-                $('#new_chapter_input').val('');
-                
-                /* 動画アコーディオン */
-                // 最初は開いたままにしておく
-                $('.accordion .accordion_inner').css('display', 'block');
-                $('.accordion .accordion_header > .is_open').addClass('open');
-                $(`#chapter_${chapterCount} .accordion_header`).on('click', function() {
-                    $(this).next('.accordion_inner').slideToggle();
-                    $(this).children('.is_open').toggleClass('open');
+            /* 入力フィールドをクリア */
+            async function clearNewChapterTitle() {
+                $('#new_chapter_input').val('')
+            }
+
+            /* チャプターアコーディオン開閉 */
+            // 最初は開いたままにしておく
+            async function toggleChapterAccordion(chapterCount) {
+                $('.accordion .accordion_inner').css('display', 'block')
+                $('.accordion .accordion_header > .is_open').addClass('open')
+                $('#chapter_list').on('click', `#chapter_${chapterCount} .accordion_header`, function() {
+                    $(this).next('.accordion_inner').slideToggle()
+                    $(this).children('.is_open').toggleClass('open')
                 })
+            }
 
-                /* 編集モーダル開閉 */
-                $('.modalOpen').on('click', function() {
+            /* 動画モーダル */
+            async function movieModal() {
+
+                // 以前のクリックイベントを削除
+                $('#chapter_list').off('click', '.movie_add_btn');
+                
+                // モーダルが開いた時
+                $('#chapter_list').on('click', '.modalOpen', async function() {
+
+                    // モーダルオープン
                     $(this).parent().nextAll('.modal').removeClass('hidden').addClass(
                         'flex justify-center items-center');
+
+                    // 動画を追加するチャプターのIDを取得
+                    const modalChapterId = await $(this).closest('.chapter').attr('id')
+
+                    /* 動画追加イベント実行 */
+                    
+                    // 以前のクリックイベントを削除
+                    $(`#${modalChapterId}`).off('click', '.movie_add_btn');
+
+                    $(`#${modalChapterId}`).on('click', '.movie_add_btn', async function() {
+                    // console.log('ok');
+
+                        // 動画追加
+                        const movie = await addMovie(modalChapterId)
+                    })
+                    
                     // もし以前に入力されている情報があれば動画情報をリセットする
                     $(this).parent().next('.modal').find('.fileName').text('動画を選択してください');
                     $(this).parent().next('.modal').find('.displayImg').attr('src', '');
                     $(this).parent().next('.modal').find('.preview').val('');
                 })
-                $('.modalClose').on('click', function() {
-                    $(this).closest('.wrapper').find('.modal').removeClass('flex justify-center items-center')
+
+                // モーダルを閉じる時
+                $('.modalClose').on('click', async function() {
+                    return $(this).closest('.wrapper').find('.modal').removeClass(
+                            'flex justify-center items-center')
                         .addClass('hidden');
                 })
+            }
 
-                /* 動画を選択時にプレビュー表示 */
+            /* 動画を選択時にプレビュー表示 */
+            function previewMovie() {
                 $(document).on('change', '.preview', function(e) {
                     $(this).prev('.fileName').text($(this).prop('files')[0].name);
                     let displayImg = $(this).parent().prev().children('.displayImg');
@@ -323,56 +397,84 @@
                     }
                     reader.readAsDataURL(e.target.files[0]);
                 })
+            }
 
-                /* 動画を追加 */
-                $(`.chapter${chapterCount}_movie_add_btn`).on('click', function() {
+            /* 動画追加 */
+            async function addMovie(modalChapterId) {
 
-                    // 動画を追加するチャプターのIDを取得
-                    const $chapter = $(this).closest('.chapter');
-                    const chapterId = $chapter.attr('id').replace('chapter_', '');
+                // id（動画数）の取得
+                const movieCount = await getMovieCount(modalChapterId)
+                // console.log(movieCount);
 
-                    // 動画数をカウント
-                    const $movieList = $(`#chapter${chapterId}_movie_list`);
-                    const movieCount = $movieList.find('.movie').length + 1;
+                // 動画タイトルの入力フィールドからデータを取得
+                const newMovieTitle = await getNewMovieTitle(modalChapterId)
 
-                    // 動画タイトルの入力フィールドからデータを取得
-                    const $movieTitleInput = $chapter.find('.modal input[type="text"]');
-                    const newMovieTitle = $movieTitleInput.val();
+                // 動画要素の作成
+                const movieHtml = await createMovieHtml(movieCount, newMovieTitle)
 
-                    // 新しい動画要素を生成
-                    let movieElement = $(
-                        `<div class="movie_${movieCount} movie">
-                            <li class="leading-8 flex items-center mb-1">
-                                <img src="{{ asset('img/remove-movie.png') }}"
-                                    class="remove_movie_btn w-9 h-auto cursor-pointer">
-                                <input type="text" class="movie_title${movieCount}" value="" class="border py-1 ml-1 text-lg w-full">
-                            </li>
-                        </div>`
-                    );
+                // 動画要素の追加
+                await addMovieElement(modalChapterId, movieHtml)
 
-                    // 動画の要素を追加
-                    $(`#chapter${chapterId}_movie_list`).append(movieElement);
+                // モーダルを閉じる
+                await closeMovieModal(modalChapterId)
 
-                    // 新しく作成された動画のタイトルに上記で取得した入力フィールドからの入力値を反映させる
-                    $(`#chapter${chapterId}_movie_list`).find(`.movie_title${movieCount}`).val(newMovieTitle);
+                // 入力フォームをリセットする
+                await clearNewMovieTitle(modalChapterId)
+            }
 
-                    // モーダルを閉じる
-                    $(this).closest('.wrapper').find('.modal').removeClass('flex justify-center items-center')
-                        .addClass('hidden');
+            /* id（動画数）の取得 */
+            async function getMovieCount(modalChapterId) {
+                // console.log('ok');
+                return $(`#${modalChapterId} .movie`).length + 1
+            }
 
-                    // 入力フォームをリセットする
-                    $movieTitleInput.val('');
-                })
+            /* 動画タイトルの入力フィールドからデータを取得 */
+            async function getNewMovieTitle(modalChapterId) {
+                return $(`#${modalChapterId}`).find('.modal .movie_title').val()
+            }
 
-                /* 動画を削除 */
-                $(`#chapter_${chapterCount}`).on('click', '.remove_movie_btn', function() {
-                    if (!confirm('この動画を削除しますか？')) {
-                        // キャンセルの場合
-                        return false;
-                    } else {
-                        $(this).closest('.movie').remove();
-                    }
-                })
+            /* 新しい動画要素を生成 */
+            async function createMovieHtml(id, title) {
+                return `<div class="movie_${id} movie">
+                    <li class="leading-8 flex items-center mb-1">
+                        <img src="{{ asset('img/remove-movie.png') }}"
+                            class="remove_movie_btn w-9 h-auto cursor-pointer">
+                        <input type="text" class="movie_title${id}" value="${title}" class="border py-1 ml-1 text-lg w-full">
+                    </li>
+                </div>`
+            }
+
+            /* 動画の要素を追加 */
+            async function addMovieElement(modalChapterId, html) {
+                const id = await cutChapterId(modalChapterId)
+                return $(`#chapter${id}_movie_list`).append(html)
+            }
+
+            /* 「chapter_1」などと受け取った値を「1」などと返す */
+            async function cutChapterId(modalChapterId) {
+                return modalChapterId.replace('chapter_', '')
+            }
+
+            /* モーダルを閉じる */
+            async function closeMovieModal(modalChapterId) {
+                return $(`#${modalChapterId}`).find('.modal').removeClass(
+                        'flex justify-center items-center')
+                    .addClass('hidden')
+            }
+
+            /* 入力フォームをリセットする */
+            async function clearNewMovieTitle(modalChapterId) {
+                return $(`#${modalChapterId}`).find('.modal .movie_title').val('')
+            }
+
+            /* 動画を削除 */
+            $('#chapter_list').on('click', '.remove_movie_btn', function() {
+                if (!confirm('この動画を削除しますか？')) {
+                    // キャンセルの場合
+                    return false;
+                } else {
+                    $(this).closest('.movie').remove()
+                }
             })
 
             // foreach (aaa as key a) {
@@ -464,7 +566,7 @@
                     displayImg.attr('src', e.target.result);
                 }
                 reader.readAsDataURL(e.target.files[0]);
-            })
+            });
         });
     </script>
 @endsection
