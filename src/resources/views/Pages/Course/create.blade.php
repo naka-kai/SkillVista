@@ -349,7 +349,7 @@
 
                 // 以前のクリックイベントを削除
                 $('#chapter_list').off('click', '.movie_add_btn');
-                
+
                 // モーダルが開いた時
                 $('#chapter_list').on('click', '.modalOpen', async function() {
 
@@ -361,17 +361,17 @@
                     const modalChapterId = await $(this).closest('.chapter').attr('id')
 
                     /* 動画追加イベント実行 */
-                    
+
                     // 以前のクリックイベントを削除
                     $(`#${modalChapterId}`).off('click', '.movie_add_btn');
 
                     $(`#${modalChapterId}`).on('click', '.movie_add_btn', async function() {
-                    // console.log('ok');
+                        // console.log('ok');
 
                         // 動画追加
                         const movie = await addMovie(modalChapterId)
                     })
-                    
+
                     // もし以前に入力されている情報があれば動画情報をリセットする
                     $(this).parent().next('.modal').find('.fileName').text('動画を選択してください');
                     $(this).parent().next('.modal').find('.displayImg').attr('src', '');
@@ -483,39 +483,40 @@
             // このとき、どれだけaaaに入るのは動画のリスト
             // 動画のリストはどう取得する？
 
-            // /* チャプターの順番を並べ替える */
-            // const $chapterList = $('#chapter_list')
-            // // console.log($chapterList)
+            /* チャプターの順番を並べ替える */
+            const $chapterList = $('#chapter_list')
+            // console.log($chapterList)
 
-            // // 保存せずに一旦保持しておきたい -> 保存ボタン押下後に保存
-            // $chapterList.sortable({
-            //     update: function() {
-            //         let chapterSortedList = $chapterList.sortable('toArray')
-            //         let chapterSorted = []
-            //         chapterSortedList.forEach((e) => {
-            //             chapterSorted.push(e.replace('chapter_', ''))
-            //         })
-            //         // console.log(chapterSorted)
+            $chapterList.sortable({
+                update: function() {
+                    let chapterSortedList = $chapterList.sortable('toArray')
+                    let chapterSorted = []
+                    chapterSortedList.forEach((e) => {
+                        chapterSorted.push(e.replace('chapter_', ''))
+                    })
+                    console.log(chapterSorted)
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    })
+                    $.ajax({
+                        url: "{{ route('course.create', ['teacherName' => $teacherName]) }}",
+                        type: "GET",
+                        data: {
+                            chapterSorted: chapterSorted
+                        },
+                    }).done(function(data) {
+                        console.log(data.chapterSorted);
+                    }).fail(function(jqXHR, textStatus, error) {
+                        console.log("更新に失敗しました")
+                        console.log(jqXHR)
+                        console.log(textStatus)
+                        console.log(error)
+                    })
+                }
+            })
 
-            //     }
-            // })
-            // $.ajaxSetup({
-            //     headers: {
-            //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            //     }
-            // })
-            // $.ajax({
-            //     url: "{{ route('chapter.store', ['teacherName' => $teacherName, 'courseName' => 'courseName']) }}",
-            //     type: "POST",
-            //     data: {
-            //         chapterSorted: chapterSorted
-            //     },
-            // }).done(function(data) {}).fail(function(jqXHR, textStatus, error) {
-            //     console.log("更新に失敗しました")
-            //     console.log(jqXHR)
-            //     console.log(textStatus)
-            //     console.log(error)
-            // })
 
             // /* 動画の順番を並べ替える */
             // let $countMovieList = $('[id^="movie_list"]').length

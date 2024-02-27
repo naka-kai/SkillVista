@@ -47,9 +47,9 @@ class CourseController extends Controller
         return view('Pages.Course.course', compact('course', 'rate', 'rated_people_num', 'movie_total_time', 'purchased_count'));
     }
 
-    public function create($teacherName)
+    public function create(Request $request, $teacherName)
     {
-        // 新規作成なので$courseは渡せない。どう設計するか？
+        // dd($request->input('chapterSorted'));
         return view('Pages.Course.create', compact('teacherName'));
     }
 
