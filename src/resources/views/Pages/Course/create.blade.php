@@ -173,6 +173,9 @@
                 </div>
             </div>
         </form>
+        {{-- <form action="{{ route('movie.store', ['teacherName' => $teacherName, 'courseName' => $course->course_url]) }}" method="POST" enctype="multipart/form-data">
+            @csrf
+        </form> --}}
     </div>
 @endsection
 
@@ -235,31 +238,39 @@
 
             /* チャプターHTMLの作成 */
             async function createChapterHtml(id, title) {
-                return `<div id="chapter_${id}" class="accordion chapter">
-                        <div class="my-5">
+                return `<div id="chapter_${id}" class="accordion chapter active:bg-blue-50">
+                        <div class="py-5 px-1">
                             <div class="accordion_header flex items-center focus:outline-none">
-                                <span class="is_open text-gray-400 bg-gray-200 rounded-full block cursor-pointer">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M18 12H6" />
-                                    </svg>
-                                </span>
-                                <span class="is_close text-white bg-blue-500 rounded-full cursor-pointer hidden">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                                    </svg>
-                                </span>
+                                <div class="accordion_btn flex">
+                                    <span class="is_open text-gray-400 bg-gray-200 rounded-full block cursor-pointer">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M18 12H6" />
+                                        </svg>
+                                    </span>
+                                    <span class="is_close text-white bg-blue-500 rounded-full cursor-pointer hidden">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-8 h-8 p-1" stroke="currentColor">
+                                            <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                            <path fill="#ffffff" d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/>
+                                        </svg>
+                                    </span>
+                                </div>
 
                                 <div class="flex items-center w-full">
                                     <h1 class="ml-4 text-xl w-full">
                                         <input type="text" id="chapter_title${id}" name="chapter_title${id}" value="${title}" class="border py-2 w-full">
                                     </h1>
                                 </div>
+                                <div class="remove_chapter_btn cursor-pointer ml-3">
+                                    <img src="{{ asset('img/remove-chapter.png') }}" class="w-9 h-auto">
+                                </div>
                             </div>
-                            <div class="accordion_inner wrapper flex mt-8 md:mx-10">
+                            
+                            <div class="accordion_inner wrapper flex mt-5 md:mx-10">
+                                <div class="mb-5 cursor-grab active:cursor-grabbing md:-mx-10">
+                                    <img src="{{ asset('img/up-and-down.png') }}" class="w-8">
+                                </div>
                                 <ul id="chapter${id}_movie_list" class="movie_list text-gray-700"></ul>
                                 <ul id="chapter${id}_add_movie" class="moviefile max-w-3xl text-gray-700">
                                     <li>
@@ -328,6 +339,16 @@
                 $('#chapter_list').append(html)
             }
 
+            /* チャプター要素の削除 */
+            $('#chapter_list').on('click', '.remove_chapter_btn', async function() {
+                if (!confirm('このチャプターを削除しますか？')) {
+                    // キャンセルの場合
+                    return false;
+                } else {
+                    $(this).closest('.chapter').remove()
+                }
+            })
+
             /* 入力フィールドをクリア */
             async function clearNewChapterTitle() {
                 $('#new_chapter_input').val('')
@@ -338,8 +359,8 @@
             async function toggleChapterAccordion(chapterCount) {
                 $('.accordion .accordion_inner').css('display', 'block')
                 $('.accordion .accordion_header > .is_open').addClass('open')
-                $('#chapter_list').on('click', `#chapter_${chapterCount} .accordion_header`, function() {
-                    $(this).next('.accordion_inner').slideToggle()
+                $('#chapter_list').on('click', `#chapter_${chapterCount} .accordion_header > .accordion_btn`, function() {
+                    $(this).parent().next('.accordion_inner').slideToggle()
                     $(this).children('.is_open').toggleClass('open')
                 })
             }
@@ -485,8 +506,6 @@
 
             /* チャプターの順番を並べ替える */
             const $chapterList = $('#chapter_list')
-            // console.log($chapterList)
-
             $chapterList.sortable({
                 update: function() {
                     let chapterSortedList = $chapterList.sortable('toArray')
@@ -495,25 +514,6 @@
                         chapterSorted.push(e.replace('chapter_', ''))
                     })
                     console.log(chapterSorted)
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        }
-                    })
-                    $.ajax({
-                        url: "{{ route('course.create', ['teacherName' => $teacherName]) }}",
-                        type: "GET",
-                        data: {
-                            chapterSorted: chapterSorted
-                        },
-                    }).done(function(data) {
-                        console.log(data.chapterSorted);
-                    }).fail(function(jqXHR, textStatus, error) {
-                        console.log("更新に失敗しました")
-                        console.log(jqXHR)
-                        console.log(textStatus)
-                        console.log(error)
-                    })
                 }
             })
 

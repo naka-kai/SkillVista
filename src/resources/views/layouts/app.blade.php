@@ -11,6 +11,9 @@
     <!-- Fonts -->
     <link href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" />
 
+    <!-- Font Awesome -->
+    <link href="https://use.fontawesome.com/releases/v6.5.1/css/all.css" rel="stylesheet">
+
     @vite('resources/css/app.css') @vite('resources/js/app.js')
 
     <!-- Quill.js -->

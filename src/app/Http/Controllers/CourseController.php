@@ -55,7 +55,7 @@ class CourseController extends Controller
 
     public function store(Request $request, $teacherName)
     {
-        
+        // dd($request);
 
         return redirect()->route('teacher.myCourse', compact('teacherName'));
     }
