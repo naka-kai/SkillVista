@@ -94,7 +94,8 @@
                     <h3 class="text-xl font-semibold text-gray-800">コースのスラッグ（URLの一部分）</h3>
                 </div>
                 <hr class="mt-3 mb-5 border-gray-200 dark:border-gray-700">
-                <input name="course_url" class="editContent mt-2 border w-full h-auto" value="{{ old('course_url') }}" />
+                <input name="course_url" id="course_url" class="editContent mt-2 border w-full h-auto"
+                    value="{{ old('course_url') }}" />
             </div>
 
             {{-- コースの軽い説明（検索時に使用） --}}
@@ -154,13 +155,13 @@
             <div class="flex items-center mt-8">
                 <div class="w-full">
                     <div class="flex items-center w-4/5 justify-between mx-auto">
-                        <button
+                        <button id="draft_btn"
                             class="bg-white border border-gray-400 hover:opacity-70 py-3 px-5 text-center my-3 font-bold w-full rounded-md"
                             type="submit" name="draft">下書き保存</button>
                     </div>
                 </div>
                 <div class="w-full">
-                    <div class="flex items-center w-4/5 justify-between mx-auto">
+                    <div id="publish_btn" class="flex items-center w-4/5 justify-between mx-auto">
                         <button class="bg-blue-300 hover:opacity-70 py-3 px-5 text-center my-3 font-bold w-full rounded-md"
                             type="submit" name="publish">公開</button>
                     </div>
@@ -173,15 +174,26 @@
                 </div>
             </div>
         </form>
-        {{-- <form action="{{ route('movie.store', ['teacherName' => $teacherName, 'courseName' => $course->course_url]) }}" method="POST" enctype="multipart/form-data">
-            @csrf
-        </form> --}}
     </div>
 @endsection
 
 @section('script')
     <script>
         $(function() {
+
+            /* コースのサムネイル画像を選択時にプレビュー表示 */
+            $('.preview').on('change', function(e) {
+                $(this).prev('.fileName').text($(this).prop('files')[0].name);
+                let displayImg = $(this).parent().prev().children('.displayImg');
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    displayImg.attr('src', e.target.result);
+                }
+                reader.readAsDataURL(e.target.files[0]);
+            });
+
+            // チャプターごとの動画の入力値を格納する連想配列
+            const chapterMovies = {}
 
             /* チャプター追加イベント実行 */
             $('#new_chapter_btn').on('click', async function() {
@@ -217,18 +229,30 @@
                 // 動画を選択時にプレビュー表示
                 previewMovie()
 
+                // 新しいチャプターの動画入力値の配列を初期化
+                const chapterId = chapterCount
+                chapterMovies[`chapter_${chapterId}`] = []
+
                 return {
-                    id: chapterCount
+                    id: chapterId
                 }
             }
 
             /* id（チャプター数）の取得 */
             async function getChapterCount() {
-                return new Promise((resolve, reject) => {
-                    const chapterLength = $('.chapter').length
 
-                    resolve(chapterLength + 1)
-                })
+                const lastChapterLength = await $('.chapter').length
+
+                if (lastChapterLength === 0) {
+                    return lastChapterLength + 1
+                } else {
+                    const lastChapterId = $('.chapter').eq(lastChapterLength - 1).attr('id')
+                    console.log(lastChapterId);
+                    const lastChapterNum = cutChapterId(lastChapterId)
+                    console.log(lastChapterNum);
+
+                    return lastChapterNum + 1
+                }
             }
 
             /* 入力フィールドからデータを取得 */
@@ -259,7 +283,7 @@
 
                                 <div class="flex items-center w-full">
                                     <h1 class="ml-4 text-xl w-full">
-                                        <input type="text" id="chapter_title${id}" name="chapter_title${id}" value="${title}" class="border py-2 w-full">
+                                        <input type="text" id="chapter_title${id}" name="chapter_title[]" value="${title}" class="chapter_title border py-2 w-full">
                                     </h1>
                                 </div>
                                 <div class="remove_chapter_btn cursor-pointer ml-3">
@@ -291,7 +315,7 @@
                                                         <span class="modalClose cursor-pointer">×</span>
                                                     </div>
                                                     <div>
-                                                        <input type="hidden" name="chapter_id" value="${id}">
+                                                        <input type="hidden" name="chapter_id[]" class="chapter_id" value="${id}">
                                                         <div>
                                                             <div
                                                                 class="flex flex-col items-center justify-center mb-4 mt-3">
@@ -310,7 +334,7 @@
                                                         </div>
                                                         <div class="mt-5 flex flex-col">
                                                             <label class="mb-1">動画タイトル</label>
-                                                            <input type="text" id="chapter${id}_movie_title" value="" class="movie_title border p-1">
+                                                            <input type="text" id="chapter${id}_movie_title" value="" name="chapter${id}_movie_title" class="movie_title border p-1">
                                                         </div>
                                                         <button type="button" class="chapter${id}_movie_add_btn movie_add_btn bg-gray-700 text-white hover:opacity-70 py-2 px-5 rounded-md w-full mt-5">追加</button>
                                                     </div>
@@ -345,7 +369,15 @@
                     // キャンセルの場合
                     return false;
                 } else {
-                    $(this).closest('.chapter').remove()
+                    const chapter = $(this).closest('.chapter')
+                    const chapterId = chapter.attr('id')
+
+                    // そのチャプターのキーをchapterMoviesから削除
+                    delete chapterMovies[chapterId]
+                    console.log(chapterMovies);
+
+                    // チャプター要素を削除
+                    chapter.remove()
                 }
             })
 
@@ -356,13 +388,15 @@
 
             /* チャプターアコーディオン開閉 */
             // 最初は開いたままにしておく
+            // TODO: チャプターを削除して新規作成するとアコーディオン開閉がおかしくなる
             async function toggleChapterAccordion(chapterCount) {
                 $('.accordion .accordion_inner').css('display', 'block')
                 $('.accordion .accordion_header > .is_open').addClass('open')
-                $('#chapter_list').on('click', `#chapter_${chapterCount} .accordion_header > .accordion_btn`, function() {
-                    $(this).parent().next('.accordion_inner').slideToggle()
-                    $(this).children('.is_open').toggleClass('open')
-                })
+                $('#chapter_list').on('click', `#chapter_${chapterCount} .accordion_header > .accordion_btn`,
+                    function() {
+                        $(this).parent().next('.accordion_inner').slideToggle()
+                        $(this).children('.is_open').toggleClass('open')
+                    })
             }
 
             /* 動画モーダル */
@@ -387,7 +421,6 @@
                     $(`#${modalChapterId}`).off('click', '.movie_add_btn');
 
                     $(`#${modalChapterId}`).on('click', '.movie_add_btn', async function() {
-                        // console.log('ok');
 
                         // 動画追加
                         const movie = await addMovie(modalChapterId)
@@ -425,16 +458,21 @@
 
                 // id（動画数）の取得
                 const movieCount = await getMovieCount(modalChapterId)
-                // console.log(movieCount);
 
                 // 動画タイトルの入力フィールドからデータを取得
-                const newMovieTitle = await getNewMovieTitle(modalChapterId)
+                let newMovieTitle = await getNewMovieTitle(modalChapterId)
 
                 // 動画要素の作成
                 const movieHtml = await createMovieHtml(movieCount, newMovieTitle)
 
                 // 動画要素の追加
                 await addMovieElement(modalChapterId, movieHtml)
+
+                // 動画タイトルをそのチャプターの配列に追加
+                const chapterId = await cutChapterId(modalChapterId)
+                newMovieTitle = await getNewMovieTitle(modalChapterId)
+                chapterMovies[`chapter_${chapterId}`].push(newMovieTitle)
+                console.log(chapterMovies);
 
                 // モーダルを閉じる
                 await closeMovieModal(modalChapterId)
@@ -445,7 +483,6 @@
 
             /* id（動画数）の取得 */
             async function getMovieCount(modalChapterId) {
-                // console.log('ok');
                 return $(`#${modalChapterId} .movie`).length + 1
             }
 
@@ -460,7 +497,7 @@
                     <li class="leading-8 flex items-center mb-1">
                         <img src="{{ asset('img/remove-movie.png') }}"
                             class="remove_movie_btn w-9 h-auto cursor-pointer">
-                        <input type="text" class="movie_title${id}" value="${title}" class="border py-1 ml-1 text-lg w-full">
+                        <input type="text" class="movie_title" name="movie_title[]" value="${title}" class="border py-1 ml-1 text-lg w-full">
                     </li>
                 </div>`
             }
@@ -494,15 +531,25 @@
                     // キャンセルの場合
                     return false;
                 } else {
-                    $(this).closest('.movie').remove()
+                    const movieList = $(this).closest('.movie')
+                    console.log(movieList);
+                    const chapterId = movieList.closest('.chapter').attr('id')
+                    console.log(chapterId);
+                    const movieTitle = movieList.find('.movie_title').val()
+                    console.log(movieTitle);
+
+                    // その動画タイトルをそのチャプターの配列から削除
+                    const chapterMovieTitles = chapterMovies[chapterId]
+                    const movieIndex = chapterMovieTitles.indexOf(movieTitle)
+                    if (movieIndex !== -1) {
+                        chapterMovieTitles.splice(movieIndex, 1)
+                    }
+                    console.log(chapterMovies);
+
+                    // 動画を削除
+                    movieList.remove()
                 }
             })
-
-            // foreach (aaa as key a) {
-            //      id=chapter_$key
-            // }
-            // このとき、どれだけaaaに入るのは動画のリスト
-            // 動画のリストはどう取得する？
 
             /* チャプターの順番を並べ替える */
             const $chapterList = $('#chapter_list')
@@ -517,6 +564,24 @@
                 }
             })
 
+            const finalChapterMoviesValues = Object.values(chapterMovies).flat()
+            console.log(finalChapterMoviesValues);
+
+            // /* チャプターのみ保存先を変更 */
+            // $('#draft_btn').on('click', async function(e) {
+
+            //     // デフォルトのフォーム送信をキャンセル
+            //     // e.preventDefault()
+
+            //     const courseName = $('#course_url').val()
+            //     const teacherName = "{{ $teacherName }}"
+            //     const chapterAction = `/chapter/${teacherName}/${courseName}/store`
+
+            //     // チャプターの個数分回して配列に入れる？
+            //     const chapterTitleValue = $(`.chapter_title`).val()
+            //     const chapterIdValue = $(`.chapter_id`).val()
+            // さらにその動画分回して配列に入れる？
+            // })
 
             // /* 動画の順番を並べ替える */
             // let $countMovieList = $('[id^="movie_list"]').length
@@ -558,16 +623,6 @@
             //     }
             // }
 
-            /* コースのサムネイル画像を選択時にプレビュー表示 */
-            $('.preview').on('change', function(e) {
-                $(this).prev('.fileName').text($(this).prop('files')[0].name);
-                let displayImg = $(this).parent().prev().children('.displayImg');
-                let reader = new FileReader();
-                reader.onload = function(e) {
-                    displayImg.attr('src', e.target.result);
-                }
-                reader.readAsDataURL(e.target.files[0]);
-            });
         });
     </script>
 @endsection
