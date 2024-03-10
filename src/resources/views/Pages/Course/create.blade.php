@@ -157,13 +157,13 @@
                     <div class="flex items-center w-4/5 justify-between mx-auto">
                         <button id="draft_btn"
                             class="bg-white border border-gray-400 hover:opacity-70 py-3 px-5 text-center my-3 font-bold w-full rounded-md"
-                            type="submit" name="draft">下書き保存</button>
+                            type="button" name="draft">下書き保存</button>
                     </div>
                 </div>
                 <div class="w-full">
                     <div id="publish_btn" class="flex items-center w-4/5 justify-between mx-auto">
                         <button class="bg-blue-300 hover:opacity-70 py-3 px-5 text-center my-3 font-bold w-full rounded-md"
-                            type="submit" name="publish">公開</button>
+                            type="button" name="publish">公開</button>
                     </div>
                 </div>
             </div>
@@ -192,8 +192,9 @@
                 reader.readAsDataURL(e.target.files[0]);
             });
 
-            // チャプターごとの動画の入力値を格納する連想配列
-            const chapterMovies = {}
+            // Controllerに渡すチャプターと動画の情報の集まり
+            const chapters = {}
+            const movies = {}
 
             /* チャプター追加イベント実行 */
             $('#new_chapter_btn').on('click', async function() {
@@ -229,9 +230,17 @@
                 // 動画を選択時にプレビュー表示
                 previewMovie()
 
-                // 新しいチャプターの動画入力値の配列を初期化
+                // Controllerに渡すチャプターの配列を初期化
                 const chapterId = chapterCount
-                chapterMovies[`chapter_${chapterId}`] = []
+                chapters[`chapter_${chapterId}`] = []
+
+                // チャプター配列にデータを挿入
+                chapters[`chapter_${chapterId}`].push({
+                    'title': title,
+                    'display_num': chapterId
+                })
+
+                console.log(chapters);
 
                 return {
                     id: chapterId
@@ -241,17 +250,15 @@
             /* id（チャプター数）の取得 */
             async function getChapterCount() {
 
-                const lastChapterLength = await $('.chapter').length
+                const lastChapterLength = $('.chapter').length
 
                 if (lastChapterLength === 0) {
                     return lastChapterLength + 1
                 } else {
                     const lastChapterId = $('.chapter').eq(lastChapterLength - 1).attr('id')
-                    console.log(lastChapterId);
-                    const lastChapterNum = cutChapterId(lastChapterId)
-                    console.log(lastChapterNum);
+                    const lastChapterNum = await cutChapterId(lastChapterId)
 
-                    return lastChapterNum + 1
+                    return Number(lastChapterNum) + 1
                 }
             }
 
@@ -327,7 +334,7 @@
                                                                 class="flex items-center px-3 py-3 text-center bg-white border-2 border-dashed rounded-lg cursor-pointer dark:border-gray-600 dark:bg-gray-900">
                                                                 <h2 class="fileName mx-3 text-gray-400">
                                                                     動画を選択してください</h2>
-                                                                <input id="chapter${id}_movie" type="file" name="chapter${id}_movie" value="" class="preview hidden @error('movie') is-invalid @enderror"
+                                                                <input id="chapter${id}_movie" type="file" name="chapter${id}_movie" value="" class="movie_file preview hidden @error('movie') is-invalid @enderror"
                                                                     accept="video/*" value=""
                                                                     autocomplete="movie" />
                                                             </label>
@@ -372,9 +379,10 @@
                     const chapter = $(this).closest('.chapter')
                     const chapterId = chapter.attr('id')
 
-                    // そのチャプターのキーをchapterMoviesから削除
-                    delete chapterMovies[chapterId]
-                    console.log(chapterMovies);
+                    // そのチャプターのキーをchaptersから削除
+                    delete chapters[chapterId]
+
+                    console.log(chapters);
 
                     // チャプター要素を削除
                     chapter.remove()
@@ -388,7 +396,6 @@
 
             /* チャプターアコーディオン開閉 */
             // 最初は開いたままにしておく
-            // TODO: チャプターを削除して新規作成するとアコーディオン開閉がおかしくなる
             async function toggleChapterAccordion(chapterCount) {
                 $('.accordion .accordion_inner').css('display', 'block')
                 $('.accordion .accordion_header > .is_open').addClass('open')
@@ -416,14 +423,13 @@
                     const modalChapterId = await $(this).closest('.chapter').attr('id')
 
                     /* 動画追加イベント実行 */
-
                     // 以前のクリックイベントを削除
                     $(`#${modalChapterId}`).off('click', '.movie_add_btn');
-
                     $(`#${modalChapterId}`).on('click', '.movie_add_btn', async function() {
-
                         // 動画追加
-                        const movie = await addMovie(modalChapterId)
+                        let movie = await addMovie(modalChapterId)
+
+                        console.log(movies);
                     })
 
                     // もし以前に入力されている情報があれば動画情報をリセットする
@@ -432,7 +438,7 @@
                     $(this).parent().next('.modal').find('.preview').val('');
                 })
 
-                // モーダルを閉じる時
+                // モーダルを閉じる
                 $('.modalClose').on('click', async function() {
                     return $(this).closest('.wrapper').find('.modal').removeClass(
                             'flex justify-center items-center')
@@ -462,17 +468,32 @@
                 // 動画タイトルの入力フィールドからデータを取得
                 let newMovieTitle = await getNewMovieTitle(modalChapterId)
 
+                // 動画ファイルの入力フィールドからデータを取得
+                let newMovieFile = await getNewMovieFile(modalChapterId)
+
                 // 動画要素の作成
                 const movieHtml = await createMovieHtml(movieCount, newMovieTitle)
 
                 // 動画要素の追加
                 await addMovieElement(modalChapterId, movieHtml)
 
-                // 動画タイトルをそのチャプターの配列に追加
                 const chapterId = await cutChapterId(modalChapterId)
+
+                // 動画情報を動画の配列に追加
                 newMovieTitle = await getNewMovieTitle(modalChapterId)
-                chapterMovies[`chapter_${chapterId}`].push(newMovieTitle)
-                console.log(chapterMovies);
+                newMovieFile = await getNewMovieFile(modalChapterId)
+
+                if (!movies[`chapter_${chapterId}`]) {
+                    // Controllerに渡す動画の配列を初期化
+                    movies[`chapter_${chapterId}`] = []
+                }
+                movies[`chapter_${chapterId}`].push({
+                    'movie_title': newMovieTitle,
+                    'movie': newMovieFile,
+                    'display_num': movieCount
+                })
+
+                console.log(movies);
 
                 // モーダルを閉じる
                 await closeMovieModal(modalChapterId)
@@ -489,6 +510,11 @@
             /* 動画タイトルの入力フィールドからデータを取得 */
             async function getNewMovieTitle(modalChapterId) {
                 return $(`#${modalChapterId}`).find('.modal .movie_title').val()
+            }
+
+            /* 動画ファイルの入力フィールドからデータを取得 */
+            async function getNewMovieFile(modalChapterId) {
+                return $(`#${modalChapterId}`).find('.modal .movie_file').val()
             }
 
             /* 新しい動画要素を生成 */
@@ -532,19 +558,24 @@
                     return false;
                 } else {
                     const movieList = $(this).closest('.movie')
-                    console.log(movieList);
                     const chapterId = movieList.closest('.chapter').attr('id')
-                    console.log(chapterId);
                     const movieTitle = movieList.find('.movie_title').val()
+
                     console.log(movieTitle);
 
                     // その動画タイトルをそのチャプターの配列から削除
-                    const chapterMovieTitles = chapterMovies[chapterId]
-                    const movieIndex = chapterMovieTitles.indexOf(movieTitle)
-                    if (movieIndex !== -1) {
-                        chapterMovieTitles.splice(movieIndex, 1)
+                    let moviesArray = movies[chapterId]
+
+                    if (moviesArray) {
+                        let moviesIndex = moviesArray.findIndex(movie => movie.movie_title === movieTitle)
+
+                        // moviesIndexが-1でない場合、動画を削除
+                        if (moviesIndex !== -1) {
+                            moviesArray.splice(moviesIndex, 1)
+                        }
                     }
-                    console.log(chapterMovies);
+
+                    console.log(movies);
 
                     // 動画を削除
                     movieList.remove()
@@ -553,35 +584,62 @@
 
             /* チャプターの順番を並べ替える */
             const $chapterList = $('#chapter_list')
+            let chaptersSortedResult = []
             $chapterList.sortable({
                 update: function() {
-                    let chapterSortedList = $chapterList.sortable('toArray')
-                    let chapterSorted = []
-                    chapterSortedList.forEach((e) => {
-                        chapterSorted.push(e.replace('chapter_', ''))
+                    let chaptersSortedList = $chapterList.sortable('toArray')
+                    let chaptersSorted = {}
+                    chaptersSortedList.forEach((chapter) => {
+                        chaptersSorted[chapter].push(chapters[chapter]) // ここでエラー
                     })
-                    console.log(chapterSorted)
+                    chaptersSortedResult = chaptersSorted
                 }
             })
 
-            const finalChapterMoviesValues = Object.values(chapterMovies).flat()
-            console.log(finalChapterMoviesValues);
+            $('#draft_btn, #publish_btn').on('click', async function(e) {
 
-            // /* チャプターのみ保存先を変更 */
-            // $('#draft_btn').on('click', async function(e) {
+                // デフォルトのフォーム送信をキャンセル
+                // e.preventDefault()
 
-            //     // デフォルトのフォーム送信をキャンセル
-            //     // e.preventDefault()
+                if (chaptersSortedResult.length > 0) {
+                    // 並べ替えをした場合
+                    console.log('OK');
+                    totalchapters = chaptersSortedResult
+                    // totalchapterMovieFiles = Object.values(chapterMovieFilesSorted).flat()
+                } else {
+                    // 並べ替えをしなかった場合
+                    console.log('NG');
+                    totalchapters = chapters
+                    // totalchapterMovieFiles = Object.values(chapterMovieFiles).flat()
+                }
 
-            //     const courseName = $('#course_url').val()
-            //     const teacherName = "{{ $teacherName }}"
-            //     const chapterAction = `/chapter/${teacherName}/${courseName}/store`
+                console.log(chapters);
+                // console.log(totalchapterMovieFiles);
 
-            //     // チャプターの個数分回して配列に入れる？
-            //     const chapterTitleValue = $(`.chapter_title`).val()
-            //     const chapterIdValue = $(`.chapter_id`).val()
-            // さらにその動画分回して配列に入れる？
-            // })
+                // const courseName = $('#course_url').val()
+                // const teacherName = "{{ $teacherName }}"
+                // const chapterAction = `/chapter/${teacherName}/${courseName}/store`
+
+                // const formData = {
+                //     'titles': totalchapters,
+                //     'files': totalchapterMovieFiles
+                // }
+
+                // $.ajax({
+                //         url: chapterAction,
+                //         type: 'GET',
+                //         data: formData
+                //     })
+                //     .done(function(response) {
+                //         console.log('Success!', response)
+                //     })
+                //     .fail(function(xhr, status, error) {
+                //         console.error('Error', error)
+                //     })
+                //     .always(function() {
+                //         console.log('Request completed.')
+                //     })
+            })
 
             // /* 動画の順番を並べ替える */
             // let $countMovieList = $('[id^="movie_list"]').length

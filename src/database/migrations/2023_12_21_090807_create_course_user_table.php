@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('rate_id')->nullable()->constrained()->cascadeOnDelete();
             $table->integer('status')->comment('ステータス 1: 欲しいものリスト, 2: カート, 3: 購入済');
+            $table->integer('progress')->comment('進捗率');
             $table->timestamps();
         });
     }

@@ -19,7 +19,6 @@ return new class extends Migration
             $table->text('description')->comment('軽い説明');
             $table->text('outline')->comment('詳しい説明(概要)');
             $table->foreignId('teacher_id')->constrained()->cascadeOnDelete();
-            $table->integer('progress')->comment('進捗率');
             $table->text('target')->nullable()->comment('対象者');
             $table->text('need')->comment('必要条件');
             $table->text('thumbnail')->nullable()->comment('サムネイル画像');

@@ -14,5 +14,6 @@ class CourseUser extends Model
         'user_id',
         'rate_id',
         'status',
+        'progress'
     ];
 }

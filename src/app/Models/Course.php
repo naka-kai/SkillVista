@@ -24,7 +24,6 @@ class Course extends Model
         'outline',
         'teacher_id',
         'category_id',
-        'progress',
         'target',
         'need',
         'thumbnail',
