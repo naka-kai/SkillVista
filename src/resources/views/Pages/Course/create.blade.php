@@ -586,13 +586,28 @@
             const $chapterList = $('#chapter_list')
             let chaptersSortedResult = []
             $chapterList.sortable({
-                update: function() {
+                update: async function(e, ui) {
+                    // 自分の位置を取得
+                    let index = ui.item.closest('#chapter_list').find('.chapter').index(ui.item[0])
+                    // 並べ替えた結果の配列
                     let chaptersSortedList = $chapterList.sortable('toArray')
+                    const chapterId = await getChapterCount()
+
+                    // 初期化
                     let chaptersSorted = {}
-                    chaptersSortedList.forEach((chapter) => {
-                        chaptersSorted[chapter].push(chapters[chapter]) // ここでエラー
+                    Object.keys(chapters).forEach(chapter => {
+                        chaptersSorted[chapter] = []
+                    })
+
+                    // 表示順序を変更
+                    // TODO: getChapterCount()が原因でchapter_2が複数できたりする
+                    chaptersSortedList.forEach((chapter, index) => {
+                        chaptersSorted[chapter] = chapters[chapter]
+                        chaptersSorted[chapter][0].display_num = index + 1
+                        console.log(chaptersSorted[chapter][0].display_num);
                     })
                     chaptersSortedResult = chaptersSorted
+                    console.log(chaptersSortedResult);
                 }
             })
 
