@@ -5,20 +5,48 @@
 @endsection
 
 @section('content')
-<div class="flex flex-col">
-    <div class="bg-white dark:bg-gray-900">
-        <div class="py-10">
-            <div class="flex items-center justify-between">
+    <div class="flex flex-col">
+        <div class="bg-white dark:bg-gray-900">
+            <div class="py-10">
                 <div class="flex items-center justify-between">
-                    <h1 class="text-2xl font-semibold text-gray-800 capitalize lg:text-3xl dark:text-white">マイコース</h1>
+                    <div class="flex items-center">
+                        <h1 class="text-2xl font-semibold text-gray-800 capitalize lg:text-3xl dark:text-white">マイコース</h1>
+
+                        <!-- 検索 -->
+                        <form action="{{ route('teacher.myCourse', ['teacherName' => $teacherName]) }}" method="GET">
+                            <div class="my-4 mx-4">
+                                <div class="relative">
+                                    <button type="submit" value="search"
+                                        class="absolute inset-y-0 left-0 flex items-center pl-3">
+                                        <svg class="w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none">
+                                            <path
+                                                d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round"></path>
+                                        </svg>
+                                    </button>
+
+                                    <input type="text" name="keyword"
+                                        class="w-full py-2 pl-10 pr-4 text-gray-700 bg-white border rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 focus:ring-blue-300"
+                                        placeholder="Search">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+
+                    <div>
+                        <a href="{{ route('course.create', ['teacherName' => $teacherName]) }}"
+                            class="w-full px-8 py-3 mt-2 text-sm font-medium tracking-wide capitalize transition-colors duration-300 transform bg-white rounded-md sm:w-auto sm:mt-0 hover:opacity-70 focus:outline-none border-2">
+                            新規作成
+                        </a>
+                    </div>
                 </div>
-    
-                <div>
-                    <a href="{{ route('course.create', ['teacherName' => $teacherName]) }}" class="w-full px-8 py-3 mt-2 text-sm font-medium tracking-wide capitalize transition-colors duration-300 transform bg-white rounded-md sm:w-auto sm:mt-0 hover:opacity-70 focus:outline-none border-2">
-                        新規作成
-                    </a>
-                </div>
-            </div>
+
+                @if (isset($keyword))
+                    <h1 class="text-2xl font-semibold text-gray-800 capitalize lg:text-3xl dark:text-white">
+                        「{{ $keyword }}」の検索結果</h1>
+                @endif
 
                 <hr class="my-8 border-gray-200 dark:border-gray-700">
 
@@ -64,7 +92,8 @@
                                             </p>
                                             <p
                                                 class="text-lg font-medium text-gray-700 dark:text-gray-300 hover:underline hover:text-gray-500">
-                                                <span class="star5_rating" data-rate="{{ $rate }}"></span></p>
+                                                <span class="star5_rating" data-rate="{{ $rate }}"></span>
+                                            </p>
 
                                             <p class="text-sm text-gray-500 dark:text-gray-400 ml-1">
                                                 （{{ $rated_people_num }}）</p>

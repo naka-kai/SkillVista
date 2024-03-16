@@ -18,7 +18,19 @@ class TeacherController extends Controller
         $courses = Course::with(['teacher', 'rates'])
             ->where('teacher_id', $teacher_id)
             ->get();
+        
+        // マイコースに登録されている「タイトル」・「コースの軽い説明」の文字列から検索処理
+        $keyword = $request->query('keyword');
+        if(!empty($keyword)) {
+            $courses = Course::with(['teacher', 'rates'])
+                ->where('teacher_id', $teacher_id)
+                ->where(function ($query) use ($keyword) {
+                    $query->where('title', 'LIKE', "%{$keyword}%")
+                        ->orWhere('description', 'LIKE', "%{$keyword}%");
+                })
+                ->paginate(10);
+        }
 
-        return view('Pages.Teacher.my_course', compact('courses', 'teacherName'));
+        return view('Pages.Teacher.my_course', compact('courses', 'teacherName', 'keyword'));
     }
 }
