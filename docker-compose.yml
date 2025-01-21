@@ -54,6 +54,7 @@ services:
 
   db:
     container_name: db-SkillVista
+    platform: linux/x86_64
     build:
       context: .
       dockerfile: ./infra/docker/mysql/Dockerfile
@@ -81,6 +82,7 @@ services:
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
+    platform: linux/x86_64
     depends_on:
       - db
     environment:
