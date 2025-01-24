@@ -1,0 +1,34 @@
+name: Deploy skill-vista
+
+on:
+    push: 
+        branches: 
+            - main # mainブランチにpushされた時に実行
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+
+        steps:
+            # 1. リポジトリのコードをクローン
+            - name: Checkout code
+            uses: actions/checkout@v4
+
+            # 2. PHPのセットアップ
+            - name: Set up PHP
+            uses: shivammathur/setup-php@v2
+            with:
+                php-version: '8.1'
+            
+            # 3. Composer依存関係のインストール
+            - name: Install dependencies
+            run: composer install --no-dev --optimize-autoloader
+
+            # 4. サーバーにファイルをデプロイ
+            - name: Deploy to Server
+            env:
+                SSH_AUTH_SOCK: /tmp/ssh_auth.sock
+            run: |
+                rsync -avz ./src/ ${{ secrets.SERVER_ID }}@${{ secrets.SERVER_NUMBER }}:/public_html/skill-vista
+            env:
+                SSH_KEY: ${{ secrets.SSH_KEY }}
