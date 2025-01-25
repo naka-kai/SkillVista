@@ -5,6 +5,18 @@
 - Laravel ver 9.19
 - tailwindcss ver 3.3.6
 
+## 情報
+
+- プロジェクト：http://localhost/top
+- phpMyAdmin：http://localhost:18080
+- mailpit：http://localhost:8025
+
+- テストユーザーアドレス：test@example.com
+- テストユーザーパス：password
+
+- テスト教師ユーザーアドレス：test_t@example.com
+- テスト教師ユーザーパス：password
+
 ## 使い方
 
 ### 初期インストール（プロジェクトルートで）
@@ -13,11 +25,7 @@
 $ make install
 ```
 
-- プロジェクト：http://localhost/top
-- phpMyAdmin：http://localhost:18080
-- mailpit：http://localhost:8025
-
-### コンテナ起動（プロジェクトルートで）
+### 次回以降コンテナ起動（プロジェクトルートで）
 
 ```bash
 $ make up
@@ -28,14 +36,14 @@ $ make up
 $ make npm-install
 ```
 
-### vite立ち上げ（srcディレクトリで）
+### vite立ち上げ
 
 ```bash
 $ cd src
 $ npm run dev
 ```
 
-### composer install
+### composer install（プロジェクトルートで）
 ```bash
 $ make composer-install
 ```
